@@ -10,15 +10,20 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		DebugUnityEditor|Any CPU = DebugUnityEditor|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{4FE5E259-E4C2-49CA-892E-E3A952BE5A65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4FE5E259-E4C2-49CA-892E-E3A952BE5A65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FE5E259-E4C2-49CA-892E-E3A952BE5A65}.DebugUnityEditor|Any CPU.ActiveCfg = DebugUnityEditor|Any CPU
+		{4FE5E259-E4C2-49CA-892E-E3A952BE5A65}.DebugUnityEditor|Any CPU.Build.0 = DebugUnityEditor|Any CPU
 		{4FE5E259-E4C2-49CA-892E-E3A952BE5A65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FE5E259-E4C2-49CA-892E-E3A952BE5A65}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D6E5A40C-3328-4FB8-8736-C4AC3882235D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D6E5A40C-3328-4FB8-8736-C4AC3882235D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6E5A40C-3328-4FB8-8736-C4AC3882235D}.DebugUnityEditor|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6E5A40C-3328-4FB8-8736-C4AC3882235D}.DebugUnityEditor|Any CPU.Build.0 = Debug|Any CPU
 		{D6E5A40C-3328-4FB8-8736-C4AC3882235D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6E5A40C-3328-4FB8-8736-C4AC3882235D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
