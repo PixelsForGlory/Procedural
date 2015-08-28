@@ -8,7 +8,7 @@ using UnityEngine;
 namespace ProceduralVoxelMeshTest
 {
     [TestFixture]
-    class VoxelTest
+    public class VoxelTest
     {
         [Test]
         public void VoxelCreateSuccessTest()
