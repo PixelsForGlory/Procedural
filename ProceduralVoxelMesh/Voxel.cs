@@ -1,5 +1,4 @@
 ﻿// Copyright 2015 afuzzyllama. All Rights Reserved.
-
 using System;
 using UnityEngine;
 
@@ -23,7 +22,7 @@ namespace ProceduralVoxelMesh
         {
             get
             {
-                if (Empty == true)
+                if (Empty)
                 {
                     throw new InvalidOperationException("Cannot get the color of an empty voxel");
                 }
@@ -36,6 +35,11 @@ namespace ProceduralVoxelMesh
             }
         }
 
+        /// <summary>
+        /// Single voxel
+        /// </summary>
+        /// <param name="empty">Is the voxel empty</param>
+        /// <param name="color">If the voxel is not empty, the color of this voxel</param>
         public Voxel(bool empty, Color? color = null)
         {
             Empty = empty;
@@ -44,7 +48,7 @@ namespace ProceduralVoxelMesh
             {
                 if (color == null)
                 {
-                    throw new System.ArgumentException("If not empty, color cannot be null");
+                    throw new ArgumentException("If not empty, color cannot be null");
                 }
                 _color = (Color) color;
             }
