@@ -1,12 +1,15 @@
 # ProceduralVoxelMesh
-Library to create procedural voxel meshes in Unity3D. 
+Library to create procedural voxel meshes in Unity3D.  Meshes are generated in a seprate thread and copied to the GameObject when ready.
 
-The solution has references set for `UnityEngine.dll` and `UnityEditor.dll`, but the paths for these assemblies is not absolute. To build the library, a reference path must be set to the Managed directory (Default is C:\Program Files\Unity\Editor\Data\Managed).
+## Building
+The solution has references set for `UnityEngine.dll` and `UnityEditor.dll`, but the paths for these assemblies are not set. To build the library, a reference path must be set to the Managed directory (Default is C:\Program Files\Unity\Editor\Data\Managed).
 
-When working in the editor, use the `DebugUnityEditor` build configuration.  This will use editor specific calls to get the mesh generator thread running when the editor opens.
+When working in the editor, use the `DebugUnityEditor` build configuration.  This will use editor specific code to get the mesh generator thread running when the editor opens.
 
+## Installation
 When the build is complete, move the `ProceduralVoxelMesh.dll` to `[PROJECT DIR]\Assets\Plugins`.  This should trigger a recomple. 
 
+## Usage
 Creating a voxel mesh at runtime is simple.  The following example will create a randomly colored cube on a GameObject with a VoxelMesh component:
 
 ```
@@ -15,7 +18,6 @@ using ProceduralVoxelMesh;
 
 public class ExampleCube : MonoBehaviour {
 
-  // Use this for initialization
   void Start ()
   {
     VoxelMesh voxelMesh = GetComponent<VoxelMesh>();
