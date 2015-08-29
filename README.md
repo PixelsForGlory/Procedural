@@ -40,7 +40,9 @@ public class ExampleCube : MonoBehaviour {
 
 Something like this should be the result:
 
-Enjoy!  If any issues or bugs are found, please let me know [@afuzzyllama](https://twitter.com/afuzzyllama)
+Enjoy!  
+
+If any issues or bugs are found, please let me know [@afuzzyllama](https://twitter.com/afuzzyllama)
 
 
 
