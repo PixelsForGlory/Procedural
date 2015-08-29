@@ -18,12 +18,14 @@ namespace ProceduralVoxelMesh
         // Trigger update on mesh in editor
         public bool UpdateMesh { get; private set; }
 
-
         // References to asset components
         private MeshFilter _meshFilter;
         private Mesh _mesh;
         private MeshCollider _meshCollider;
         private MeshRenderer _meshRenderer;
+
+        // Reference to current voxel configuration
+        private Voxel[,,] _voxels;
 
         public void Start()
         {
@@ -98,6 +100,19 @@ namespace ProceduralVoxelMesh
         {
             _generatorTask = new VoxelMeshGeneratorTask(newVoxels, newVoxels.GetLength(0), newVoxels.GetLength(1), newVoxels.GetLength(2));
             VoxelMeshGeneratorThread.Generator.EnqueueTask(_generatorTask);
+
+            // Copy the new voxels into the class
+            _voxels = new Voxel[newVoxels.GetLength(0), newVoxels.GetLength(1), newVoxels.GetLength(2)];
+            for(int w = 0; w < newVoxels.GetLength(0); ++w)
+            {
+                for(int h = 0; h < newVoxels.GetLength(1); ++h)
+                {
+                    for(int d = 0; d < newVoxels.GetLength(2); ++d)
+                    {
+                        _voxels[w, h, d] = newVoxels[w, h, d];
+                    }
+                }
+            }
 
             UpdateMesh = true;
         }
