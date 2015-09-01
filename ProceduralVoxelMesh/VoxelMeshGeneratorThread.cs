@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using System.Threading;
 
 namespace ProceduralVoxelMesh
@@ -8,7 +10,9 @@ namespace ProceduralVoxelMesh
     /// Singleton class that handles creating the generator thread at start up.
     /// Uses static constructor to start in the editor or the Start method in game.
     /// </summary>
+#if UNITY_EDITOR
     [InitializeOnLoad]
+#endif
     [ExecuteInEditMode]
     public class VoxelMeshGeneratorThread : MonoBehaviour
     {

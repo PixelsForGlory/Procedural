@@ -46,10 +46,7 @@ namespace ProceduralVoxelMesh
             _meshCollider = GetComponent<MeshCollider>();
 
             _meshRenderer = GetComponent<MeshRenderer>();
-            if(_meshRenderer.sharedMaterial == null)
-            {
-                _meshRenderer.sharedMaterial = new Material(Shader.Find("ProceduralVoxelMesh/VoxelShader"));
-            }
+            _meshRenderer.sharedMaterial = Resources.Load<Material>("VoxelMaterial");
 
             UpdateMesh = false;
         }
