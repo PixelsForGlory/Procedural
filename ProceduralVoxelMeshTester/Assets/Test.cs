@@ -36,7 +36,7 @@ namespace Assets
 
             _screenshotCount = 0;
             _ready = true;
-            _timeAcc = 1.0f;
+            _timeAcc = 0.0f;
         }
 
         public void FixedUpdate()
