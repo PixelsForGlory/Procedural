@@ -45,8 +45,7 @@ public class ExampleCube : MonoBehaviour {
 The `ProceduralVoxelMeshTest` folder contains a unit test project to be run against the code base in NUnit.
 
 
-The `ProceduralVoxelMeshTester` folder is a Unity3D program that, when run against a build release, should produce the same screenshots as previous runs of that program.
-
+The `ProceduralVoxelMeshTester` folder contains a Unity3D project that can be built with a build release of the ProceduralVoxelMesh.dll. The program should produce the same screenshots as previous runs of that program.
 
 Something like this should be the result:
 ![Random Cube](../../../Screenshots/blob/master/VoxelMeshEditor.png?raw=true "Random Cube")
