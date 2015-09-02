@@ -1,10 +1,12 @@
-﻿using System.Security.Policy;
+// copyright 2015 afuzzyllama
+
+using System.Security.Policy;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 using ProceduralVoxelMesh;
-using Debug = UnityEngine.Debug;
+using UnityEngine;
 
 
 namespace Assets
@@ -15,6 +17,14 @@ namespace Assets
         private int _screenshotCount;
         private bool _ready;
         private float _timeAcc;
+
+	public static void StartTest()
+	{
+#if UNITY_EDITOR
+		EditorApplication.ExecuteMenuItem("Edit/Play");
+#endif
+	}
+
 
         public void Start()
         {
@@ -39,38 +49,19 @@ namespace Assets
             _timeAcc = 0.0f;
         }
 
-        public void FixedUpdate()
-        {
-            _timeAcc += Time.deltaTime;
-            
-            if(_ready && _timeAcc >= 1.0f)
-            {
-                Debug.Log("Take screenshot: " + _screenshotCount.ToString() + ".png");
-                Application.CaptureScreenshot(_screenshotCount.ToString() + ".png");
-                _screenshotCount++;
-                _ready = false;
-            }
-        }
-
-        public void Update()
+	public void Update()
         {
             if(_screenshotCount == 6)
             {
 #if UNITY_EDITOR
-                EditorApplication.ExecuteMenuItem("Edit/Play");
+				EditorApplication.Exit(0);
 #else
                 Application.Quit();     
 #endif
                 return;
             }
 
-            if(_timeAcc < 2.0f)
-            {
-                return;
-            }
-
-
-            if(!_ready)
+            if(!_ready && _timeAcc >= 0.66f)
             {
                 switch(_screenshotCount)
                 {
@@ -96,6 +87,37 @@ namespace Assets
                 _timeAcc = 0.0f;
             }
         }
-    }
 
+	public void LateUpdate()
+	{
+		_timeAcc += Time.deltaTime;
+		
+		if(_ready && _timeAcc >= 0.33f)
+		{
+			Debug.Log("Take screenshot: " + _screenshotCount.ToString() + ".png");
+
+			int resWidth = 1024; 
+			int resHeight = 768;
+			RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
+			Texture2D screenShot = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
+
+			Camera.main.targetTexture = rt;
+			Camera.main.Render();
+
+			RenderTexture.active = rt;
+
+			screenShot.ReadPixels(new Rect(0, 0, resWidth, resHeight), 0, 0);
+			Camera.main.targetTexture = null;
+			RenderTexture.active = null; // JC: added to avoid errors
+			Destroy(rt);
+
+			byte[] bytes = screenShot.EncodeToPNG();
+
+			System.IO.File.WriteAllBytes(_screenshotCount.ToString() + ".png", bytes);
+
+			_screenshotCount++;
+			_ready = false;
+		}
+	}
+    }
 }
