@@ -1,13 +1,10 @@
 // copyright 2015 afuzzyllama
 
-using System.Security.Policy;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 using ProceduralVoxelMesh;
-using UnityEngine;
-
 
 namespace Assets
 {
@@ -54,7 +51,7 @@ namespace Assets
             if(_screenshotCount == 6)
             {
 #if UNITY_EDITOR
-				EditorApplication.Exit(0);
+		EditorApplication.Exit(0);
 #else
                 Application.Quit();     
 #endif
