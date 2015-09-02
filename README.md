@@ -1,7 +1,7 @@
 # ProceduralVoxelMesh
 Library to create procedural voxel meshes in Unity3D.  Meshes are generated in a seprate thread and copied to the GameObject when ready.
 
-Build status:
+Build status:<br />
 ![Build status](../../..//Screenshots/blob/master/ProceduralVoxelMeshStatus.png?raw=true "Build status")
 
 ## Building
