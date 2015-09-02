@@ -18,12 +18,12 @@ namespace Assets
         private bool _ready;
         private float _timeAcc;
 
-		public static void StartTest()
-		{
+	public static void StartTest()
+	{
 #if UNITY_EDITOR
-			EditorApplication.ExecuteMenuItem("Edit/Play");
+		EditorApplication.ExecuteMenuItem("Edit/Play");
 #endif
-		}
+	}
 
 
         public void Start()
@@ -49,7 +49,7 @@ namespace Assets
             _timeAcc = 0.0f;
         }
 
-		public void Update()
+	public void Update()
         {
             if(_screenshotCount == 6)
             {
@@ -88,38 +88,36 @@ namespace Assets
             }
         }
 
-		public void LateUpdate()
+	public void LateUpdate()
+	{
+		_timeAcc += Time.deltaTime;
+		
+		if(_ready && _timeAcc >= 0.33f)
 		{
-			_timeAcc += Time.deltaTime;
-			
-			if(_ready && _timeAcc >= 0.33f)
-			{
-				Debug.Log("Take screenshot: " + _screenshotCount.ToString() + ".png");
+			Debug.Log("Take screenshot: " + _screenshotCount.ToString() + ".png");
 
-				int resWidth = 1024; 
-				int resHeight = 768;
+			int resWidth = 1024; 
+			int resHeight = 768;
+			RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
+			Texture2D screenShot = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
 
-				RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
-				Texture2D screenShot = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
+			Camera.main.targetTexture = rt;
+			Camera.main.Render();
 
-				Camera.main.targetTexture = rt;
-				Camera.main.Render();
+			RenderTexture.active = rt;
 
-				RenderTexture.active = rt;
+			screenShot.ReadPixels(new Rect(0, 0, resWidth, resHeight), 0, 0);
+			Camera.main.targetTexture = null;
+			RenderTexture.active = null; // JC: added to avoid errors
+			Destroy(rt);
 
-				screenShot.ReadPixels(new Rect(0, 0, resWidth, resHeight), 0, 0);
-				Camera.main.targetTexture = null;
-				RenderTexture.active = null; // JC: added to avoid errors
-				Destroy(rt);
+			byte[] bytes = screenShot.EncodeToPNG();
 
-				byte[] bytes = screenShot.EncodeToPNG();
+			System.IO.File.WriteAllBytes(_screenshotCount.ToString() + ".png", bytes);
 
-				System.IO.File.WriteAllBytes(_screenshotCount.ToString() + ".png", bytes);
-
-				_screenshotCount++;
-				_ready = false;
-			}
+			_screenshotCount++;
+			_ready = false;
 		}
+	}
     }
-
 }
