@@ -2,3 +2,10 @@
 bin/
 obj/
 *.csproj.user
+Thumbs.db
+
+ProceduralVoxelMeshTester/*.csproj
+ProceduralVoxelMeshTester/Build/
+ProceduralVoxelMeshTester/Library/
+ProceduralVoxelMeshTester/*.sln
+ProceduralVoxelMeshTester/ProjectSettings/

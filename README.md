@@ -1,6 +1,9 @@
 # ProceduralVoxelMesh
 Library to create procedural voxel meshes in Unity3D.  Meshes are generated in a seprate thread and copied to the GameObject when ready.
 
+Build status:<br />
+![Build status](../../..//Screenshots/blob/master/ProceduralVoxelMeshStatus.png?raw=true "Build status")
+
 ## Building
 The solution has references set for `UnityEngine.dll` and `UnityEditor.dll`, but the paths for these assemblies are not set. To build the library, a reference path must be set to the Managed directory (Default is C:\Program Files\Unity\Editor\Data\Managed):
 ![Reference Path](../../../Screenshots/blob/master/VoxelMeshReferencePath.png?raw=true "Reference Path")
@@ -8,7 +11,7 @@ The solution has references set for `UnityEngine.dll` and `UnityEditor.dll`, but
 When working in the editor, use the `DebugUnityEditor` build configuration.  This will use editor specific code to get the mesh generator thread running when the editor opens.  Otherwise, use Debug/Release for running the stand alone game.
 
 ## Installation
-When the build is complete, move the `ProceduralVoxelMesh.dll` to `[PROJECT DIR]\Assets\Plugins`.  Additionally, move the shader file found in the Shader directory to somewhere in your `[PROJECT DIR]\Assets` directory so it can be found by `Shader.Find()`.
+When the build is complete, move the `ProceduralVoxelMesh.dll` to `[PROJECT DIR]\Assets\Plugins`.  Additionally, move the shader file and the material file found in the Resources directory to a Resources directory somewhere in your `[PROJECT DIR]\Assets` directory (example `[PROJECT DIR]\Assets\Resources) so it can be found by `Resources.Load()`.
 
 ## Usage
 Creating a voxel mesh at runtime is simple.  The following example will create a randomly colored cube on a GameObject with a VoxelMesh component:
@@ -40,6 +43,12 @@ public class ExampleCube : MonoBehaviour {
   }
 }
 ```
+
+## Testing
+The `ProceduralVoxelMeshTest` folder contains a unit test project to be run against the code base in NUnit.
+
+
+The `ProceduralVoxelMeshTester` folder contains a Unity3D project that can be built with a build release of the ProceduralVoxelMesh.dll. The program should produce the same screenshots as previous runs of that program.
 
 Something like this should be the result:
 ![Random Cube](../../../Screenshots/blob/master/VoxelMeshEditor.png?raw=true "Random Cube")
