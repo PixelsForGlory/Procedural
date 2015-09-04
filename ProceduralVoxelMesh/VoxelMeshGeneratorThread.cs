@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using System.Threading;
 
 namespace ProceduralVoxelMesh
@@ -8,14 +10,19 @@ namespace ProceduralVoxelMesh
     /// Singleton class that handles creating the generator thread at start up.
     /// Uses static constructor to start in the editor or the Start method in game.
     /// </summary>
+#if UNITY_EDITOR
     [InitializeOnLoad]
-    [ExecuteInEditMode]
+#endif
     public class VoxelMeshGeneratorThread : MonoBehaviour
     {
         private static Thread _generatorThread;
 
         private static VoxelMeshGenerator _generator;
-        public static VoxelMeshGenerator Generator => _generator;
+        public static VoxelMeshGenerator Generator
+        {
+            get { return _generator; }
+            private set { _generator = value; }
+        } 
 
         // ReSharper doesn't realize that this constructor is not empty
         static VoxelMeshGeneratorThread()
@@ -36,7 +43,7 @@ namespace ProceduralVoxelMesh
         public void OnApplicationQuit()
         {
 #if !UNITY_EDITOR
-            _generator.Shutdown();
+            Generator.Shutdown();
 #endif
             // Kind of messy. The thread will shutdown after going out of scope in the editor :(
         }
@@ -54,10 +61,13 @@ namespace ProceduralVoxelMesh
 
         private static void StartThread()
         {
-            _generator = new VoxelMeshGenerator();
-            // ReSharper disable once RedundantDelegateCreation
-            _generatorThread = new Thread(new ThreadStart(_generator.Run));
-            _generatorThread.Start();
+            if (Generator == null)
+            {
+                Generator = new VoxelMeshGenerator();
+                // ReSharper disable once RedundantDelegateCreation
+                _generatorThread = new Thread(new ThreadStart(_generator.Run));
+                _generatorThread.Start();
+            }
         }
 
     }
