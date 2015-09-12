@@ -1,4 +1,6 @@
 ﻿// Copyright 2015 afuzzyllama. All Rights Reserved.
+
+using System;
 using UnityEngine;
 
 namespace ProceduralVoxelMesh
@@ -12,8 +14,36 @@ namespace ProceduralVoxelMesh
     [ExecuteInEditMode]
     public partial class VoxelMesh : MonoBehaviour
     {
+        public Guid UniqueId { get; private set; }
+
+        private Voxel[,,] _voxels;
         // Reference to current voxel configuration
-        public Voxel[,,] Voxels { get; private set; }
+        public Voxel[,,] Voxels
+        {
+            get { return _voxels; }
+
+            set
+            {
+                // Set voxels and queue this mesh up to be generated
+                _generatorTask = new VoxelMeshGeneratorTask(value, value.GetLength(0), value.GetLength(1), value.GetLength(2));
+                VoxelMeshGeneratorThread.Generator.EnqueueTask(_generatorTask);
+
+                // Copy the new voxels into the class
+                _voxels = new Voxel[value.GetLength(0), value.GetLength(1), value.GetLength(2)];
+                for(int w = 0; w < value.GetLength(0); ++w)
+                {
+                    for(int h = 0; h < value.GetLength(1); ++h)
+                    {
+                        for(int d = 0; d < value.GetLength(2); ++d)
+                        {
+                            _voxels[w, h, d] = value[w, h, d];
+                        }
+                    }
+                }
+
+                UpdateMesh = true;
+            }
+        }
 
         // Trigger update on mesh in editor
         public bool UpdateMesh { get; private set; }
@@ -29,6 +59,11 @@ namespace ProceduralVoxelMesh
         
         public void Start()
         {
+            if(UniqueId == Guid.Empty)
+            {
+                UniqueId = Guid.NewGuid();
+            }
+
             _meshFilter = GetComponent<MeshFilter>();
             if(_mesh == null)
             {
@@ -88,31 +123,5 @@ namespace ProceduralVoxelMesh
         {
             _generatorTask = null;
         }
-
-        /// <summary>
-        /// Set voxels and queue this mesh up to be generated
-        /// </summary>
-        /// <param name="newVoxels"></param>
-        public void SetVoxels(Voxel[,,] newVoxels)
-        {
-            _generatorTask = new VoxelMeshGeneratorTask(newVoxels, newVoxels.GetLength(0), newVoxels.GetLength(1), newVoxels.GetLength(2));
-            VoxelMeshGeneratorThread.Generator.EnqueueTask(_generatorTask);
-
-            // Copy the new voxels into the class
-            Voxels = new Voxel[newVoxels.GetLength(0), newVoxels.GetLength(1), newVoxels.GetLength(2)];
-            for(int w = 0; w < newVoxels.GetLength(0); ++w)
-            {
-                for(int h = 0; h < newVoxels.GetLength(1); ++h)
-                {
-                    for(int d = 0; d < newVoxels.GetLength(2); ++d)
-                    {
-                        Voxels[w, h, d] = newVoxels[w, h, d];
-                    }
-                }
-            }
-
-            UpdateMesh = true;
-        }
-
     }
 }
