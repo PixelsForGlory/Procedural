@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿// Copyright 2015 afuzzyllama. All Rights Reserved.
+using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
