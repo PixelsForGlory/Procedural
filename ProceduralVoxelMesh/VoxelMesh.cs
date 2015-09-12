@@ -12,21 +12,21 @@ namespace ProceduralVoxelMesh
     [ExecuteInEditMode]
     public partial class VoxelMesh : MonoBehaviour
     {
-        // If there is a mesh to be generated, this is a reference to that task
-        private VoxelMeshGeneratorTask _generatorTask;
+        // Reference to current voxel configuration
+        public Voxel[,,] Voxels { get; private set; }
 
         // Trigger update on mesh in editor
         public bool UpdateMesh { get; private set; }
+
+        // If there is a mesh to be generated, this is a reference to that task
+        private VoxelMeshGeneratorTask _generatorTask;
 
         // References to asset components
         private MeshFilter _meshFilter;
         private Mesh _mesh;
         private MeshCollider _meshCollider;
         private MeshRenderer _meshRenderer;
-
-        // Reference to current voxel configuration
-        private Voxel[,,] _voxels;
-
+        
         public void Start()
         {
             _meshFilter = GetComponent<MeshFilter>();
@@ -99,14 +99,14 @@ namespace ProceduralVoxelMesh
             VoxelMeshGeneratorThread.Generator.EnqueueTask(_generatorTask);
 
             // Copy the new voxels into the class
-            _voxels = new Voxel[newVoxels.GetLength(0), newVoxels.GetLength(1), newVoxels.GetLength(2)];
+            Voxels = new Voxel[newVoxels.GetLength(0), newVoxels.GetLength(1), newVoxels.GetLength(2)];
             for(int w = 0; w < newVoxels.GetLength(0); ++w)
             {
                 for(int h = 0; h < newVoxels.GetLength(1); ++h)
                 {
                     for(int d = 0; d < newVoxels.GetLength(2); ++d)
                     {
-                        _voxels[w, h, d] = newVoxels[w, h, d];
+                        Voxels[w, h, d] = newVoxels[w, h, d];
                     }
                 }
             }
