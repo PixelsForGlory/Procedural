@@ -7,6 +7,7 @@ namespace ProceduralVoxelMesh
     /// <summary>
     /// Represents a single voxel.
     /// </summary>
+    [Serializable]
     public struct Voxel
     {
         /// <summary>
@@ -14,7 +15,30 @@ namespace ProceduralVoxelMesh
         /// </summary>
         public bool Empty;
 
-        private Color _color;
+        /// <summary>
+        /// R part of color, broken up for serialization purposes
+        /// </summary>
+        [SerializeField]
+        private float _colorR;
+
+        /// <summary>
+        /// G part of color, broken up for serialization purposes
+        /// </summary>
+        [SerializeField]
+        private float _colorG;
+
+        /// <summary>
+        /// B part of color, broken up for serialization purposes
+        /// </summary>
+        [SerializeField]
+        private float _colorB;
+
+        /// <summary>
+        /// A part of color, broken up for serialization purposes
+        /// </summary>
+        [SerializeField]
+        private float _colorA;
+
         /// <summary>
         /// Color of the voxel
         /// </summary>
@@ -26,12 +50,15 @@ namespace ProceduralVoxelMesh
                 {
                     throw new InvalidOperationException("Cannot get the color of an empty voxel");
                 }
-                return _color;
+                return new Color(_colorR, _colorG, _colorB, _colorA);
             }
             set
             {
                 Empty = false;
-                _color = value;
+                _colorR = value.r;
+                _colorG = value.g;
+                _colorB = value.b;
+                _colorA = value.a;
             }
         }
 
@@ -43,18 +70,18 @@ namespace ProceduralVoxelMesh
         public Voxel(bool empty, Color? color = null)
         {
             Empty = empty;
-
+            _colorR = 0.0f;
+            _colorG = 0.0f;
+            _colorB = 0.0f;
+            _colorA = 0.0f;
+            
             if (!empty)
             {
                 if (color == null)
                 {
                     throw new ArgumentException("If not empty, color cannot be null");
                 }
-                _color = (Color) color;
-            }
-            else
-            {
-                _color = Color.black;
+                Color = (Color) color;
             }
         }
     }

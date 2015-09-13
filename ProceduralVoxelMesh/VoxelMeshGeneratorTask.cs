@@ -1,5 +1,6 @@
 ﻿// Copyright 2015 afuzzyllama. All Rights Reserved.
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace ProceduralVoxelMesh
@@ -50,7 +51,7 @@ namespace ProceduralVoxelMesh
         private readonly int _depth;
         private readonly int _height;
 
-        public VoxelMeshGeneratorTask(Voxel[,,] voxels, int width, int height, int depth)
+        public VoxelMeshGeneratorTask(List<Voxel> voxels, int width, int height, int depth)
         {
             _width = width;
             _height = height;
@@ -65,7 +66,7 @@ namespace ProceduralVoxelMesh
                 {
                     for(int d = 0; d < _depth; ++d)
                     {
-                        _voxels[w, h, d] = voxels[w, h, d];
+                        _voxels[w, h, d] = voxels[Utilities.GetIndex(w, h, d, _width, _height, _depth)];
                     }
                 }
             }

@@ -1,6 +1,7 @@
 ﻿// Copyright 2015 afuzzyllama. All Rights Reserved.
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProceduralVoxelMesh
@@ -14,39 +15,93 @@ namespace ProceduralVoxelMesh
     [ExecuteInEditMode]
     public partial class VoxelMesh : MonoBehaviour
     {
-        public Guid UniqueId { get; private set; }
+        /// <summary>
+        /// UniqueId based on System.Guid.  Creates a persistant unique identifier.
+        /// </summary>
+        public string UniqueId;
 
-        private Voxel[,,] _voxels;
-        // Reference to current voxel configuration
-        public Voxel[,,] Voxels
+        /// <summary>
+        /// 3-dimensional voxel volume represented in 1-dimensional list.  Lists play nice with serialization and allows for persisting data.
+        /// </summary>
+        [SerializeField]
+        private List<Voxel> _voxels;
+
+        /// <summary>
+        /// Width length of voxel list
+        /// </summary>
+        [SerializeField]
+        private int _wLength;
+
+        /// <summary>
+        /// Height length of voxel list
+        /// </summary>
+        [SerializeField]
+        private int _hLength;
+
+        /// <summary>
+        /// Depth length of voxel list
+        /// </summary>
+        [SerializeField]
+        private int _dLength;
+
+        /// <summary>
+        /// Get voxel data from a single point
+        /// </summary>
+        /// <param name="w">width</param>
+        /// <param name="h">height</param>
+        /// <param name="d">depth</param>
+        /// <returns></returns>
+        public Voxel GetVoxel(int w, int h, int d)
         {
-            get { return _voxels; }
+            return _voxels[Utilities.GetIndex(w, h, d, _wLength, _hLength, _dLength)];
+        }
+        
+        /// <summary>
+        /// Sets voxel volume from 3-dimensional array
+        /// </summary>
+        /// <param name="voxels"></param>
+        public void SetVoxels(Voxel[,,] voxels)
+        {
+            // Copy the new voxels into the class
+            _voxels = new List<Voxel>();
+            _wLength = voxels.GetLength(0);
+            _hLength = voxels.GetLength(1);
+            _dLength = voxels.GetLength(2);
 
-            set
+            // Resize list
+            for(int w = 0; w < _wLength; ++w)
             {
-                // Set voxels and queue this mesh up to be generated
-                _generatorTask = new VoxelMeshGeneratorTask(value, value.GetLength(0), value.GetLength(1), value.GetLength(2));
-                VoxelMeshGeneratorThread.Generator.EnqueueTask(_generatorTask);
-
-                // Copy the new voxels into the class
-                _voxels = new Voxel[value.GetLength(0), value.GetLength(1), value.GetLength(2)];
-                for(int w = 0; w < value.GetLength(0); ++w)
+                for(int h = 0; h < _hLength; ++h)
                 {
-                    for(int h = 0; h < value.GetLength(1); ++h)
+                    for(int d = 0; d < _dLength; ++d)
                     {
-                        for(int d = 0; d < value.GetLength(2); ++d)
-                        {
-                            _voxels[w, h, d] = value[w, h, d];
-                        }
+                        _voxels.Add(new Voxel());
                     }
                 }
-
-                UpdateMesh = true;
             }
+
+            // Copy voxels
+            for(int w = 0; w < _wLength; ++w)
+            {
+                for(int h = 0; h < _hLength; ++h)
+                {
+                    for(int d = 0; d < _dLength; ++d)
+                    {
+                        _voxels[Utilities.GetIndex(w, h, d, _wLength, _hLength, _dLength)] = voxels[w, h, d];
+                    }
+                }
+            }
+
+            UpdateMesh();
         }
 
         // Trigger update on mesh in editor
-        public bool UpdateMesh { get; private set; }
+        public void UpdateMesh()
+        {
+            // Set voxels and queue this mesh up to be generated
+            _generatorTask = new VoxelMeshGeneratorTask(_voxels, _wLength, _hLength, _dLength);
+            VoxelMeshGeneratorThread.Generator.EnqueueTask(_generatorTask);
+        }
 
         // If there is a mesh to be generated, this is a reference to that task
         private VoxelMeshGeneratorTask _generatorTask;
@@ -59,9 +114,9 @@ namespace ProceduralVoxelMesh
         
         public void Start()
         {
-            if(UniqueId == Guid.Empty)
+            if(UniqueId == null)
             {
-                UniqueId = Guid.NewGuid();
+                UniqueId = Guid.NewGuid().ToString();
             }
 
             _meshFilter = GetComponent<MeshFilter>();
@@ -82,8 +137,6 @@ namespace ProceduralVoxelMesh
 
             _meshRenderer = GetComponent<MeshRenderer>();
             _meshRenderer.sharedMaterial = Resources.Load<Material>("VoxelMaterial");
-
-            UpdateMesh = false;
         }
 
         public void Update()
@@ -115,8 +168,6 @@ namespace ProceduralVoxelMesh
             _mesh.RecalculateBounds();
             _meshCollider.sharedMesh = _mesh;
             _generatorTask = null;
-
-            UpdateMesh = false;
         }
 
         public void OnDestroy()

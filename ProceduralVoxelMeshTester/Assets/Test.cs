@@ -39,7 +39,7 @@ namespace Assets
                     }
                 }
             }
-            voxelMesh.Voxels = voxels;
+            voxelMesh.SetVoxels(voxels);
 
             _screenshotCount = 0;
             _ready = true;
