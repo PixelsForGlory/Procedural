@@ -13,6 +13,11 @@ When working in the editor, use the `DebugUnityEditor` build configuration.  Thi
 ## Installation
 When the build is complete, move the `ProceduralVoxelMesh.dll` to `[PROJECT DIR]\Assets\Plugins`.  Additionally, move the shader file and the material file found in the Resources directory to a Resources directory somewhere in your `[PROJECT DIR]\Assets` directory (example `[PROJECT DIR]\Assets\Resources) so it can be found by `Resources.Load()`.
 
+After copying in the assets, make sure that the ColorMap.png has the following texture import settings:
+![ColorMap Import Settings](../../../Screenshots/blob/master/ColorMapImport.png?raw=true "ColorMap Import Settings")
+
+If the import settings aren't correct, the colors might not render correctly.
+
 ## Usage
 Creating a voxel mesh at runtime is simple.  The following example will create a randomly colored cube on a GameObject with a VoxelMesh component:
 

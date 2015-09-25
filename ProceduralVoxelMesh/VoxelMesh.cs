@@ -159,7 +159,6 @@ namespace ProceduralVoxelMesh
             _mesh.normals = _generatorTask.Normals.ToArray();
             _mesh.uv = _generatorTask.UV0.ToArray();
             //_mesh.uv2 = _generatorTask.UV1.ToArray(); // Not implemented for now
-            _mesh.colors = _generatorTask.Colors.ToArray();
             _mesh.triangles = _generatorTask.Triangles.ToArray();
 
             TangentSolver(_mesh);

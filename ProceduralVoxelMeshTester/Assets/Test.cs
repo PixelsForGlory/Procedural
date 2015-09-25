@@ -51,7 +51,7 @@ namespace Assets
             if(_screenshotCount == 6)
             {
 #if UNITY_EDITOR
-		EditorApplication.Exit(0);
+		        EditorApplication.Exit(0);
 #else
                 Application.Quit();     
 #endif

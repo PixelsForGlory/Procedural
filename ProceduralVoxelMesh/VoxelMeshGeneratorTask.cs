@@ -1,6 +1,5 @@
 ﻿// Copyright 2015 afuzzyllama. All Rights Reserved.
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace ProceduralVoxelMesh
@@ -29,11 +28,6 @@ namespace ProceduralVoxelMesh
         /// Generated uv1
         /// </summary>
         public List<Vector2> UV1;
-
-        /// <summary>
-        /// Generated colors
-        /// </summary>
-        public List<Color> Colors;
 
         /// <summary>
         /// Generated triangles
