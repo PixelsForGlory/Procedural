@@ -21,8 +21,9 @@ else
         }
         else
         {
-            fc.exe /b %system.teamcity.build.workingDir%\ProceduralVoxelMeshTester\$i.png %system.teamcity.build.workingDir%\ProceduralVoxelMeshTester\original$i.png > $null
-            if ($LASTEXITCODE -eq 0)
+            $compareResultString = Invoke-Expression("compare.exe -metric mae %system.teamcity.build.workingDir%\ProceduralVoxelMeshTester\$i.png %system.teamcity.build.workingDir%\ProceduralVoxelMeshTester\original$i.png %system.teamcity.build.workingDir%\ProceduralVoxelMeshTester\diff.png 2>&1")
+            $compareResult = ([string]$compareResultString).Substring(([string]$compareResultString).IndexOf("(") + 1, ([string]$compareResultString).IndexOf(")") - ([string]$compareResultString).IndexOf("(") - 1);
+            if ($compareResult -lt 0.1)
             {
                 Write-Host "%system.teamcity.build.workingDir%\ProceduralVoxelMeshTester\$i.png PASS"
             }
@@ -33,6 +34,7 @@ else
         }
 
         Remove-Item "%system.teamcity.build.workingDir%\ProceduralVoxelMeshTester\$i.png"
+        Remove-Item "%system.teamcity.build.workingDir%\ProceduralVoxelMeshTester\diff.png"
     }
 }
 
