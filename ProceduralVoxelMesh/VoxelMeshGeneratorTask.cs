@@ -20,14 +20,24 @@ namespace ProceduralVoxelMesh
         public List<Vector3> Normals;
 
         /// <summary>
-        /// Generated uv0 
+        /// Generated colors
         /// </summary>
-        public List<Vector2> UV0;
+        public List<Color> Colors;
 
         /// <summary>
-        /// Generated uv1
+        /// Generated metallic uvs
         /// </summary>
-        public List<Vector2> UV1;
+        public List<Vector2> UV;
+
+        /// <summary>
+        /// Generated smoohtness uvs
+        /// </summary>
+        public List<Vector2> UV2;
+
+        /// <summary>
+        /// Generated emission uvs
+        /// </summary>
+        public List<Vector2> UV3;
 
         /// <summary>
         /// Generated triangles
@@ -73,6 +83,9 @@ namespace ProceduralVoxelMesh
         {
             public bool HasFace;
             public Color FaceColor;
+            public float Metallic;
+            public float Smoothness;
+            public float Emission;
             public int FirstOrSecond;
         };
     }

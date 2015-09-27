@@ -62,22 +62,97 @@ namespace ProceduralVoxelMesh
             }
         }
 
+        [SerializeField]
+        private float _metallic;
+
+        public float Metallic
+        {
+            get
+            {
+                if(Empty)
+                {
+                    throw new InvalidOperationException("Cannot get the metallic of an empty voxel");
+                }
+                return _metallic;
+            }
+            set
+            {
+                if(value < 0.0f || value > 1.0f)
+                {
+                    throw new InvalidOperationException("Metallic value cannot be less than 0.0f or greater than 1.0f");
+                }
+                _metallic = value;
+            }
+        }
+
+        [SerializeField]
+        private float _smoothness;
+
+        public float Smoothness
+        {
+            get
+            {
+                if(Empty)
+                {
+                    throw new InvalidOperationException("Cannot get the smoothness of an empty voxel");
+                }
+                return _smoothness;
+            }
+            set
+            {
+                if(value < 0.0f || value > 1.0f)
+                {
+                    throw new InvalidOperationException("Smoothness value cannot be less than 0.0f or greater than 1.0f");
+                }
+                _smoothness = value;
+            }
+        }
+
+        [SerializeField]
+        private float _emission;
+
+        public float Emission
+        {
+            get
+            {
+                if(Empty)
+                {
+                    throw new InvalidOperationException("Cannot get the emission of an empty voxel");
+                }
+                return _emission;
+            }
+            set
+            {
+                if(value < 0.0f || value > 1.0f)
+                {
+                    throw new InvalidOperationException("Emission value cannot be less than 0.0f or greater than 1.0f");
+                }
+                _emission = value;
+            }
+        }
+
         /// <summary>
         /// Single voxel
         /// </summary>
         /// <param name="empty">Is the voxel empty</param>
         /// <param name="color">If the voxel is not empty, the color of this voxel</param>
-        public Voxel(bool empty, Color? color = null)
+        /// <param name="metallic">Metallic value for this voxel</param>
+        /// /// <param name="smoothness">Smoothness value for this voxel</param>
+        /// /// <param name="emission">Emission value for this voxel</param>
+        public Voxel(bool empty, Color? color = null, float metallic = 0.0f, float smoothness = 0.0f, float emission = 0.0f) : this()
         {
             Empty = empty;
             _colorR = 0.0f;
             _colorG = 0.0f;
             _colorB = 0.0f;
             _colorA = 0.0f;
-            
-            if (!empty)
+            Metallic = metallic;
+            Smoothness = smoothness;
+            Emission = emission;
+
+            if(!empty)
             {
-                if (color == null)
+                if(color == null)
                 {
                     throw new ArgumentException("If not empty, color cannot be null");
                 }

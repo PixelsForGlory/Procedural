@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace ProceduralVoxelMesh
 {
@@ -18,7 +19,7 @@ namespace ProceduralVoxelMesh
         {
             if(!InBounds(w, h, d, wLength, hLength, dLength))
             {
-                throw new Exception("Index not in bounds");   
+                throw new Exception("Index not in bounds");
             }
             return w + h * wLength + d * wLength * hLength;
         }
@@ -36,6 +37,25 @@ namespace ProceduralVoxelMesh
         public static bool InBounds(int w, int h, int d, int wLength, int hLength, int dLength)
         {
             return w >= 0 && w < wLength && h >= 0 && h < hLength && d >= 0 && d < dLength;
+        }
+
+        public static void CreateTexture()
+        {
+            // Alpha map
+            Texture2D alphaMap = new Texture2D(32, 32);
+            for(int a = 0; a < 256; ++a)
+            {
+                int x = (a%16)*2;
+                int y = (a/16)*2;
+
+                alphaMap.SetPixel(x, y, new Color(a / 255.0f, a / 255.0f, a / 255.0f));
+                alphaMap.SetPixel(x, y + 1, new Color(a / 255.0f, a / 255.0f, a / 255.0f));
+                alphaMap.SetPixel(x + 1, y, new Color(a / 255.0f, a / 255.0f, a / 255.0f));
+                alphaMap.SetPixel(x + 1, y + 1, new Color(a / 255.0f, a / 255.0f, a / 255.0f));
+            }
+            alphaMap.Apply();
+
+            System.IO.File.WriteAllBytes("AlphaMap.png", alphaMap.EncodeToPNG());
         }
     }
 }

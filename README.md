@@ -14,7 +14,7 @@ When working in the editor, use the `DebugUnityEditor` build configuration.  Thi
 When the build is complete, move the `ProceduralVoxelMesh.dll` to `[PROJECT DIR]\Assets\Plugins`.  Additionally, move the shader file and the material file found in the Resources directory to a Resources directory somewhere in your `[PROJECT DIR]\Assets` directory (example `[PROJECT DIR]\Assets\Resources) so it can be found by `Resources.Load()`.
 
 After copying in the assets, make sure that the ColorMap.png has the following texture import settings:
-![ColorMap Import Settings](../../../Screenshots/blob/master/ColorMapImport.png?raw=true "ColorMap Import Settings")
+![AlphaMap Import Settings](../../../Screenshots/blob/master/AlphaMapImport.png?raw=true "AlphaMap Import Settings")
 
 If the import settings aren't correct, the colors might not render correctly.
 
