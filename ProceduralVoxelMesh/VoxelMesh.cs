@@ -45,6 +45,11 @@ namespace ProceduralVoxelMesh
         private int _dLength;
 
         /// <summary>
+        /// Observers of this mesh who want to know when the mesh has finished updating
+        /// </summary>
+        private List<IVoxelMeshObserver> _observers; 
+
+        /// <summary>
         /// Get voxel data from a single point
         /// </summary>
         /// <param name="w">width</param>
@@ -111,7 +116,12 @@ namespace ProceduralVoxelMesh
         private Mesh _mesh;
         private MeshCollider _meshCollider;
         private MeshRenderer _meshRenderer;
-        
+
+        public void Awake()
+        {
+            _observers = new List<IVoxelMeshObserver>();
+        }
+
         public void Start()
         {
             if(UniqueId == null)
@@ -169,11 +179,26 @@ namespace ProceduralVoxelMesh
             _mesh.RecalculateBounds();
             _meshCollider.sharedMesh = _mesh;
             _generatorTask = null;
+
+            foreach(IVoxelMeshObserver observer in _observers)
+            {
+                observer.Notify();
+            }
         }
 
         public void OnDestroy()
         {
             _generatorTask = null;
+        }
+
+        public void RegisterObserver(IVoxelMeshObserver observer)
+        {
+            _observers.Add(observer);
+        }
+
+        public void UnregisterObserver(IVoxelMeshObserver observer)
+        {
+            _observers.Remove(observer);
         }
     }
 }
