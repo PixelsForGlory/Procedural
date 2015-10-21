@@ -11,7 +11,7 @@ The solution has references set for `UnityEngine.dll` and `UnityEditor.dll`, but
 When working in the editor, use the `DebugUnityEditor` build configuration.  This will use editor specific code to get the mesh generator thread running when the editor opens.  Otherwise, use Debug/Release for running the stand alone game.
 
 ## Installation
-When the build is complete, move the `ProceduralVoxelMesh.dll` to `[PROJECT DIR]\Assets\Plugins`.  Additionally, move the shader file and the material file found in the Resources directory to a Resources directory somewhere in your `[PROJECT DIR]\Assets` directory (example `[PROJECT DIR]\Assets\Resources) so it can be found by `Resources.Load()`.
+When the build is complete, move the `ProceduralVoxelMesh.dll` to `[PROJECT DIR]\Assets\Plugins`.  Additionally, move the shader files and the material files found in the Resources directory to a Resources directory somewhere in your `[PROJECT DIR]\Assets` directory (example `[PROJECT DIR]\Assets\Resources) so it can be found by `Resources.Load()`.
 
 After copying in the assets, make sure that the ColorMap.png has the following texture import settings:
 ![AlphaMap Import Settings](../../../Screenshots/blob/master/AlphaMapImport.png?raw=true "AlphaMap Import Settings")
