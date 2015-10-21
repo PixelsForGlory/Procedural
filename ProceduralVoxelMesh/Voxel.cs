@@ -1,163 +1,54 @@
 ﻿// Copyright 2015 afuzzyllama. All Rights Reserved.
+
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProceduralVoxelMesh
 {
-    /// <summary>
-    /// Represents a single voxel.
-    /// </summary>
-    [Serializable]
-    public struct Voxel
+    public class Voxel
     {
+        // ReSharper disable once InconsistentNaming
+        protected bool _empty;
+
         /// <summary>
         /// Is the voxel empty or not
         /// </summary>
-        public bool Empty;
-
-        /// <summary>
-        /// R part of color, broken up for serialization purposes
-        /// </summary>
-        [SerializeField]
-        private float _colorR;
-
-        /// <summary>
-        /// G part of color, broken up for serialization purposes
-        /// </summary>
-        [SerializeField]
-        private float _colorG;
-
-        /// <summary>
-        /// B part of color, broken up for serialization purposes
-        /// </summary>
-        [SerializeField]
-        private float _colorB;
-
-        /// <summary>
-        /// A part of color, broken up for serialization purposes
-        /// </summary>
-        [SerializeField]
-        private float _colorA;
-
-        /// <summary>
-        /// Color of the voxel
-        /// </summary>
-        public Color Color
+        public virtual bool Empty
         {
             get
             {
-                if (Empty)
-                {
-                    throw new InvalidOperationException("Cannot get the color of an empty voxel");
-                }
-                return new Color(_colorR, _colorG, _colorB, _colorA);
+                throw new NotImplementedException();
             }
+
+            // ReSharper disable once ValueParameterNotUsed
             set
             {
-                Empty = false;
-                _colorR = value.r;
-                _colorG = value.g;
-                _colorB = value.b;
-                _colorA = value.a;
-            }
-        }
-
-        [SerializeField]
-        private float _metallic;
-
-        public float Metallic
-        {
-            get
-            {
-                if(Empty)
-                {
-                    throw new InvalidOperationException("Cannot get the metallic of an empty voxel");
-                }
-                return _metallic;
-            }
-            set
-            {
-                if(value < 0.0f || value > 1.0f)
-                {
-                    throw new InvalidOperationException("Metallic value cannot be less than 0.0f or greater than 1.0f");
-                }
-                _metallic = value;
-            }
-        }
-
-        [SerializeField]
-        private float _smoothness;
-
-        public float Smoothness
-        {
-            get
-            {
-                if(Empty)
-                {
-                    throw new InvalidOperationException("Cannot get the smoothness of an empty voxel");
-                }
-                return _smoothness;
-            }
-            set
-            {
-                if(value < 0.0f || value > 1.0f)
-                {
-                    throw new InvalidOperationException("Smoothness value cannot be less than 0.0f or greater than 1.0f");
-                }
-                _smoothness = value;
-            }
-        }
-
-        [SerializeField]
-        private float _emission;
-
-        public float Emission
-        {
-            get
-            {
-                if(Empty)
-                {
-                    throw new InvalidOperationException("Cannot get the emission of an empty voxel");
-                }
-                return _emission;
-            }
-            set
-            {
-                if(value < 0.0f || value > 1.0f)
-                {
-                    throw new InvalidOperationException("Emission value cannot be less than 0.0f or greater than 1.0f");
-                }
-                _emission = value;
+                throw new NotImplementedException(); ;
             }
         }
 
         /// <summary>
-        /// Single voxel
+        /// Single empty voxel
         /// </summary>
-        /// <param name="empty">Is the voxel empty</param>
-        /// <param name="color">If the voxel is not empty, the color of this voxel</param>
-        /// <param name="metallic">Metallic value for this voxel</param>
-        /// /// <param name="smoothness">Smoothness value for this voxel</param>
-        /// /// <param name="emission">Emission value for this voxel</param>
-        public Voxel(bool empty, Color? color = null, float metallic = 0.0f, float smoothness = 0.0f, float emission = 0.0f) : this()
+        public Voxel()
         {
-            Empty = empty;
-            _colorR = 0.0f;
-            _colorG = 0.0f;
-            _colorB = 0.0f;
-            _colorA = 0.0f;
-            Metallic = metallic;
-            Smoothness = smoothness;
-            Emission = emission;
+            _empty = true;
+        }
 
-            if(!empty)
-            {
-                if(color == null)
-                {
-                    throw new ArgumentException("If not empty, color cannot be null");
-                }
-                Color = (Color) color;
-            }
+        /// <summary>
+        /// Adds the voxel to the passed in color and uv lists
+        /// </summary>
+        /// <param name="faceType">Voxel face that is currently being added to the mesh</param>
+        /// <param name="width">Width of the current face</param>
+        /// <param name="height">Height of the current face</param>
+        /// <param name="colors">Color list to add the voxel face to</param>
+        /// <param name="uv">UV list to add the voxel face to</param>
+        /// <param name="uv2">UV2 list to add the voxel face to</param>
+        /// <param name="uv3">UV3 list to add the voxel face to</param>
+        public virtual void AddVoxelToMesh(FaceType faceType, int width, int height, List<Color> colors, List<Vector2> uv, List<Vector2> uv2, List<Vector2> uv3)
+        {
+            throw new NotImplementedException();
         }
     }
 }

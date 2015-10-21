@@ -25,7 +25,6 @@ namespace ProceduralVoxelMesh
             private set { _generator = value; }
         } 
 
-        // ReSharper doesn't realize that this constructor is not empty
         static VoxelMeshGeneratorThread()
         {
 #if UNITY_EDITOR
@@ -49,17 +48,28 @@ namespace ProceduralVoxelMesh
             // Kind of messy. The thread will shutdown after going out of scope in the editor :(
         }
 
+        /// <summary>
+        /// Called from the editor application update event. Updates all meshes in the editor.
+        /// </summary>
         public static void UpdateMeshesInEditor()
         {
-            VoxelMesh[] voxelMeshes = FindObjectsOfType<VoxelMesh>();
+            ColorVoxelMesh[] colorVoxelMeshes = FindObjectsOfType<ColorVoxelMesh>();
+            foreach(ColorVoxelMesh voxelMesh in colorVoxelMeshes)
+            {
+                voxelMesh.Update();
+            }
 
-            foreach(VoxelMesh voxelMesh in voxelMeshes)
+            TextureVoxelMesh[] textureVoxelMeshes = FindObjectsOfType<TextureVoxelMesh>();
+            foreach(TextureVoxelMesh voxelMesh in textureVoxelMeshes)
             {
                 voxelMesh.Update();
             }
 
         }
 
+        /// <summary>
+        /// Start voxel mesh generator
+        /// </summary>
         private static void StartThread()
         {
             if (Generator == null)

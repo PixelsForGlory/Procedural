@@ -3,14 +3,27 @@
 // Reference: 
 //  Blog post:  http://0fps.net/2012/06/30/meshing-in-a-minecraft-game/
 //  Github:     https://github.com/mikolalysenko/mikolalysenko.github.com/tree/gh-pages/MinecraftMeshes
-
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProceduralVoxelMesh
 {
-    public partial class VoxelMeshGeneratorTask
+    /// <summary>
+    /// Faces of a cube
+    /// </summary>
+    public enum FaceType
+    {
+        None,
+        XPositive,
+        XNegative,
+        YPositive,
+        YNegative,
+        ZPositive,
+        ZNegative
+    }
+
+    public partial class VoxelMeshGeneratorTask<T> : IVoxelMeshGeneratorTask where T : Voxel
     {
 
         /// <summary>
@@ -43,18 +56,18 @@ namespace ProceduralVoxelMesh
 
                     int dimensionU = 0;
                     int dimensionV = 0;
-                    int dimensionDimension = 0;
+                    int dimensionMax = 0;
 
                     switch(dimension)
                     {
                         case 0:
-                            dimensionDimension = _width;
+                            dimensionMax = _width;
                             break;
                         case 1:
-                            dimensionDimension = _height;
+                            dimensionMax = _height;
                             break;
                         case 2:
-                            dimensionDimension = _depth;
+                            dimensionMax = _depth;
                             break;
                     }
 
@@ -86,7 +99,7 @@ namespace ProceduralVoxelMesh
 
                     int maskSize = dimensionU * dimensionV;
 
-                    FaceMask[] mask = new FaceMask[maskSize];
+                    FaceMask<T>[] mask = new FaceMask<T>[maskSize];
 
                     int[] x = { 0, 0, 0 };
                     int[] q = { 0, 0, 0 };
@@ -105,7 +118,7 @@ namespace ProceduralVoxelMesh
                         }
                     }
 
-                    while(x[dimension] < dimensionDimension)
+                    while(x[dimension] < dimensionMax)
                     {
                         // Compute mask
                         int maskIndex = 0;
@@ -124,7 +137,7 @@ namespace ProceduralVoxelMesh
                                 }
 
                                 bool second;
-                                if(x[dimension] >= dimensionDimension - 1 || _voxels[x[0] + q[0], x[1] + q[1], x[2] + q[2]].Empty)
+                                if(x[dimension] >= dimensionMax - 1 || _voxels[x[0] + q[0], x[1] + q[1], x[2] + q[2]].Empty)
                                 {
                                     second = false;
                                 }
@@ -138,19 +151,13 @@ namespace ProceduralVoxelMesh
                                     mask[maskIndex].HasFace = true;
                                     if(first)
                                     {
-                                        mask[maskIndex].FaceColor = _voxels[x[0], x[1], x[2]].Color;
+                                        mask[maskIndex].Voxel = _voxels[x[0], x[1], x[2]];
                                         mask[maskIndex].FirstOrSecond = 1;
-                                        mask[maskIndex].Metallic = _voxels[x[0], x[1], x[2]].Metallic;
-                                        mask[maskIndex].Smoothness = _voxels[x[0], x[1], x[2]].Smoothness;
-                                        mask[maskIndex].Emission = _voxels[x[0], x[1], x[2]].Emission;
                                     }
                                     else
                                     {
-                                        mask[maskIndex].FaceColor = _voxels[x[0] + q[0], x[1] + q[1], x[2] + q[2]].Color;
+                                        mask[maskIndex].Voxel = _voxels[x[0] + q[0], x[1] + q[1], x[2] + q[2]];
                                         mask[maskIndex].FirstOrSecond = 2;
-                                        mask[maskIndex].Metallic = _voxels[x[0] + q[0], x[1] + q[1], x[2] + q[2]].Metallic;
-                                        mask[maskIndex].Smoothness = _voxels[x[0] + q[0], x[1] + q[1], x[2] + q[2]].Smoothness;
-                                        mask[maskIndex].Emission = _voxels[x[0] + q[0], x[1] + q[1], x[2] + q[2]].Emission;
                                     }
                                 }
                                 else
@@ -179,12 +186,9 @@ namespace ProceduralVoxelMesh
                                     if(n + w < mask.Length)
                                     {
                                         while(
-                                            mask[n].HasFace == mask[n + w].HasFace 
-                                            && mask[n].FaceColor == mask[n + w].FaceColor 
+                                            mask[n].HasFace == mask[n + w].HasFace
                                             && i + w < dimensionU && mask[n].FirstOrSecond == mask[n + w].FirstOrSecond
-                                            && Mathf.Abs(mask[n].Metallic - mask[n + w].Metallic) < 0.00390625f // 1/256
-                                            && Mathf.Abs(mask[n].Smoothness - mask[n + w].Smoothness) < 0.00390625f // 1/256
-                                            && Mathf.Abs(mask[n].Emission - mask[n + w].Emission) < 0.00390625f // 1/256
+                                            && mask[n].Voxel.Equals(mask[n + w].Voxel)
                                         )
                                         {
                                             w++;
@@ -204,12 +208,9 @@ namespace ProceduralVoxelMesh
                                         for(int k = 0; k < w; k++)
                                         {
                                             if(
-                                                mask[n].HasFace != mask[n + k + h * dimensionU].HasFace 
-                                                || mask[n].FaceColor != mask[n + k + h * dimensionU].FaceColor 
+                                                mask[n].HasFace != mask[n + k + h * dimensionU].HasFace
                                                 || mask[n].FirstOrSecond != mask[n + k + h * dimensionU].FirstOrSecond
-                                                || Math.Abs(mask[n].Metallic - mask[n + k + h * dimensionU].Metallic) > 0.00390625f // 1/256
-                                                || Math.Abs(mask[n].Smoothness - mask[n + k + h * dimensionU].Smoothness) > 0.00390625f // 1/256
-                                                || Math.Abs(mask[n].Emission - mask[n + k + h * dimensionU].Emission) > 0.00390625f // 1/256
+                                                || !mask[n].Voxel.Equals(mask[n + k + h * dimensionU].Voxel)
                                             )
                                             {
                                                 done = true;
@@ -242,22 +243,19 @@ namespace ProceduralVoxelMesh
                                     // 2 -> Y
                                     // 3 -> Z
                                     // +/- represents normal direction
-                                    int faceIndex = 0;
-
-                                    // Where what is stored:
-                                    // uv0 - Standard texture coordinates 0.0->1.0
+                                    FaceType faceType =  FaceType.None;
 
                                     if(u == 1 && v == 2) // X
                                     {
-                                        faceIndex = 1;
+                                        faceType = maskNormalDirection > 0 ? FaceType.XPositive : FaceType.XNegative;
                                     }
                                     else if(u == 2 && v == 0) // Y
                                     {
-                                        faceIndex = 2;
+                                        faceType = maskNormalDirection > 0 ? FaceType.YPositive : FaceType.YNegative;
                                     }
-                                    else if(u == 0 && v == 1) // 2
+                                    else if(u == 0 && v == 1) // Z
                                     {
-                                        faceIndex = 3;
+                                        faceType = maskNormalDirection > 0 ? FaceType.ZPositive : FaceType.ZNegative;
                                     }
 
                                     int baseVerticesNum = Vertices.Count;
@@ -265,25 +263,28 @@ namespace ProceduralVoxelMesh
                                     // Vertices
                                     Vertices.Add(new Vector3(x[0], x[1], x[2]) - offset); // 0
                                     Vertices.Add(new Vector3(x[0] + du[0], x[1] + du[1], x[2] + du[2]) - offset); // 1
-                                    Vertices.Add(new Vector3(x[0] + du[0] + dv[0], x[1] + du[1] + dv[1], x[2] + du[2] + dv[2]) -offset); // 2
+                                    Vertices.Add(new Vector3(x[0] + du[0] + dv[0], x[1] + du[1] + dv[1], x[2] + du[2] + dv[2]) - offset); // 2
                                     Vertices.Add(new Vector3(x[0] + dv[0], x[1] + dv[1], x[2] + dv[2]) - offset); // 3
 
                                     // Normals
-                                    switch(faceIndex)
+                                    switch(faceType)
                                     {
-                                        case 1:
+                                        case FaceType.XPositive:
+                                        case FaceType.XNegative:
                                             Normals.Add(new Vector3(maskNormalDirection, 0.0f, 0.0f));
                                             Normals.Add(new Vector3(maskNormalDirection, 0.0f, 0.0f));
                                             Normals.Add(new Vector3(maskNormalDirection, 0.0f, 0.0f));
                                             Normals.Add(new Vector3(maskNormalDirection, 0.0f, 0.0f));
                                             break;
-                                        case 2:
+                                        case FaceType.YPositive:
+                                        case FaceType.YNegative:
                                             Normals.Add(new Vector3(0.0f, maskNormalDirection, 0.0f));
                                             Normals.Add(new Vector3(0.0f, maskNormalDirection, 0.0f));
                                             Normals.Add(new Vector3(0.0f, maskNormalDirection, 0.0f));
                                             Normals.Add(new Vector3(0.0f, maskNormalDirection, 0.0f));
                                             break;
-                                        case 3:
+                                        case FaceType.ZPositive:
+                                        case FaceType.ZNegative:
                                             Normals.Add(new Vector3(0.0f, 0.0f, maskNormalDirection));
                                             Normals.Add(new Vector3(0.0f, 0.0f, maskNormalDirection));
                                             Normals.Add(new Vector3(0.0f, 0.0f, maskNormalDirection));
@@ -316,121 +317,7 @@ namespace ProceduralVoxelMesh
                                         Triangles.Add(baseVerticesNum + 2); // 2
                                     }
 
-                                    // Colors
-                                    Colors.Add(mask[n].FaceColor);  // 0
-                                    Colors.Add(mask[n].FaceColor);  // 1
-                                    Colors.Add(mask[n].FaceColor);  // 2
-                                    Colors.Add(mask[n].FaceColor);  // 3
-
-                                    const float texelSize = 1.0f / 32.0f;
-                                    // TEXCOORD0/UV1
-                                    // Map to metallic
-                                    int metallicIndex = Mathf.RoundToInt(mask[n].Metallic * 255.0f);
-                                    int textureX = (metallicIndex % 16) * 2;
-                                    int textureY = (metallicIndex / 16) * 2;
-                                    
-
-                                    var minTexel = new Vector2(
-                                        textureX * texelSize    // Get to metallic location
-                                        + texelSize / 2.0f,     // Move half a texel length in
-                                        textureY * texelSize 
-                                        + texelSize / 2.0f);
-
-                                    var maxTexel = new Vector2(minTexel.x + texelSize, minTexel.y + texelSize);
-
-                                    switch(faceIndex)
-                                    {
-                                        case 1:
-                                            UV.Add(new Vector2(maxTexel.x, maxTexel.y)); // 0
-                                            UV.Add(new Vector2(minTexel.x, maxTexel.y)); // 1
-                                            UV.Add(new Vector2(minTexel.x, minTexel.y)); // 2
-                                            UV.Add(new Vector2(maxTexel.x, minTexel.y)); // 3
-                                            break;
-                                        case 2:
-                                            UV.Add(new Vector2(minTexel.x, minTexel.y)); // 0
-                                            UV.Add(new Vector2(minTexel.x, maxTexel.y)); // 1
-                                            UV.Add(new Vector2(maxTexel.x, maxTexel.y)); // 2
-                                            UV.Add(new Vector2(maxTexel.x, minTexel.y)); // 3
-                                            break;
-                                        case 3:
-                                            UV.Add(new Vector2(minTexel.x, maxTexel.y)); // 0
-                                            UV.Add(new Vector2(minTexel.x, minTexel.y)); // 1
-                                            UV.Add(new Vector2(maxTexel.x, minTexel.y)); // 2
-                                            UV.Add(new Vector2(maxTexel.x, maxTexel.y)); // 3
-                                            break;
-                                    }
-
-                                    // TEXCOORD1/UV2
-                                    // Map to smoothness
-                                    int smoothnessIndex = Mathf.RoundToInt(mask[n].Smoothness * 255.0f);
-                                    textureX = (smoothnessIndex % 16) * 2;
-                                    textureY = (smoothnessIndex / 16) * 2;
-
-                                    minTexel = new Vector2(
-                                        textureX * texelSize    // Get to metallic location
-                                        + texelSize / 2.0f,     // Move half a texel length in
-                                        textureY * texelSize
-                                        + texelSize / 2.0f);
-
-                                    maxTexel = new Vector2(minTexel.x + texelSize, minTexel.y + texelSize);
-
-                                    switch(faceIndex)
-                                    {
-                                        case 1:
-                                            UV2.Add(new Vector2(maxTexel.x, maxTexel.y)); // 0
-                                            UV2.Add(new Vector2(minTexel.x, maxTexel.y)); // 1
-                                            UV2.Add(new Vector2(minTexel.x, minTexel.y)); // 2
-                                            UV2.Add(new Vector2(maxTexel.x, minTexel.y)); // 3
-                                            break;
-                                        case 2:
-                                            UV2.Add(new Vector2(minTexel.x, minTexel.y)); // 0
-                                            UV2.Add(new Vector2(minTexel.x, maxTexel.y)); // 1
-                                            UV2.Add(new Vector2(maxTexel.x, maxTexel.y)); // 2
-                                            UV2.Add(new Vector2(maxTexel.x, minTexel.y)); // 3
-                                            break;
-                                        case 3:
-                                            UV2.Add(new Vector2(minTexel.x, maxTexel.y)); // 0
-                                            UV2.Add(new Vector2(minTexel.x, minTexel.y)); // 1
-                                            UV2.Add(new Vector2(maxTexel.x, minTexel.y)); // 2
-                                            UV2.Add(new Vector2(maxTexel.x, maxTexel.y)); // 3
-                                            break;
-                                    }
-
-                                    // TEXCOORD2/UV3
-                                    // Map to emission
-                                    int emissionIndex = Mathf.RoundToInt(mask[n].Emission * 255.0f);
-                                    textureX = (emissionIndex % 16) * 2;
-                                    textureY = (emissionIndex / 16) * 2;
-
-                                    minTexel = new Vector2(
-                                        textureX * texelSize    // Get to metallic location
-                                        + texelSize / 2.0f,     // Move half a texel length in
-                                        textureY * texelSize
-                                        + texelSize / 2.0f);
-
-                                    maxTexel = new Vector2(minTexel.x + texelSize, minTexel.y + texelSize);
-
-                                    switch(faceIndex)
-                                    {
-                                        case 1:
-                                            UV3.Add(new Vector2(maxTexel.x, maxTexel.y)); // 0
-                                            UV3.Add(new Vector2(minTexel.x, maxTexel.y)); // 1
-                                            UV3.Add(new Vector2(minTexel.x, minTexel.y)); // 2
-                                            UV3.Add(new Vector2(maxTexel.x, minTexel.y)); // 3
-                                            break;
-                                        case 2:
-                                            UV3.Add(new Vector2(minTexel.x, minTexel.y)); // 0
-                                            UV3.Add(new Vector2(minTexel.x, maxTexel.y)); // 1
-                                            UV3.Add(new Vector2(maxTexel.x, maxTexel.y)); // 2
-                                            UV3.Add(new Vector2(maxTexel.x, minTexel.y)); // 3
-                                            break;
-                                        case 3:
-                                            UV3.Add(new Vector2(minTexel.x, maxTexel.y)); // 0
-                                            UV3.Add(new Vector2(minTexel.x, minTexel.y)); // 1
-                                            UV3.Add(new Vector2(maxTexel.x, minTexel.y)); // 2
-                                            UV3.Add(new Vector2(maxTexel.x, maxTexel.y)); // 3
-                                            break;
-                                    }
+                                    mask[n].Voxel.AddVoxelToMesh(faceType, w, h, Colors, UV, UV2, UV3);
 
                                     // Set covered area to opposite normal direction
                                     for(int normalU = i; normalU < i + w; ++normalU)

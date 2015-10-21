@@ -7,7 +7,7 @@ namespace ProceduralVoxelMesh
     /// <summary>
     /// Task to generate single mesh from voxel data
     /// </summary>
-    public partial class VoxelMeshGeneratorTask
+    public partial class VoxelMeshGeneratorTask<T>
     {
         /// <summary>
         /// Generated vertices
@@ -50,12 +50,12 @@ namespace ProceduralVoxelMesh
         public bool Completed;
 
         // Data passed in to task 
-        private readonly Voxel[,,] _voxels;
+        private readonly T[,,] _voxels;
         private readonly int _width;
         private readonly int _depth;
         private readonly int _height;
 
-        public VoxelMeshGeneratorTask(List<Voxel> voxels, int width, int height, int depth)
+        public VoxelMeshGeneratorTask(IList<T> voxels, int width, int height, int depth)
         {
             _width = width;
             _height = height;
@@ -63,7 +63,7 @@ namespace ProceduralVoxelMesh
             Completed = false;
 
             // Make a deep copy of the passed in array to this task
-            _voxels = new Voxel[width, height, depth];
+            _voxels = new T[width, height, depth];
             for(int w = 0; w < _width; ++w)
             {
                 for(int h = 0; h < _height; ++h)
@@ -79,14 +79,11 @@ namespace ProceduralVoxelMesh
         /// <summary>
         /// Information needed to determine face mask
         /// </summary>
-        struct FaceMask
+        private struct FaceMask<TVoxel> where TVoxel : Voxel
         {
             public bool HasFace;
-            public Color FaceColor;
-            public float Metallic;
-            public float Smoothness;
-            public float Emission;
             public int FirstOrSecond;
+            public TVoxel Voxel;
         };
     }
 }

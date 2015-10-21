@@ -1,11 +1,17 @@
-﻿Shader "Procedural Voxel Mesh/Voxel Surface Shader" {
-	Properties {
+﻿Shader "Procedural Voxel Mesh/Color Voxel Surface Shader" {
+	Properties 
+	{
 		_MetallicMap("Metallic Map (A)", 2D) = "white" {}
 		_SmoothnessMap("Smoothness Map (A)", 2D) = "white" {}
 		_EmissionMap("Emission Map (A)", 2D) = "white" {}
 	}
-	SubShader {
-		Tags { "RenderType"="Opaque" }
+
+	SubShader 
+	{
+		Tags
+		{ 
+			"RenderType"="Opaque" 
+		}
 		LOD 200
 		
 		CGPROGRAM
@@ -18,8 +24,7 @@
 		sampler2D _MetallicMap;
 		sampler2D _SmoothnessMap;
 		sampler2D _EmissionMap;
-
-
+		
 		struct Input {
 			float4 color : COLOR;
 			float2 uv_MetallicMap;

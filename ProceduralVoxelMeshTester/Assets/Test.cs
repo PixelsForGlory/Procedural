@@ -1,5 +1,6 @@
 // copyright 2015 afuzzyllama
 
+using System.Collections.Generic;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -10,52 +11,76 @@ namespace Assets
 {
     public class Test : MonoBehaviour
     {
+        private Queue<string> _testsToRunList;
+        private string _currentTest;
+        
+
         private GameObject _testObject;
         private int _screenshotCount;
         private bool _ready;
         private float _timeAcc;
 
-	public static void StartTest()
-	{
-#if UNITY_EDITOR
-		EditorApplication.ExecuteMenuItem("Edit/Play");
-#endif
-	}
-
+	    public static void StartTest()
+	    {
+            #if UNITY_EDITOR
+		    EditorApplication.ExecuteMenuItem("Edit/Play");
+            #endif
+	    }
 
         public void Start()
         {
-            _testObject = new GameObject("Test Object");
-            VoxelMesh voxelMesh = _testObject.AddComponent<VoxelMesh>();
+            _testsToRunList = new Queue<string>();
+            _testsToRunList.Enqueue("ColorVoxelMesh");
+            _testsToRunList.Enqueue("TextureVoxelMesh");
+            _currentTest = string.Empty;
 
-            Voxel[,,] voxels = new Voxel[16,16,16];
-            for(int w = 0; w < 16; ++w)
-            {
-                for(int h = 0; h < 16; ++h)
+            TextureVoxel.TextureVoxelMap.Clear();
+            TextureVoxel.TextureVoxelMap.Add(
+                new TextureVoxelSetup()
                 {
-                    for(int d = 0; d < 16; ++d)
-                    {
-                        voxels[w,h,d].Color = new Color(w / 16.0f, h / 16.0f, d / 16.0f);
-                    }
-                }
-            }
-            voxelMesh.SetVoxels(voxels);
+                    XNegativeTextureIndex = 1,
+                    XPositiveTextureIndex = 1,
+                    YNegativeTextureIndex = 3,
+                    YPositiveTextureIndex = 2,
+                    ZNegativeTextureIndex = 1,
+                    ZPositiveTextureIndex = 1
+                });
 
-            _screenshotCount = 0;
-            _ready = true;
-            _timeAcc = 0.0f;
+            TextureVoxel.TextureVoxelMap.Add(
+                new TextureVoxelSetup()
+                {
+                    XNegativeTextureIndex = 4,
+                    XPositiveTextureIndex = 4,
+                    YNegativeTextureIndex = 4,
+                    YPositiveTextureIndex = 4,
+                    ZNegativeTextureIndex = 4,
+                    ZPositiveTextureIndex = 4
+                });
         }
 
-	public void Update()
+	    public void Update()
         {
-            if(_screenshotCount == 6)
-            {
-#if UNITY_EDITOR
-		        EditorApplication.Exit(0);
-#else
+            // Go to the next test
+	        if(_screenshotCount == 6 && _testsToRunList.Count > 0)
+	        {
+                GetNextTest();
+                ResetTest();
+            }
+            // All tests complete
+            else if(_screenshotCount == 6 && _testsToRunList.Count == 0)
+	        {
+                #if UNITY_EDITOR
+                EditorApplication.Exit(0);
+                #else
                 Application.Quit();     
-#endif
+                #endif
                 return;
+            }
+            // Start first test
+            else if(_currentTest == string.Empty)
+            {
+                GetNextTest();
+                ResetTest();
             }
 
             if(!_ready && _timeAcc >= 0.66f)
@@ -85,36 +110,124 @@ namespace Assets
             }
         }
 
-	public void LateUpdate()
-	{
-		_timeAcc += Time.deltaTime;
+	    public void LateUpdate()
+	    {
+		    _timeAcc += Time.deltaTime;
 		
-		if(_ready && _timeAcc >= 0.33f)
-		{
-			Debug.Log("Take screenshot: " + _screenshotCount.ToString() + ".png");
+		    if(_ready && _timeAcc >= 0.33f)
+		    {
+		        string screenshotName = string.Format("{0}_{1}.png", _currentTest, _screenshotCount.ToString());
 
-			int resWidth = 1024; 
-			int resHeight = 768;
-			RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
-			Texture2D screenShot = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
+                Debug.Log(string.Format("Take screenshot: {0}", screenshotName));
 
-			Camera.main.targetTexture = rt;
-			Camera.main.Render();
+			    int resWidth = 1024; 
+			    int resHeight = 768;
+			    RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
+			    Texture2D screenShot = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
 
-			RenderTexture.active = rt;
+			    Camera.main.targetTexture = rt;
+			    Camera.main.Render();
 
-			screenShot.ReadPixels(new Rect(0, 0, resWidth, resHeight), 0, 0);
-			Camera.main.targetTexture = null;
-			RenderTexture.active = null; // JC: added to avoid errors
-			Destroy(rt);
+			    RenderTexture.active = rt;
 
-			byte[] bytes = screenShot.EncodeToPNG();
+			    screenShot.ReadPixels(new Rect(0, 0, resWidth, resHeight), 0, 0);
+			    Camera.main.targetTexture = null;
+			    RenderTexture.active = null; // JC: added to avoid errors
+			    Destroy(rt);
 
-			System.IO.File.WriteAllBytes(_screenshotCount.ToString() + ".png", bytes);
+			    byte[] bytes = screenShot.EncodeToPNG();
 
-			_screenshotCount++;
-			_ready = false;
-		}
-	}
+			    System.IO.File.WriteAllBytes(screenshotName, bytes);
+
+			    _screenshotCount++;
+			    _ready = false;
+		    }
+	    }
+
+        private void SetupColorVoxelTest()
+        {
+            _testObject = new GameObject("Test Object");
+            ColorVoxelMesh voxelMesh = _testObject.AddComponent<ColorVoxelMesh>();
+
+            int width = 16;
+            int height = 16;
+            int depth = 16;
+
+            ColorVoxel[,,] voxels = new ColorVoxel[width, height, depth];
+            for(int w = 0; w < width; ++w)
+            {
+                for(int h = 0; h < height; ++h)
+                {
+                    for(int d = 0; d < depth; ++d)
+                    {
+                        voxels[w, h, d] = new ColorVoxel(new Color(w / 16.0f, h / 16.0f, d / 16.0f));
+                    }
+                }
+            }
+            voxelMesh.SetVoxels(voxels);
+        }
+
+        public void SetupTextureVoxelTest()
+        {
+            _testObject = new GameObject("Test Object");
+            _testObject.transform.localScale = new Vector3(8.0f, 8.0f, 8.0f);
+            TextureVoxelMesh voxelMesh = _testObject.AddComponent<TextureVoxelMesh>();
+
+
+            int width = 2;
+            int height = 2;
+            int depth = 2;
+
+            TextureVoxel[,,] voxels = new TextureVoxel[width, height, depth];
+            for(int w = 0; w < width; ++w)
+            {
+                for(int h = 0; h < height; ++h)
+                {
+                    for(int d = 0; d < depth; ++d)
+                    {
+                        if(w == d && h == d)
+                        {
+                            voxels[w, h, d] = new TextureVoxel(0, 1);
+                        }
+                        else
+                        {
+                            voxels[w, h, d] = new TextureVoxel(0);
+                        }
+
+                    }
+                }
+            }
+            voxelMesh.SetVoxels(voxels);
+        }
+    
+        private void GetNextTest()
+        {
+            if(_testObject != null)
+            {
+                DestroyImmediate(_testObject);
+            }
+
+            _currentTest = _testsToRunList.Dequeue();
+            
+            switch(_currentTest)
+            {
+                case "ColorVoxelMesh":
+                    SetupColorVoxelTest();
+                    break;
+                case "TextureVoxelMesh":
+                    SetupTextureVoxelTest();
+                    break;
+                default:
+                    Debug.LogError("Test not found");
+                    break;
+            }
+        }
+
+        private void ResetTest()
+        {
+            _screenshotCount = 0;
+            _ready = true;
+            _timeAcc = 0.0f;
+        }
     }
 }

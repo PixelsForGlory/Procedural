@@ -1,5 +1,4 @@
 ﻿// Copyright 2015 afuzzyllama. All Rights Reserved.
-
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,13 +6,37 @@ using UnityEngine;
 namespace ProceduralVoxelMesh
 {
     /// <summary>
+    /// Color voxel mesh implementation.  Plays nice with Unity3D.
+    /// </summary>
+    public class ColorVoxelMesh : VoxelMesh<ColorVoxel>
+    {
+        public override void Start()
+        {
+            base.Start();
+            MeshRenderer.sharedMaterial = Resources.Load<Material>("ColorVoxelMaterial");
+        }
+    }
+
+    /// <summary>
+    /// Texture voxel mesh implementation.  Plays nice with Unity3D.
+    /// </summary>
+    public class TextureVoxelMesh : VoxelMesh<TextureVoxel>
+    {
+        public override void Start()
+        {
+            base.Start();
+            MeshRenderer.sharedMaterial = Resources.Load<Material>("TextureVoxelMaterial");
+        }
+    }
+
+    /// <summary>
     /// Voxel mesh component
     /// </summary>
     [RequireComponent(typeof(MeshFilter))]
     [RequireComponent(typeof(MeshRenderer))]
     [RequireComponent(typeof(MeshCollider))]
     [ExecuteInEditMode]
-    public partial class VoxelMesh : MonoBehaviour
+    public partial class VoxelMesh<T> : MonoBehaviour where T : Voxel, new()
     {
         /// <summary>
         /// UniqueId based on System.Guid.  Creates a persistant unique identifier.
@@ -24,7 +47,7 @@ namespace ProceduralVoxelMesh
         /// 3-dimensional voxel volume represented in 1-dimensional list.  Lists play nice with serialization and allows for persisting data.
         /// </summary>
         [SerializeField]
-        private List<Voxel> _voxels;
+        private List<T> _voxels;
 
         /// <summary>
         /// Width length of voxel list
@@ -56,7 +79,7 @@ namespace ProceduralVoxelMesh
         /// <param name="h">height</param>
         /// <param name="d">depth</param>
         /// <returns></returns>
-        public Voxel GetVoxel(int w, int h, int d)
+        public T GetVoxel(int w, int h, int d)
         {
             return _voxels[Utilities.GetIndex(w, h, d, _wLength, _hLength, _dLength)];
         }
@@ -65,10 +88,10 @@ namespace ProceduralVoxelMesh
         /// Sets voxel volume from 3-dimensional array
         /// </summary>
         /// <param name="voxels"></param>
-        public void SetVoxels(Voxel[,,] voxels)
+        public void SetVoxels(T[,,] voxels)
         {
             // Copy the new voxels into the class
-            _voxels = new List<Voxel>();
+            _voxels = new List<T>();
             _wLength = voxels.GetLength(0);
             _hLength = voxels.GetLength(1);
             _dLength = voxels.GetLength(2);
@@ -80,11 +103,11 @@ namespace ProceduralVoxelMesh
                 {
                     for(int d = 0; d < _dLength; ++d)
                     {
-                        _voxels.Add(new Voxel());
+                        _voxels.Add(new T());
                     }
                 }
             }
-
+            
             // Copy voxels
             for(int w = 0; w < _wLength; ++w)
             {
@@ -100,53 +123,56 @@ namespace ProceduralVoxelMesh
             UpdateMesh();
         }
 
-        // Trigger update on mesh in editor
+        /// <summary>
+        /// Trigger update on mesh in editor
+        /// </summary> 
         public void UpdateMesh()
         {
             // Set voxels and queue this mesh up to be generated
-            _generatorTask = new VoxelMeshGeneratorTask(_voxels, _wLength, _hLength, _dLength);
+            _generatorTask = new VoxelMeshGeneratorTask<T>(_voxels, _wLength, _hLength, _dLength);
             VoxelMeshGeneratorThread.Generator.EnqueueTask(_generatorTask);
         }
 
-        // If there is a mesh to be generated, this is a reference to that task
-        private VoxelMeshGeneratorTask _generatorTask;
+        /// <summary>
+        /// If there is a mesh to be generated, this is a reference to that task
+        /// </summary>
+        private VoxelMeshGeneratorTask<T> _generatorTask;
 
         // References to asset components
-        private MeshFilter _meshFilter;
-        private Mesh _mesh;
-        private MeshCollider _meshCollider;
-        private MeshRenderer _meshRenderer;
+        protected MeshFilter MeshFilter;
+        protected Mesh Mesh;
+        protected MeshCollider MeshCollider;
+        protected MeshRenderer MeshRenderer;
 
         public void Awake()
         {
             _observers = new List<IVoxelMeshObserver>();
         }
 
-        public void Start()
+        public virtual void Start()
         {
             if(UniqueId == null)
             {
                 UniqueId = Guid.NewGuid().ToString();
             }
 
-            _meshFilter = GetComponent<MeshFilter>();
-            if(_mesh == null)
+            MeshFilter = GetComponent<MeshFilter>();
+            if(Mesh == null)
             {
                 // This is written this way to prevent leaking of meshes in the editor
-                if(_meshFilter.sharedMesh == null)
+                if(MeshFilter.sharedMesh == null)
                 {
-                    _mesh = new Mesh();
-                    _meshFilter.sharedMesh = _mesh;
+                    Mesh = new Mesh();
+                    MeshFilter.sharedMesh = Mesh;
                 }
                 else
                 {
-                    _mesh = _meshFilter.sharedMesh;
+                    Mesh = MeshFilter.sharedMesh;
                 }
             }
-            _meshCollider = GetComponent<MeshCollider>();
+            MeshCollider = GetComponent<MeshCollider>();
 
-            _meshRenderer = GetComponent<MeshRenderer>();
-            _meshRenderer.sharedMaterial = Resources.Load<Material>("VoxelMaterial");
+            MeshRenderer = GetComponent<MeshRenderer>();
         }
 
         public void Update()
@@ -164,20 +190,20 @@ namespace ProceduralVoxelMesh
             }
             
             // Task is completed, recreate the mesh
-            _mesh.Clear();
-            _mesh.vertices = _generatorTask.Vertices.ToArray();
-            _mesh.normals = _generatorTask.Normals.ToArray();
-            _mesh.colors = _generatorTask.Colors.ToArray();
-            _mesh.uv = _generatorTask.UV.ToArray();
-            _mesh.uv2 = _generatorTask.UV2.ToArray();
-            _mesh.uv3 = _generatorTask.UV3.ToArray();
-            _mesh.triangles = _generatorTask.Triangles.ToArray();
+            Mesh.Clear();
+            Mesh.vertices = _generatorTask.Vertices.ToArray();
+            Mesh.normals = _generatorTask.Normals.ToArray();
+            Mesh.colors = _generatorTask.Colors.ToArray();
+            Mesh.uv = _generatorTask.UV.ToArray();
+            Mesh.uv2 = _generatorTask.UV2.ToArray();
+            Mesh.uv3 = _generatorTask.UV3.ToArray();
+            Mesh.triangles = _generatorTask.Triangles.ToArray();
 
-            TangentSolver(_mesh);
+            TangentSolver(Mesh);
 
-            _mesh.Optimize();
-            _mesh.RecalculateBounds();
-            _meshCollider.sharedMesh = _mesh;
+            Mesh.Optimize();
+            Mesh.RecalculateBounds();
+            MeshCollider.sharedMesh = Mesh;
             _generatorTask = null;
 
             foreach(IVoxelMeshObserver observer in _observers)

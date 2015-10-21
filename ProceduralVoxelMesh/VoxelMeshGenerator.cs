@@ -10,8 +10,11 @@ namespace ProceduralVoxelMesh
     public class VoxelMeshGenerator
     {
         readonly object _locker = new object();
-        private readonly Queue<VoxelMeshGeneratorTask> _queue = new Queue<VoxelMeshGeneratorTask>();
+        private readonly Queue<IVoxelMeshGeneratorTask> _queue = new Queue<IVoxelMeshGeneratorTask>();
 
+        /// <summary>
+        /// Shutdown the generator
+        /// </summary>
         public void Shutdown()
         {
             if(_queue != null)
@@ -25,7 +28,7 @@ namespace ProceduralVoxelMesh
         /// Enqueue task for the generator thread
         /// </summary>
         /// <param name="item"></param>
-        public void EnqueueTask(VoxelMeshGeneratorTask item)
+        public void EnqueueTask(IVoxelMeshGeneratorTask item)
         {
             lock (_locker)
             {
@@ -43,7 +46,7 @@ namespace ProceduralVoxelMesh
             // This null task represents that the thread should be exited gracefully.
             while(true)
             {
-                VoxelMeshGeneratorTask work;
+                IVoxelMeshGeneratorTask work;
                 lock (_locker)
                 {
                     while(_queue.Count == 0)

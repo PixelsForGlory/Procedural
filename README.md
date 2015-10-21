@@ -19,27 +19,29 @@ After copying in the assets, make sure that the ColorMap.png has the following t
 If the import settings aren't correct, the colors might not render correctly.
 
 ## Usage
-Creating a voxel mesh at runtime is simple.  The following example will create a randomly colored cube on a GameObject with a VoxelMesh component:
+There are two types of voxel meshes that can be created.  A color voxel mesh and a texture voxel mesh.
+
+Creating a color voxel mesh at runtime is simple.  The following example will create a randomly colored cube on a GameObject with a ColorVoxelMesh component:
 
 ```
 using UnityEngine;
 using ProceduralVoxelMesh;
 
-public class ExampleCube : MonoBehaviour {
+public class ExampleCube : MonoBehaviour 
+{
 
   void Start ()
   {
-    VoxelMesh voxelMesh = GetComponent<VoxelMesh>();
+    ColorVoxelMesh voxelMesh = GetComponent<ColorVoxelMesh>();
 
-    Voxel[,,] voxels = new Voxel[16, 16, 16];
+    ColorVoxel[,,] voxels = new ColorVoxel[16, 16, 16];
     for(int w = 0; w < 16; ++w)
     {
       for(int h = 0; h < 16; ++h)
       {
         for(int d = 0; d < 16; ++d)
         {
-          voxels[w, h, d] = new Voxel(false,
-            new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f)));
+          voxels[w, h, d] = new ColorVoxel(new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f)));
         }
       }
     }
@@ -48,6 +50,67 @@ public class ExampleCube : MonoBehaviour {
   }
 }
 ```
+
+When working with a texture map, like the test map provided in this repo, you have to setup a mapping configuration first in the static `TextureVoxelMap` list:
+
+```
+TextureVoxel.TextureVoxelMap.Add(
+	new TextureVoxelSetup()
+	{
+		XNegativeTextureIndex = 1,
+		XPositiveTextureIndex = 1,
+		YNegativeTextureIndex = 3,
+		YPositiveTextureIndex = 2,
+		ZNegativeTextureIndex = 1,
+		ZPositiveTextureIndex = 1
+	});
+
+TextureVoxel.TextureVoxelMap.Add(
+	new TextureVoxelSetup()
+	{
+		XNegativeTextureIndex = 4,
+		XPositiveTextureIndex = 4,
+		YNegativeTextureIndex = 4,
+		YPositiveTextureIndex = 4,
+		ZNegativeTextureIndex = 4,
+		ZPositiveTextureIndex = 4
+	});
+```
+
+then you can setup a TextureVoxelMesh as follows:
+
+public class ExampleTextureCube : MonoBehaviour
+{
+	void Start()
+	{
+		TextureVoxelMesh voxelMesh = GetComponent<TextureVoxelMesh>();
+	
+		int width = 2;
+		int height = 2;
+		int depth = 2;
+
+		TextureVoxel[,,] voxels = new TextureVoxel[width, height, depth];
+		for(int w = 0; w < width; ++w)
+		{
+			for(int h = 0; h < height; ++h)
+			{
+				for(int d = 0; d < depth; ++d)
+				{
+					if(w == d && h == d)
+					{
+						voxels[w, h, d] = new TextureVoxel(0, 1);
+					}
+					else
+					{
+						voxels[w, h, d] = new TextureVoxel(0);
+					}
+
+				}
+			}
+		}
+		voxelMesh.SetVoxels(voxels);
+	}
+}
 
 ## Testing
 The `ProceduralVoxelMeshTest` folder contains a unit test project to be run against the code base in NUnit.
