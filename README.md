@@ -17,7 +17,7 @@ After copying in the assets, a few things to setup:
 
 1. The thread to generate meshes will be started automatically in the editor, but to have it startup automatically in a standalone game, make sure there is a GameObject with the thread script attached to it.  There is logic to make sure that only one instance of the thread is setup.
 
-![Voxel Generator Thread](../../../Screenshots/blob/master/VoxelGeneratorThread.png?raw=true)
+![Voxel Generator Thread](../../../Screenshots/blob/master/VoxelThreadSetup.png?raw=true)
 
 2. Make sure the "ColorVoxelMaterial" has the "AlphaMap" texture set for the "Metallic Map", "Smoothness Map", and "Emission Map".
 
@@ -27,7 +27,7 @@ After copying in the assets, a few things to setup:
 
 4. If you want to use the TextureVoxelMesh, use similar settings as the following.  Not using mipmaps and filtering as point will make a really small texture render sharply.
 
-![Texture Import Settings](../../../Screenshots/blob/master/TextureImportSettings.png?raw=true "Texture Import Settings")
+![Texture Import Settings](../../../Screenshots/blob/master/TextureVoxelSetup.png?raw=true "Texture Import Settings")
 
 ## Usage
 There are two types of voxel meshes that can be created.  A color voxel mesh and a texture voxel mesh.
