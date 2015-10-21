@@ -79,6 +79,7 @@ TextureVoxel.TextureVoxelMap.Add(
 
 then you can setup a TextureVoxelMesh as follows:
 
+```
 public class ExampleTextureCube : MonoBehaviour
 {
 	void Start()
@@ -111,6 +112,7 @@ public class ExampleTextureCube : MonoBehaviour
 		voxelMesh.SetVoxels(voxels);
 	}
 }
+```
 
 ## Testing
 The `ProceduralVoxelMeshTest` folder contains a unit test project to be run against the code base in NUnit.
