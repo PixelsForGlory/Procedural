@@ -8,15 +8,26 @@ Build status:<br />
 The solution has references set for `UnityEngine.dll` and `UnityEditor.dll`, but the paths for these assemblies are not set. To build the library, a reference path must be set to the Managed directory (Default is C:\Program Files\Unity\Editor\Data\Managed):
 ![Reference Path](../../../Screenshots/blob/master/VoxelMeshReferencePath.png?raw=true "Reference Path")
 
-When working in the editor, use the `DebugUnityEditor` build configuration.  This will use editor specific code to get the mesh generator thread running when the editor opens.  Otherwise, use Debug/Release for running the stand alone game.
-
 ## Installation
 When the build is complete, move the `ProceduralVoxelMesh.dll` to `[PROJECT DIR]\Assets\Plugins`.  Additionally, move the shader files and the material files found in the Resources directory to a Resources directory somewhere in your `[PROJECT DIR]\Assets` directory (example `[PROJECT DIR]\Assets\Resources) so it can be found by `Resources.Load()`.
 
-After copying in the assets, make sure that the ColorMap.png has the following texture import settings:
+When working in the editor, use the `DebugUnityEditor` build configuration.  This will use editor specific code to get the mesh generator thread running when the editor opens.  Otherwise, right before building a game, copy the results of the Release build for running the stand alone game.
+
+After copying in the assets, a few things to setup:
+
+1. The thread to generate meshes will be started automatically in the editor, but to have it startup automatically in a standalone game, make sure there is a GameObject with the thread script attached to it.  There is logic to make sure that only one instance of the thread is setup.
+
+![Voxel Generator Thread](../../../Screenshots/blob/master/VoxelGeneratorThread.png?raw=true)
+
+2. Make sure the "ColorVoxelMaterial" has the "AlphaMap" texture set for the "Metallic Map", "Smoothness Map", and "Emission Map".
+
+
+3. Make sure that the AlphaMap.png has the following texture import settings:
 ![AlphaMap Import Settings](../../../Screenshots/blob/master/AlphaMapImport.png?raw=true "AlphaMap Import Settings")
 
-If the import settings aren't correct, the colors might not render correctly.
+4. If you want to use the TextureVoxelMesh, use similar settings as the following.  Not using mipmaps and filtering as point will make a really small texture render sharply.
+
+![Texture Import Settings](../../../Screenshots/blob/master/TextureImportSettings.png?raw=true "Texture Import Settings")
 
 ## Usage
 There are two types of voxel meshes that can be created.  A color voxel mesh and a texture voxel mesh.
@@ -51,39 +62,37 @@ public class ExampleCube : MonoBehaviour
 }
 ```
 
-When working with a texture map, like the test map provided in this repo, you have to setup a mapping configuration first in the static `TextureVoxelMap` list:
-
-```
-TextureVoxel.TextureVoxelMap.Add(
-	new TextureVoxelSetup()
-	{
-		XNegativeTextureIndex = 1,
-		XPositiveTextureIndex = 1,
-		YNegativeTextureIndex = 3,
-		YPositiveTextureIndex = 2,
-		ZNegativeTextureIndex = 1,
-		ZPositiveTextureIndex = 1
-	});
-
-TextureVoxel.TextureVoxelMap.Add(
-	new TextureVoxelSetup()
-	{
-		XNegativeTextureIndex = 4,
-		XPositiveTextureIndex = 4,
-		YNegativeTextureIndex = 4,
-		YPositiveTextureIndex = 4,
-		ZNegativeTextureIndex = 4,
-		ZPositiveTextureIndex = 4
-	});
-```
-
-then you can setup a TextureVoxelMesh as follows:
+When working with a texture map, like the test map provided in this repository, you have to setup a mapping configuration first in the static `TextureVoxelMap` list and then setup as follows:
 
 ```
 public class ExampleTextureCube : MonoBehaviour
 {
 	void Start()
 	{
+		TextureVoxel.TextureVoxelMap.Clear();
+		TextureVoxel.TextureVoxelMap.Add(
+			new TextureVoxelSetup()
+			{
+				XNegativeTextureIndex = 1,
+				XPositiveTextureIndex = 1,
+				YNegativeTextureIndex = 3,
+				YPositiveTextureIndex = 2,
+				ZNegativeTextureIndex = 1,
+				ZPositiveTextureIndex = 1
+			});
+
+		TextureVoxel.TextureVoxelMap.Add(
+			new TextureVoxelSetup()
+			{
+				XNegativeTextureIndex = 4,
+				XPositiveTextureIndex = 4,
+				YNegativeTextureIndex = 4,
+				YPositiveTextureIndex = 4,
+				ZNegativeTextureIndex = 4,
+				ZPositiveTextureIndex = 4
+			});
+	
+	
 		TextureVoxelMesh voxelMesh = GetComponent<TextureVoxelMesh>();
 	
 		int width = 2;
@@ -120,8 +129,11 @@ The `ProceduralVoxelMeshTest` folder contains a unit test project to be run agai
 
 The `ProceduralVoxelMeshTester` folder contains a Unity3D project that can be built with a build release of the ProceduralVoxelMesh.dll. The program should produce the same screenshots as previous runs of that program.
 
-Something like this should be the result:
-![Random Cube](../../../Screenshots/blob/master/VoxelMeshEditor.png?raw=true "Random Cube")
+Color Voxel Mesh will look something like this:
+![Color Cube](../../../Screenshots/blob/master/ColorCube.png?raw=true "Color Cube")
+
+Texture Voxel Mesh will look something like this:
+![Texture Cube](../../../Screenshots/blob/master/TextureCube.png?raw=true "Texture Cube")
 
 Enjoy!  
 
