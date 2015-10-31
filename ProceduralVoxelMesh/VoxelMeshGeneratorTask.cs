@@ -70,7 +70,7 @@ namespace ProceduralVoxelMesh
                 {
                     for(int d = 0; d < _depth; ++d)
                     {
-                        _voxels[w, h, d] = voxels[Utilities.GetIndex(w, h, d, _width, _height, _depth)];
+                        _voxels[w, h, d] = (T)voxels[Utilities.GetIndex(w, h, d, _width, _height, _depth)].DeepCopy();
                     }
                 }
             }

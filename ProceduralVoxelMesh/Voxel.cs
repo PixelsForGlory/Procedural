@@ -37,6 +37,15 @@ namespace ProceduralVoxelMesh
         }
 
         /// <summary>
+        /// Copy single empty voxel to new instance
+        /// </summary>
+        /// <param name="voxel"></param>
+        private Voxel(Voxel voxel)
+        {
+            _empty = voxel._empty;
+        }
+
+        /// <summary>
         /// Adds the voxel to the passed in color and uv lists
         /// </summary>
         /// <param name="faceType">Voxel face that is currently being added to the mesh</param>
@@ -47,6 +56,15 @@ namespace ProceduralVoxelMesh
         /// <param name="uv2">UV2 list to add the voxel face to</param>
         /// <param name="uv3">UV3 list to add the voxel face to</param>
         public virtual void AddVoxelToMesh(FaceType faceType, int width, int height, List<Color> colors, List<Vector2> uv, List<Vector2> uv2, List<Vector2> uv3)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Makes a deep copy of the voxel
+        /// </summary>
+        /// <returns></returns>
+        public virtual object DeepCopy()
         {
             throw new NotImplementedException();
         }

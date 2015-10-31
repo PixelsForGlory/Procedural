@@ -115,7 +115,7 @@ namespace ProceduralVoxelMesh
                 {
                     for(int d = 0; d < _dLength; ++d)
                     {
-                        _voxels[Utilities.GetIndex(w, h, d, _wLength, _hLength, _dLength)] = voxels[w, h, d];
+                        _voxels[Utilities.GetIndex(w, h, d, _wLength, _hLength, _dLength)] = (T)voxels[w, h, d].DeepCopy();
                     }
                 }
             }

@@ -191,6 +191,22 @@ namespace ProceduralVoxelMesh
         }
 
         /// <summary>
+        /// Copy color voxel to new instance
+        /// </summary>
+        /// <param name="colorVoxel"></param>
+        private ColorVoxel(ColorVoxel colorVoxel)
+        {
+            _empty = colorVoxel._empty;
+            _colorR = colorVoxel._colorR;
+            _colorG = colorVoxel._colorG;
+            _colorB = colorVoxel._colorB;
+            _colorA = colorVoxel._colorA;
+            _metallic = colorVoxel._metallic;
+            _smoothness = colorVoxel._smoothness;
+            _emission = colorVoxel._emission;
+        }
+
+        /// <summary>
         /// Single colored voxel
         /// </summary>
         /// <param name="color">If the voxel is not empty, the color of this voxel</param>
@@ -337,6 +353,11 @@ namespace ProceduralVoxelMesh
                     uv3.Add(new Vector2(maxTexel.x, maxTexel.y)); // 3
                     break;
             }
+        }
+
+        public override object DeepCopy()
+        {
+            return new ColorVoxel(this);
         }
 
         public override bool Equals(object obj)

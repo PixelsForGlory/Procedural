@@ -149,6 +149,17 @@ namespace ProceduralVoxelMesh
         }
 
         /// <summary>
+        /// Copy textured voxel to new instance
+        /// </summary>
+        /// <param name="textureVoxel"></param>
+        private TextureVoxel(TextureVoxel textureVoxel)
+        {
+            _empty = textureVoxel._empty;
+            _textureMapIndex = textureVoxel._textureMapIndex;
+            _detailMapIndex = textureVoxel._detailMapIndex;
+        }
+
+        /// <summary>
         /// Single textured voxel
         /// </summary>
         /// <param name="textureMapIndex">Main texture map index</param>
@@ -295,8 +306,12 @@ namespace ProceduralVoxelMesh
             uv3.Add(value); // 0
             uv3.Add(value); // 1
             uv3.Add(value); // 2
-            uv3.Add(value); // 3
-            
+            uv3.Add(value); // 3   
+        }
+
+        public override object DeepCopy()
+        {
+            return new TextureVoxel(this);
         }
 
         public override bool Equals(object obj)
