@@ -79,7 +79,7 @@ namespace ProceduralVoxelMesh
         /// <summary>
         /// Information needed to determine face mask
         /// </summary>
-        private struct FaceMask<TVoxel> where TVoxel : Voxel
+        private struct FaceMask<TVoxel> where TVoxel : IVoxel
         {
             public bool HasFace;
             public int FirstOrSecond;

@@ -23,7 +23,7 @@ namespace ProceduralVoxelMesh
         ZNegative
     }
 
-    public partial class VoxelMeshGeneratorTask<T> : IVoxelMeshGeneratorTask where T : Voxel
+    public partial class VoxelMeshGeneratorTask<T> : IVoxelMeshGeneratorTask where T : IVoxel
     {
 
         /// <summary>

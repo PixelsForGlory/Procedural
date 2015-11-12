@@ -37,19 +37,25 @@ namespace ProceduralVoxelMesh
     /// Represents a single voxel.
     /// </summary>
     [Serializable]
-    public class TextureVoxel : Voxel
+    public struct TextureVoxel : IVoxel
     {
         /// <summary>
         /// List of texture setups that texture voxels can be set to
         /// </summary>
         public static List<TextureVoxelSetup> TextureVoxelMap = new List<TextureVoxelSetup>();
-        
+
+        /// <summary>
+        /// Serializable value of empty
+        /// </summary>
+        [SerializeField]
+        private bool _hasTexture;
+
         /// <summary>
         /// Is the voxel empty or not
         /// </summary>
-        public override bool Empty
+        public bool Empty
         {
-            get { return _empty; }
+            get { return !_hasTexture; }
 
             set
             {
@@ -58,7 +64,7 @@ namespace ProceduralVoxelMesh
                     throw new InvalidOperationException("Set voxel to be non-empty via texture map index property");
                 }
 
-                _empty = true;
+                _hasTexture = false;
                 _textureMapIndex = -1;
                 _detailMapIndex = -1;
             }
@@ -93,7 +99,7 @@ namespace ProceduralVoxelMesh
                     throw new InvalidOperationException("Texture voxel index cannot be greater than number of elements in texture map");
                 }
 
-                _empty = false;
+                _hasTexture = true;
                 _textureMapIndex = value;
             }
         }
@@ -132,20 +138,10 @@ namespace ProceduralVoxelMesh
                     throw new InvalidOperationException("Detail voxel index cannot be greater than number of elements in texture map");
                 }
 
-                _empty = false;
+                _hasTexture = true;
                 _detailMapIndex = value;
             }
 
-        }
-
-        /// <summary>
-        /// Empty textured voxel
-        /// </summary>
-        public TextureVoxel()
-        {
-            _empty = true;
-            _textureMapIndex = -1;
-            _detailMapIndex = -1;
         }
 
         /// <summary>
@@ -154,7 +150,7 @@ namespace ProceduralVoxelMesh
         /// <param name="textureVoxel"></param>
         private TextureVoxel(TextureVoxel textureVoxel)
         {
-            _empty = textureVoxel._empty;
+            _hasTexture = textureVoxel._hasTexture;
             _textureMapIndex = textureVoxel._textureMapIndex;
             _detailMapIndex = textureVoxel._detailMapIndex;
         }
@@ -186,12 +182,12 @@ namespace ProceduralVoxelMesh
                 throw new ArgumentException("Detail voxel index cannot be greater than number of elements in texture map", nameof(detailMapIndex));
             }
 
-            _empty = false;
+            _hasTexture = true;
             _textureMapIndex = textureMapIndex;
             _detailMapIndex = detailMapIndex;
         }
 
-        public override void AddVoxelToMesh(FaceType faceType, int width, int height, List<Color> colors, List<Vector2> uv, List<Vector2> uv2, List<Vector2> uv3)
+        public void AddVoxelToMesh(FaceType faceType, int width, int height, List<Color> colors, List<Vector2> uv, List<Vector2> uv2, List<Vector2> uv3)
         {
             // Colors
             colors.Add(Color.white);  // 0
@@ -309,7 +305,7 @@ namespace ProceduralVoxelMesh
             uv3.Add(value); // 3   
         }
 
-        public override object DeepCopy()
+        public object DeepCopy()
         {
             return new TextureVoxel(this);
         }
@@ -323,14 +319,15 @@ namespace ProceduralVoxelMesh
                 return false;
             }
 
-            TextureVoxel texVoxel = obj as TextureVoxel;
-            if(texVoxel == null)
+            if(obj.GetType() != typeof(TextureVoxel))
             {
                 return false;
             }
 
+            var texVoxel = (TextureVoxel)obj;
+
             return 
-                _empty == texVoxel._empty 
+                _hasTexture == texVoxel._hasTexture
                 && _textureMapIndex == texVoxel._textureMapIndex 
                 && _detailMapIndex == texVoxel._detailMapIndex;
         }
@@ -342,7 +339,7 @@ namespace ProceduralVoxelMesh
                 int hash = 23;
 
                 // ReSharper disable NonReadonlyMemberInGetHashCode
-                hash = hash * 31 + _empty.GetHashCode();
+                hash = hash * 31 + _hasTexture.GetHashCode();
                 hash = hash * 31 + _textureMapIndex.GetHashCode();
                 hash = hash * 31 + _detailMapIndex.GetHashCode();
                 // ReSharper restore NonReadonlyMemberInGetHashCode

@@ -8,6 +8,7 @@ namespace ProceduralVoxelMesh
     /// <summary>
     /// Color voxel mesh implementation.  Plays nice with Unity3D.
     /// </summary>
+    [Serializable]
     public class ColorVoxelMesh : VoxelMesh<ColorVoxel>
     {
         public override void Start()
@@ -20,6 +21,7 @@ namespace ProceduralVoxelMesh
     /// <summary>
     /// Texture voxel mesh implementation.  Plays nice with Unity3D.
     /// </summary>
+    [Serializable]
     public class TextureVoxelMesh : VoxelMesh<TextureVoxel>
     {
         public override void Start()
@@ -36,7 +38,8 @@ namespace ProceduralVoxelMesh
     [RequireComponent(typeof(MeshRenderer))]
     [RequireComponent(typeof(MeshCollider))]
     [ExecuteInEditMode]
-    public partial class VoxelMesh<T> : MonoBehaviour where T : Voxel, new()
+    [Serializable]
+    public partial class VoxelMesh<T> : MonoBehaviour where T : IVoxel, new()
     {
         /// <summary>
         /// UniqueId based on System.Guid.  Creates a persistant unique identifier.
@@ -47,6 +50,7 @@ namespace ProceduralVoxelMesh
         /// 3-dimensional voxel volume represented in 1-dimensional list.  Lists play nice with serialization and allows for persisting data.
         /// </summary>
         [SerializeField]
+        [HideInInspector]
         private List<T> _voxels;
 
         /// <summary>
@@ -55,17 +59,23 @@ namespace ProceduralVoxelMesh
         [SerializeField]
         private int _wLength;
 
+        public int Width => _wLength;
+
         /// <summary>
         /// Height length of voxel list
         /// </summary>
         [SerializeField]
         private int _hLength;
 
+        public int Height => _hLength;
+
         /// <summary>
         /// Depth length of voxel list
         /// </summary>
         [SerializeField]
         private int _dLength;
+
+        public int Depth => _dLength;
 
         /// <summary>
         /// Observers of this mesh who want to know when the mesh has finished updating
@@ -83,7 +93,20 @@ namespace ProceduralVoxelMesh
         {
             return _voxels[Utilities.GetIndex(w, h, d, _wLength, _hLength, _dLength)];
         }
-        
+
+        /// <summary>
+        /// Sets a single voxel in the volume
+        /// </summary>
+        /// <param name="w"></param>
+        /// <param name="h"></param>
+        /// <param name="d"></param>
+        /// <param name="voxel"></param>
+        public void SetVoxel(int w, int h, int d, T voxel)
+        {
+            _voxels[Utilities.GetIndex(w, h, d, _wLength, _hLength, _dLength)] = voxel;
+            UpdateMesh();
+        }
+
         /// <summary>
         /// Sets voxel volume from 3-dimensional array
         /// </summary>

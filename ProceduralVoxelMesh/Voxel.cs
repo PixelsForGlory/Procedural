@@ -1,48 +1,18 @@
 ﻿// Copyright 2015 afuzzyllama. All Rights Reserved.
-
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProceduralVoxelMesh
 {
-    public class Voxel
+    public interface IVoxel
     {
-        // ReSharper disable once InconsistentNaming
-        protected bool _empty;
-
         /// <summary>
         /// Is the voxel empty or not
         /// </summary>
-        public virtual bool Empty
+        bool Empty
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            // ReSharper disable once ValueParameterNotUsed
-            set
-            {
-                throw new NotImplementedException(); ;
-            }
-        }
-
-        /// <summary>
-        /// Single empty voxel
-        /// </summary>
-        public Voxel()
-        {
-            _empty = true;
-        }
-
-        /// <summary>
-        /// Copy single empty voxel to new instance
-        /// </summary>
-        /// <param name="voxel"></param>
-        private Voxel(Voxel voxel)
-        {
-            _empty = voxel._empty;
+            get;
+            set;
         }
 
         /// <summary>
@@ -55,18 +25,12 @@ namespace ProceduralVoxelMesh
         /// <param name="uv">UV list to add the voxel face to</param>
         /// <param name="uv2">UV2 list to add the voxel face to</param>
         /// <param name="uv3">UV3 list to add the voxel face to</param>
-        public virtual void AddVoxelToMesh(FaceType faceType, int width, int height, List<Color> colors, List<Vector2> uv, List<Vector2> uv2, List<Vector2> uv3)
-        {
-            throw new NotImplementedException();
-        }
+        void AddVoxelToMesh(FaceType faceType, int width, int height, List<Color> colors, List<Vector2> uv, List<Vector2> uv2, List<Vector2> uv3);
 
         /// <summary>
         /// Makes a deep copy of the voxel
         /// </summary>
         /// <returns></returns>
-        public virtual object DeepCopy()
-        {
-            throw new NotImplementedException();
-        }
+        object DeepCopy();
     }
 }

@@ -9,14 +9,20 @@ namespace ProceduralVoxelMesh
     /// Represents a single voxel.
     /// </summary>
     [Serializable]
-    public class ColorVoxel : Voxel
+    public struct ColorVoxel : IVoxel
     {
+        /// <summary>
+        /// Serializable value of empty
+        /// </summary>
+        [SerializeField]
+        private bool _hasColor;
+
         /// <summary>
         /// Is the voxel empty or not
         /// </summary>
-        public override bool Empty
+        public bool Empty
         {
-            get { return _empty; }
+            get { return !_hasColor; }
             set
             {
                 if(value == false)
@@ -24,7 +30,7 @@ namespace ProceduralVoxelMesh
                     throw new InvalidOperationException("Set voxel to be non-empty via Color property");
                 }
 
-                _empty = true;
+                _hasColor = false;
                 _colorR = 0.0f;
                 _colorG = 0.0f;
                 _colorB = 0.0f;
@@ -73,7 +79,7 @@ namespace ProceduralVoxelMesh
             }
             set
             {
-                _empty = false;
+                _hasColor = true;
                 _colorR = value.r;
                 _colorG = value.g;
                 _colorB = value.b;
@@ -176,27 +182,12 @@ namespace ProceduralVoxelMesh
         }
 
         /// <summary>
-        /// Single empty colored voxel
-        /// </summary>
-        public ColorVoxel()
-        {
-            _empty = true;
-            _colorR = 0.0f;
-            _colorG = 0.0f;
-            _colorB = 0.0f;
-            _colorA = 0.0f;
-            _metallic = 0.0f;
-            _smoothness = 0.0f;
-            _emission = 0.0f;
-        }
-
-        /// <summary>
         /// Copy color voxel to new instance
         /// </summary>
         /// <param name="colorVoxel"></param>
         private ColorVoxel(ColorVoxel colorVoxel)
         {
-            _empty = colorVoxel._empty;
+            _hasColor = colorVoxel._hasColor;
             _colorR = colorVoxel._colorR;
             _colorG = colorVoxel._colorG;
             _colorB = colorVoxel._colorB;
@@ -213,16 +204,16 @@ namespace ProceduralVoxelMesh
         /// <param name="metallic">Metallic value for this voxel</param>
         /// /// <param name="smoothness">Smoothness value for this voxel</param>
         /// /// <param name="emission">Emission value for this voxel</param>
-        public ColorVoxel(Color color, float metallic = 0.0f, float smoothness = 0.0f, float emission = 0.0f) 
+        public ColorVoxel(Color color, float metallic = 0.0f, float smoothness = 0.0f, float emission = 0.0f) : this()
         {
-            _empty = false;
+            _hasColor = true;
             Color = color;
             Metallic = metallic;
             Smoothness = smoothness;
             Emission = emission;
         }
 
-        public override void AddVoxelToMesh(FaceType faceType, int width, int height, List<Color> colors, List<Vector2> uv, List<Vector2> uv2, List<Vector2> uv3)
+        public void AddVoxelToMesh(FaceType faceType, int width, int height, List<Color> colors, List<Vector2> uv, List<Vector2> uv2, List<Vector2> uv3)
         {
             if(faceType == FaceType.None)
             {
@@ -355,7 +346,7 @@ namespace ProceduralVoxelMesh
             }
         }
 
-        public override object DeepCopy()
+        public object DeepCopy()
         {
             return new ColorVoxel(this);
         }
@@ -369,14 +360,15 @@ namespace ProceduralVoxelMesh
                 return false;
             }
 
-            var voxelObj = obj as ColorVoxel;
-            if(voxelObj == null)
+            if(obj.GetType() != typeof(ColorVoxel))
             {
                 return false;  
             }
+
+            var voxelObj = (ColorVoxel)obj;
             
             return
-                _empty == voxelObj._empty
+                _hasColor == voxelObj._hasColor
                 && Math.Abs(_colorR - voxelObj._colorR) < 0.00390625f // 1/256 
                 && Math.Abs(_colorG - voxelObj._colorG) < 0.00390625f // 1/256 
                 && Math.Abs(_colorB - voxelObj._colorB) < 0.00390625f // 1/256 
@@ -393,7 +385,7 @@ namespace ProceduralVoxelMesh
                 int hash = 23;
 
                 // ReSharper disable NonReadonlyMemberInGetHashCode
-                hash = hash * 31 + _empty.GetHashCode();
+                hash = hash * 31 + _hasColor.GetHashCode();
                 hash = hash * 31 + _colorR.GetHashCode();
                 hash = hash * 31 + _colorG.GetHashCode();
                 hash = hash * 31 + _colorB.GetHashCode();

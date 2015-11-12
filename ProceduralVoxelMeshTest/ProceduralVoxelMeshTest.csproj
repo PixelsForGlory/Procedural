@@ -40,7 +40,6 @@
     <Compile Include="ColorVoxelTest.cs" />
     <Compile Include="TextureVoxelTest.cs" />
     <Compile Include="UtilitiesTest.cs" />
-    <Compile Include="VoxelTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProceduralVoxelMesh\ProceduralVoxelMesh.csproj">

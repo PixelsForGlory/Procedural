@@ -133,9 +133,9 @@ namespace ProceduralVoxelMeshTest
             voxelOne = new ColorVoxel(Color.blue, 1.0f, 1.0f, 1.0f);
             Assert.IsTrue(voxelOne.Equals(voxelTwo));
 
-            voxelTwo = null;
+            int notVoxel = 1;
             // ReSharper disable once ExpressionIsAlwaysNull
-            Assert.IsFalse(voxelOne.Equals(voxelTwo));
+            Assert.IsFalse(voxelOne.Equals(notVoxel));
 
             var color = Color.black;
             Assert.IsFalse(voxelOne.Equals(color));
