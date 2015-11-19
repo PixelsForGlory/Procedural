@@ -1,5 +1,4 @@
 ﻿// Copyright 2015 afuzzyllama. All Rights Reserved.
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +7,6 @@ namespace ProceduralVoxelMesh
     /// <summary>
     /// Color voxel mesh implementation.  Plays nice with Unity3D.
     /// </summary>
-    [Serializable]
     public class ColorVoxelMesh : VoxelMesh<ColorVoxel>
     {
         public override void Start()
@@ -21,7 +19,6 @@ namespace ProceduralVoxelMesh
     /// <summary>
     /// Texture voxel mesh implementation.  Plays nice with Unity3D.
     /// </summary>
-    [Serializable]
     public class TextureVoxelMesh : VoxelMesh<TextureVoxel>
     {
         public override void Start()
@@ -30,7 +27,7 @@ namespace ProceduralVoxelMesh
             MeshRenderer.sharedMaterial = Resources.Load<Material>("TextureVoxelMaterial");
         }
     }
-
+    
     /// <summary>
     /// Voxel mesh component
     /// </summary>
@@ -38,7 +35,6 @@ namespace ProceduralVoxelMesh
     [RequireComponent(typeof(MeshRenderer))]
     [RequireComponent(typeof(MeshCollider))]
     [ExecuteInEditMode]
-    [Serializable]
     public partial class VoxelMesh<T> : MonoBehaviour where T : IVoxel, new()
     {
         /// <summary>
@@ -47,35 +43,24 @@ namespace ProceduralVoxelMesh
         public string UniqueId;
 
         /// <summary>
-        /// 3-dimensional voxel volume represented in 1-dimensional list.  Lists play nice with serialization and allows for persisting data.
+        /// Width of the voxel mesh
         /// </summary>
-        [SerializeField]
-        [HideInInspector]
-        private List<T> _voxels;
+        public int Width => _voxelData.Width;
 
         /// <summary>
-        /// Width length of voxel list
+        /// Height of the voxel mesh
         /// </summary>
-        [SerializeField]
-        private int _wLength;
-
-        public int Width => _wLength;
+        public int Height => _voxelData.Height;
 
         /// <summary>
-        /// Height length of voxel list
+        /// Depth of the voxel mesh
         /// </summary>
+        public int Depth => _voxelData.Depth;
+
         [SerializeField]
-        private int _hLength;
+        private VoxelData<T> _voxelData;
 
-        public int Height => _hLength;
-
-        /// <summary>
-        /// Depth length of voxel list
-        /// </summary>
-        [SerializeField]
-        private int _dLength;
-
-        public int Depth => _dLength;
+        public List<T> Voxels => _voxelData.Voxels;
 
         /// <summary>
         /// Observers of this mesh who want to know when the mesh has finished updating
@@ -91,7 +76,7 @@ namespace ProceduralVoxelMesh
         /// <returns></returns>
         public T GetVoxel(int w, int h, int d)
         {
-            return _voxels[Utilities.GetIndex(w, h, d, _wLength, _hLength, _dLength)];
+            return _voxelData.Voxels[Utilities.GetIndex(w, h, d, Width, Height, Depth)];
         }
 
         /// <summary>
@@ -103,7 +88,7 @@ namespace ProceduralVoxelMesh
         /// <param name="voxel"></param>
         public void SetVoxel(int w, int h, int d, T voxel)
         {
-            _voxels[Utilities.GetIndex(w, h, d, _wLength, _hLength, _dLength)] = voxel;
+            _voxelData.Voxels[Utilities.GetIndex(w, h, d, Width, Height, Depth)] = voxel;
             UpdateMesh();
         }
 
@@ -113,36 +98,7 @@ namespace ProceduralVoxelMesh
         /// <param name="voxels"></param>
         public void SetVoxels(T[,,] voxels)
         {
-            // Copy the new voxels into the class
-            _voxels = new List<T>();
-            _wLength = voxels.GetLength(0);
-            _hLength = voxels.GetLength(1);
-            _dLength = voxels.GetLength(2);
-
-            // Resize list
-            for(int w = 0; w < _wLength; ++w)
-            {
-                for(int h = 0; h < _hLength; ++h)
-                {
-                    for(int d = 0; d < _dLength; ++d)
-                    {
-                        _voxels.Add(new T());
-                    }
-                }
-            }
-            
-            // Copy voxels
-            for(int w = 0; w < _wLength; ++w)
-            {
-                for(int h = 0; h < _hLength; ++h)
-                {
-                    for(int d = 0; d < _dLength; ++d)
-                    {
-                        _voxels[Utilities.GetIndex(w, h, d, _wLength, _hLength, _dLength)] = (T)voxels[w, h, d].DeepCopy();
-                    }
-                }
-            }
-
+            _voxelData = new VoxelData<T>(string.Format("{0}VoxelData", name), voxels.GetLength(0), voxels.GetLength(1), voxels.GetLength(2), voxels);
             UpdateMesh();
         }
 
@@ -152,7 +108,7 @@ namespace ProceduralVoxelMesh
         public void UpdateMesh()
         {
             // Set voxels and queue this mesh up to be generated
-            _generatorTask = new VoxelMeshGeneratorTask<T>(_voxels, _wLength, _hLength, _dLength);
+            _generatorTask = new VoxelMeshGeneratorTask<T>(_voxelData.Voxels, Width, Height, Depth);
             VoxelMeshGeneratorThread.Generator.EnqueueTask(_generatorTask);
         }
 
@@ -176,7 +132,7 @@ namespace ProceduralVoxelMesh
         {
             if(UniqueId == null)
             {
-                UniqueId = Guid.NewGuid().ToString();
+                UniqueId = System.Guid.NewGuid().ToString();
             }
 
             MeshFilter = GetComponent<MeshFilter>();

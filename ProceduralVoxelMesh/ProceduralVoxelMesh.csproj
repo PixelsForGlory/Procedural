@@ -53,6 +53,7 @@
     <Compile Include="Utilities.cs" />
     <Compile Include="ColorVoxel.cs" />
     <Compile Include="IVoxel.cs" />
+    <Compile Include="VoxelData.cs" />
     <Compile Include="VoxelMesh.cs" />
     <Compile Include="VoxelMeshGenerator.cs" />
     <Compile Include="VoxelMeshGeneratorTask.cs" />
