@@ -1,15 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace ProceduralVoxelMesh
 {
+    [Serializable]
+    public class ColorVoxelData : VoxelData<ColorVoxel>
+    {
+        public ColorVoxelData() 
+            : base() {}
+
+        public ColorVoxelData(string uniqueId, string name, int width, int height, int depth, IList<ColorVoxel> voxels) 
+            : base(uniqueId, name, width, height, depth, voxels) { }
+
+        public ColorVoxelData(string name, int width, int height, int depth, IList<ColorVoxel> voxels) 
+            : base(name, width, height, depth, voxels) { }
+
+        public ColorVoxelData(string name, int width, int height, int depth, ColorVoxel[,,] voxels)
+            : base(name, width, height, depth, voxels){}
+
+    }
+
+    [Serializable]
+    public class TextureVoxelData : VoxelData<TextureVoxel>
+    {
+        public TextureVoxelData() 
+            : base() { }
+
+        public TextureVoxelData(string uniqueId, string name, int width, int height, int depth, IList<TextureVoxel> voxels) 
+            : base(uniqueId, name, width, height, depth, voxels) { }
+
+        public TextureVoxelData(string name, int width, int height, int depth, IList<TextureVoxel> voxels) 
+            : base(name, width, height, depth, voxels) { }
+
+        public TextureVoxelData(string name, int width, int height, int depth, TextureVoxel[,,] voxels)
+            : base(name, width, height, depth, voxels){ }
+    }
+    
     /// <summary>
     /// Data structure to separate data from component 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public struct VoxelData<T> where T : new()
+    public abstract class VoxelData<T> where T : new()
     {
         /// <summary>
         /// UniqueId based on System.Guid.  Creates a persistant unique identifier.
@@ -40,6 +71,16 @@ namespace ProceduralVoxelMesh
         /// 3-dimensional voxel volume represented in 1-dimensional list.  Lists play nice with serialization and allows for persisting data.
         /// </summary>
         public List<T> Voxels;
+
+        public VoxelData()
+        {
+            UniqueId = System.Guid.NewGuid().ToString();
+            Name = string.Empty;
+            Width = 0;
+            Height = 0;
+            Depth = 0;
+            Voxels = new List<T>();
+        } 
 
         public VoxelData(string uniqueId, string name, int width, int height, int depth, IList<T> voxels)
         {

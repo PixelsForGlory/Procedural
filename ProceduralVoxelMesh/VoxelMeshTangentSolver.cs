@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ProceduralVoxelMesh
 {
-    public partial class VoxelMesh<T>
+    public abstract partial class VoxelMesh<T>
     {
         /// <summary>
         /// Solves the targents for a mesh.

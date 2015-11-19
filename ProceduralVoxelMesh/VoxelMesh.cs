@@ -1,4 +1,6 @@
 ﻿// Copyright 2015 afuzzyllama. All Rights Reserved.
+
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,8 +9,23 @@ namespace ProceduralVoxelMesh
     /// <summary>
     /// Color voxel mesh implementation.  Plays nice with Unity3D.
     /// </summary>
+    [Serializable]
     public class ColorVoxelMesh : VoxelMesh<ColorVoxel>
     {
+        [SerializeField]
+        private ColorVoxelData _voxelData;
+
+        public override int Width => _voxelData.Width;
+        public override int Height => _voxelData.Height;
+        public override int Depth => _voxelData.Depth;
+        public override List<ColorVoxel> Voxels => _voxelData.Voxels;
+        public override VoxelData<ColorVoxel> VoxelData => _voxelData;
+
+        protected override void InternalSetVoxels(string name, int Width, int Height, int Depth, ColorVoxel[,,] voxels)
+        {
+            _voxelData = new ColorVoxelData(name, Width, Height, Depth, voxels);
+        }
+
         public override void Start()
         {
             base.Start();
@@ -19,15 +36,30 @@ namespace ProceduralVoxelMesh
     /// <summary>
     /// Texture voxel mesh implementation.  Plays nice with Unity3D.
     /// </summary>
+    [Serializable]
     public class TextureVoxelMesh : VoxelMesh<TextureVoxel>
     {
+        [SerializeField]
+        private TextureVoxelData _voxelData;
+
+        public override int Width => _voxelData.Width;
+        public override int Height => _voxelData.Height;
+        public override int Depth => _voxelData.Depth;
+        public override List<TextureVoxel> Voxels => _voxelData.Voxels;
+        public override VoxelData<TextureVoxel> VoxelData => _voxelData;
+
+        protected override void InternalSetVoxels(string name, int Width, int Height, int Depth, TextureVoxel[,,] voxels)
+        {
+            _voxelData = new TextureVoxelData(name, Width, Height, Depth, voxels);
+        }
+
         public override void Start()
         {
             base.Start();
-            MeshRenderer.sharedMaterial = Resources.Load<Material>("TextureVoxelMaterial");
+            MeshRenderer.sharedMaterial = Resources.Load<Material>("ColorVoxelMaterial");
         }
     }
-    
+
     /// <summary>
     /// Voxel mesh component
     /// </summary>
@@ -35,7 +67,7 @@ namespace ProceduralVoxelMesh
     [RequireComponent(typeof(MeshRenderer))]
     [RequireComponent(typeof(MeshCollider))]
     [ExecuteInEditMode]
-    public partial class VoxelMesh<T> : MonoBehaviour where T : IVoxel, new()
+    public abstract partial class VoxelMesh<T> : MonoBehaviour where T : IVoxel, new()
     {
         /// <summary>
         /// UniqueId based on System.Guid.  Creates a persistant unique identifier.
@@ -45,27 +77,26 @@ namespace ProceduralVoxelMesh
         /// <summary>
         /// Width of the voxel mesh
         /// </summary>
-        public int Width => _voxelData.Width;
+        public abstract int Width { get; }
 
         /// <summary>
         /// Height of the voxel mesh
         /// </summary>
-        public int Height => _voxelData.Height;
+        public abstract int Height { get; }
 
         /// <summary>
         /// Depth of the voxel mesh
         /// </summary>
-        public int Depth => _voxelData.Depth;
-
-        [SerializeField]
-        private VoxelData<T> _voxelData;
-
-        public List<T> Voxels => _voxelData.Voxels;
+        public abstract int Depth { get; }
+    
+        public abstract List<T> Voxels { get; }
+        
+        public abstract VoxelData<T> VoxelData { get; } 
 
         /// <summary>
         /// Observers of this mesh who want to know when the mesh has finished updating
         /// </summary>
-        private List<IVoxelMeshObserver> _observers; 
+        protected List<IVoxelMeshObserver> Observers;
 
         /// <summary>
         /// Get voxel data from a single point
@@ -76,7 +107,7 @@ namespace ProceduralVoxelMesh
         /// <returns></returns>
         public T GetVoxel(int w, int h, int d)
         {
-            return _voxelData.Voxels[Utilities.GetIndex(w, h, d, Width, Height, Depth)];
+            return Voxels[Utilities.GetIndex(w, h, d, Width, Height, Depth)];
         }
 
         /// <summary>
@@ -88,7 +119,7 @@ namespace ProceduralVoxelMesh
         /// <param name="voxel"></param>
         public void SetVoxel(int w, int h, int d, T voxel)
         {
-            _voxelData.Voxels[Utilities.GetIndex(w, h, d, Width, Height, Depth)] = voxel;
+            Voxels[Utilities.GetIndex(w, h, d, Width, Height, Depth)] = voxel;
             UpdateMesh();
         }
 
@@ -98,17 +129,19 @@ namespace ProceduralVoxelMesh
         /// <param name="voxels"></param>
         public void SetVoxels(T[,,] voxels)
         {
-            _voxelData = new VoxelData<T>(string.Format("{0}VoxelData", name), voxels.GetLength(0), voxels.GetLength(1), voxels.GetLength(2), voxels);
+            InternalSetVoxels(string.Format("{0}VoxelData", name), voxels.GetLength(0), voxels.GetLength(1), voxels.GetLength(2), voxels);
             UpdateMesh();
         }
 
+        protected abstract void InternalSetVoxels(string name, int Width, int Height, int Depth, T[,,] voxels);
+        
         /// <summary>
         /// Trigger update on mesh in editor
         /// </summary> 
         public void UpdateMesh()
         {
             // Set voxels and queue this mesh up to be generated
-            _generatorTask = new VoxelMeshGeneratorTask<T>(_voxelData.Voxels, Width, Height, Depth);
+            _generatorTask = new VoxelMeshGeneratorTask<T>(Voxels, Width, Height, Depth);
             VoxelMeshGeneratorThread.Generator.EnqueueTask(_generatorTask);
         }
 
@@ -125,7 +158,7 @@ namespace ProceduralVoxelMesh
 
         public void Awake()
         {
-            _observers = new List<IVoxelMeshObserver>();
+            Observers = new List<IVoxelMeshObserver>();
         }
 
         public virtual void Start()
@@ -185,7 +218,7 @@ namespace ProceduralVoxelMesh
             MeshCollider.sharedMesh = Mesh;
             _generatorTask = null;
 
-            foreach(IVoxelMeshObserver observer in _observers)
+            foreach(IVoxelMeshObserver observer in Observers)
             {
                 observer.Notify();
             }
@@ -198,12 +231,12 @@ namespace ProceduralVoxelMesh
 
         public void RegisterObserver(IVoxelMeshObserver observer)
         {
-            _observers.Add(observer);
+            Observers.Add(observer);
         }
 
         public void UnregisterObserver(IVoxelMeshObserver observer)
         {
-            _observers.Remove(observer);
+            Observers.Remove(observer);
         }
     }
 }
