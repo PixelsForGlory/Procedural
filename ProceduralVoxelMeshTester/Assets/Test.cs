@@ -29,6 +29,9 @@ namespace Assets
 
         public void Start()
         {
+            GameObject voxelMeshGeneratorObject = GameObject.Find("VoxelMeshGenerator");
+            voxelMeshGeneratorObject.AddComponent<VoxelMeshGeneratorThread>();
+
             _testsToRunList = new Queue<string>();
             _testsToRunList.Enqueue("ColorVoxelMesh");
             _testsToRunList.Enqueue("TextureVoxelMesh");
