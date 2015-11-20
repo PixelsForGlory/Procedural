@@ -8,6 +8,9 @@ namespace ProceduralVoxelMesh
     {
         public ColorVoxelMeshData() {}
 
+        public ColorVoxelMeshData(string name, int width, int height, int depth)
+            : base(name, width, height, depth) { }
+
         public ColorVoxelMeshData(string uniqueId, string name, int width, int height, int depth, IList<ColorVoxel> voxels) 
             : base(uniqueId, name, width, height, depth, voxels) { }
 
@@ -23,6 +26,9 @@ namespace ProceduralVoxelMesh
     public class TextureVoxelMeshData : VoxelMeshData<TextureVoxel>
     {
         public TextureVoxelMeshData() { }
+
+        public TextureVoxelMeshData(string name, int width, int height, int depth)
+            : base(name, width, height, depth) { }
 
         public TextureVoxelMeshData(string uniqueId, string name, int width, int height, int depth, IList<TextureVoxel> voxels) 
             : base(uniqueId, name, width, height, depth, voxels) { }
@@ -78,7 +84,22 @@ namespace ProceduralVoxelMesh
             Height = 0;
             Depth = 0;
             Voxels = new List<T>();
-        } 
+        }
+
+        public VoxelMeshData(string name, int width, int height, int depth)
+        {
+            UniqueId = Guid.NewGuid().ToString();
+            Name = name;
+            Width = width;
+            Height = height;
+            Depth = depth;
+            Voxels = new List<T>();
+
+            for(int i = 0; i < Width * Height * Depth; i++)
+            {
+                Voxels.Add(new T());
+            }
+        }
 
         public VoxelMeshData(string uniqueId, string name, int width, int height, int depth, IList<T> voxels)
         {
