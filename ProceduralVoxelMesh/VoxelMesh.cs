@@ -13,17 +13,20 @@ namespace ProceduralVoxelMesh
     public class ColorVoxelMesh : VoxelMesh<ColorVoxel>
     {
         [SerializeField]
-        private ColorVoxelData _voxelData;
+        private ColorVoxelMeshData _voxelData;
 
+        public override string UniqueId => _voxelData.UniqueId;
+        public override string Name => _voxelData.Name;
         public override int Width => _voxelData.Width;
         public override int Height => _voxelData.Height;
         public override int Depth => _voxelData.Depth;
         public override List<ColorVoxel> Voxels => _voxelData.Voxels;
-        public override VoxelData<ColorVoxel> VoxelData => _voxelData;
+        public override VoxelMeshData<ColorVoxel> VoxelData => _voxelData;
 
-        protected override void InternalSetVoxels(string name, int Width, int Height, int Depth, ColorVoxel[,,] voxels)
+        public override void SetVoxelData(VoxelMeshData<ColorVoxel> voxelData)
         {
-            _voxelData = new ColorVoxelData(name, Width, Height, Depth, voxels);
+            _voxelData = new ColorVoxelMeshData(voxelData.UniqueId, voxelData.Name, voxelData.Width, voxelData.Height, voxelData.Depth, voxelData.Voxels);
+            UpdateMesh();
         }
 
         public override void Start()
@@ -40,19 +43,22 @@ namespace ProceduralVoxelMesh
     public class TextureVoxelMesh : VoxelMesh<TextureVoxel>
     {
         [SerializeField]
-        private TextureVoxelData _voxelData;
+        private TextureVoxelMeshData _voxelData;
 
+        public override string UniqueId => _voxelData.UniqueId;
+        public override string Name => _voxelData.Name;
         public override int Width => _voxelData.Width;
         public override int Height => _voxelData.Height;
         public override int Depth => _voxelData.Depth;
         public override List<TextureVoxel> Voxels => _voxelData.Voxels;
-        public override VoxelData<TextureVoxel> VoxelData => _voxelData;
+        public override VoxelMeshData<TextureVoxel> VoxelData => _voxelData;
 
-        protected override void InternalSetVoxels(string name, int Width, int Height, int Depth, TextureVoxel[,,] voxels)
+        public override void SetVoxelData(VoxelMeshData<TextureVoxel> voxelData)
         {
-            _voxelData = new TextureVoxelData(name, Width, Height, Depth, voxels);
+            _voxelData = new TextureVoxelMeshData(voxelData.UniqueId, voxelData.Name, voxelData.Width, voxelData.Height, voxelData.Depth, voxelData.Voxels);
+            UpdateMesh();
         }
-
+        
         public override void Start()
         {
             base.Start();
@@ -70,9 +76,14 @@ namespace ProceduralVoxelMesh
     public abstract partial class VoxelMesh<T> : MonoBehaviour where T : IVoxel, new()
     {
         /// <summary>
-        /// UniqueId based on System.Guid.  Creates a persistant unique identifier.
+        /// UniqueId based on System.Guid
         /// </summary>
-        public string UniqueId;
+        public abstract string UniqueId { get; }
+
+        /// <summary>
+        /// Name of voxel mesh
+        /// </summary>
+        public abstract string Name { get;  }
 
         /// <summary>
         /// Width of the voxel mesh
@@ -91,7 +102,7 @@ namespace ProceduralVoxelMesh
     
         public abstract List<T> Voxels { get; }
         
-        public abstract VoxelData<T> VoxelData { get; } 
+        public abstract VoxelMeshData<T> VoxelData { get; } 
 
         /// <summary>
         /// Observers of this mesh who want to know when the mesh has finished updating
@@ -124,16 +135,10 @@ namespace ProceduralVoxelMesh
         }
 
         /// <summary>
-        /// Sets voxel volume from 3-dimensional array
+        /// Sets voxel data
         /// </summary>
-        /// <param name="voxels"></param>
-        public void SetVoxels(T[,,] voxels)
-        {
-            InternalSetVoxels(string.Format("{0}VoxelData", name), voxels.GetLength(0), voxels.GetLength(1), voxels.GetLength(2), voxels);
-            UpdateMesh();
-        }
-
-        protected abstract void InternalSetVoxels(string name, int Width, int Height, int Depth, T[,,] voxels);
+        /// <param name="voxelData">Voxel data this mesh will contain</param>
+        public abstract void SetVoxelData(VoxelMeshData<T> voxelData);
         
         /// <summary>
         /// Trigger update on mesh in editor
@@ -163,11 +168,6 @@ namespace ProceduralVoxelMesh
 
         public virtual void Start()
         {
-            if(UniqueId == null)
-            {
-                UniqueId = System.Guid.NewGuid().ToString();
-            }
-
             MeshFilter = GetComponent<MeshFilter>();
             if(Mesh == null)
             {

@@ -4,35 +4,33 @@ using System.Collections.Generic;
 namespace ProceduralVoxelMesh
 {
     [Serializable]
-    public class ColorVoxelData : VoxelData<ColorVoxel>
+    public class ColorVoxelMeshData : VoxelMeshData<ColorVoxel>
     {
-        public ColorVoxelData() 
-            : base() {}
+        public ColorVoxelMeshData() {}
 
-        public ColorVoxelData(string uniqueId, string name, int width, int height, int depth, IList<ColorVoxel> voxels) 
+        public ColorVoxelMeshData(string uniqueId, string name, int width, int height, int depth, IList<ColorVoxel> voxels) 
             : base(uniqueId, name, width, height, depth, voxels) { }
 
-        public ColorVoxelData(string name, int width, int height, int depth, IList<ColorVoxel> voxels) 
+        public ColorVoxelMeshData(string name, int width, int height, int depth, IList<ColorVoxel> voxels) 
             : base(name, width, height, depth, voxels) { }
 
-        public ColorVoxelData(string name, int width, int height, int depth, ColorVoxel[,,] voxels)
+        public ColorVoxelMeshData(string name, int width, int height, int depth, ColorVoxel[,,] voxels)
             : base(name, width, height, depth, voxels){}
 
     }
 
     [Serializable]
-    public class TextureVoxelData : VoxelData<TextureVoxel>
+    public class TextureVoxelMeshData : VoxelMeshData<TextureVoxel>
     {
-        public TextureVoxelData() 
-            : base() { }
+        public TextureVoxelMeshData() { }
 
-        public TextureVoxelData(string uniqueId, string name, int width, int height, int depth, IList<TextureVoxel> voxels) 
+        public TextureVoxelMeshData(string uniqueId, string name, int width, int height, int depth, IList<TextureVoxel> voxels) 
             : base(uniqueId, name, width, height, depth, voxels) { }
 
-        public TextureVoxelData(string name, int width, int height, int depth, IList<TextureVoxel> voxels) 
+        public TextureVoxelMeshData(string name, int width, int height, int depth, IList<TextureVoxel> voxels) 
             : base(name, width, height, depth, voxels) { }
 
-        public TextureVoxelData(string name, int width, int height, int depth, TextureVoxel[,,] voxels)
+        public TextureVoxelMeshData(string name, int width, int height, int depth, TextureVoxel[,,] voxels)
             : base(name, width, height, depth, voxels){ }
     }
     
@@ -40,7 +38,7 @@ namespace ProceduralVoxelMesh
     /// Data structure to separate data from component 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class VoxelData<T> where T : new()
+    public abstract class VoxelMeshData<T> where T : new()
     {
         /// <summary>
         /// UniqueId based on System.Guid.  Creates a persistant unique identifier.
@@ -72,9 +70,9 @@ namespace ProceduralVoxelMesh
         /// </summary>
         public List<T> Voxels;
 
-        public VoxelData()
+        public VoxelMeshData()
         {
-            UniqueId = System.Guid.NewGuid().ToString();
+            UniqueId = Guid.NewGuid().ToString();
             Name = string.Empty;
             Width = 0;
             Height = 0;
@@ -82,7 +80,7 @@ namespace ProceduralVoxelMesh
             Voxels = new List<T>();
         } 
 
-        public VoxelData(string uniqueId, string name, int width, int height, int depth, IList<T> voxels)
+        public VoxelMeshData(string uniqueId, string name, int width, int height, int depth, IList<T> voxels)
         {
             UniqueId = uniqueId;
             Name = name;
@@ -102,9 +100,9 @@ namespace ProceduralVoxelMesh
             }
         }
 
-        public VoxelData(string name, int width, int height, int depth, IList<T> voxels)
+        public VoxelMeshData(string name, int width, int height, int depth, IList<T> voxels)
         {
-            UniqueId = System.Guid.NewGuid().ToString();
+            UniqueId = Guid.NewGuid().ToString();
             Name = name;
             Width = width;
             Height = height;
@@ -122,9 +120,9 @@ namespace ProceduralVoxelMesh
             }
         }
 
-        public VoxelData(string name, int width, int height, int depth, T[,,] voxels)
+        public VoxelMeshData(string name, int width, int height, int depth, T[,,] voxels)
         {
-            UniqueId = System.Guid.NewGuid().ToString();
+            UniqueId = Guid.NewGuid().ToString();
             Name = name;
             Width = width;
             Height = height;
