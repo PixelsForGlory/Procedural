@@ -64,7 +64,7 @@ namespace ProceduralVoxelMesh
         public override void Start()
         {
             base.Start();
-            MeshRenderer.sharedMaterial = Resources.Load<Material>("ColorVoxelMaterial");
+            MeshRenderer.sharedMaterial = Resources.Load<Material>("TextureVoxelMaterial");
         }
     }
 
