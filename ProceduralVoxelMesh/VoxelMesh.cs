@@ -105,12 +105,7 @@ namespace ProceduralVoxelMesh
         public abstract List<T> Voxels { get; }
         
         public abstract VoxelMeshData<T> VoxelData { get; } 
-
-        /// <summary>
-        /// Observers of this mesh who want to know when the mesh has finished updating
-        /// </summary>
-        protected List<IVoxelMeshObserver> Observers;
-
+        
         /// <summary>
         /// Get voxel data from a single point
         /// </summary>
@@ -162,12 +157,7 @@ namespace ProceduralVoxelMesh
         protected Mesh Mesh;
         protected MeshCollider MeshCollider;
         protected MeshRenderer MeshRenderer;
-
-        public void Awake()
-        {
-            Observers = new List<IVoxelMeshObserver>();
-        }
-
+        
         public virtual void Start()
         {
             MeshFilter = GetComponent<MeshFilter>();
@@ -219,26 +209,11 @@ namespace ProceduralVoxelMesh
             Mesh.RecalculateBounds();
             MeshCollider.sharedMesh = Mesh;
             _generatorTask = null;
-
-            foreach(IVoxelMeshObserver observer in Observers)
-            {
-                observer.Notify();
-            }
         }
 
         public void OnDestroy()
         {
             _generatorTask = null;
-        }
-
-        public void RegisterObserver(IVoxelMeshObserver observer)
-        {
-            Observers.Add(observer);
-        }
-
-        public void UnregisterObserver(IVoxelMeshObserver observer)
-        {
-            Observers.Remove(observer);
         }
     }
 }
