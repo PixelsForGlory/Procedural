@@ -57,7 +57,7 @@ public class ExampleCube : MonoBehaviour
       }
     }
 
-	var voxelData = new ColorVoxelMeshData("Test", width, height, depth, voxels);
+	var voxelData = new ColorVoxelMeshData("Test", width, height, depth, 1f, voxels);
 	voxelMesh.SetVoxelData(voxelData);
   }
 }
@@ -120,7 +120,7 @@ public class ExampleTextureCube : MonoBehaviour
 			}
 		}
 		
-		var voxelData = new TextureVoxelMeshData("Test", width, height, depth, voxels);
+		var voxelData = new TextureVoxelMeshData("Test", width, height, depth, 1f, voxels);
 		voxelMesh.SetVoxelData(voxelData);
 	}
 }

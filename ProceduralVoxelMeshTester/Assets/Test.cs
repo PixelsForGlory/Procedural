@@ -167,7 +167,7 @@ namespace Assets
                     }
                 }
             }
-            var voxelData = new ColorVoxelMeshData("Test", width, height, depth, voxels);
+            var voxelData = new ColorVoxelMeshData("Test", width, height, depth, 1f, voxels);
             voxelMesh.SetVoxelData(voxelData);
         }
 
@@ -202,7 +202,7 @@ namespace Assets
                 }
             }
 
-            var voxelData = new TextureVoxelMeshData("Test", width, height, depth, voxels);
+            var voxelData = new TextureVoxelMeshData("Test", width, height, depth, 1f, voxels);
             voxelMesh.SetVoxelData(voxelData);
         }
     
