@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 
 namespace ProceduralVoxelMesh
@@ -199,6 +200,11 @@ namespace ProceduralVoxelMesh
 
             // If the task is not completed, there is nothing to do yet
             if (!_generatorTask.Completed)
+            {
+                return;
+            }
+
+            if(Mesh == null)
             {
                 return;
             }
