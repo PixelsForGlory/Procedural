@@ -126,6 +126,10 @@ public class ExampleTextureCube : MonoBehaviour
 }
 ```
 
+It is also possible to observe a mesh and be notified when it is complete by implementing the `IVoxelMeshObserver` interface and registering it as an observer on a mesh with `RegisterObserver()`.
+
+Since Unity3D's serialization cannot handle interfaces, it is the responsibility of the implementor to ensure that observers are re-registered when an object is serialized/deserialzied.
+
 ## Testing
 The `ProceduralVoxelMeshTest` folder contains a unit test project to be run against the code base in NUnit.
 

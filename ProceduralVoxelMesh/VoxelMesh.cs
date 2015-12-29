@@ -26,7 +26,7 @@ namespace ProceduralVoxelMesh
         public override void SetVoxelData(VoxelMeshData<ColorVoxel> voxelData)
         {
             _voxelData = new ColorVoxelMeshData(voxelData.UniqueId, voxelData.Name, voxelData.Width, voxelData.Height, voxelData.Depth, voxelData.Voxels);
-            name = voxelData.Name; 
+            name = voxelData.Name;
             UpdateMesh();
         }
 
@@ -60,7 +60,7 @@ namespace ProceduralVoxelMesh
             name = voxelData.Name;
             UpdateMesh();
         }
-        
+
         public override void Start()
         {
             base.Start();
@@ -75,7 +75,7 @@ namespace ProceduralVoxelMesh
     [RequireComponent(typeof(MeshRenderer))]
     [RequireComponent(typeof(MeshCollider))]
     [ExecuteInEditMode]
-    public abstract partial class VoxelMesh<T> : MonoBehaviour where T : IVoxel, new()
+    public abstract partial class VoxelMesh<T> : MonoBehaviour, ISerializationCallbackReceiver where T : IVoxel, new()
     {
         /// <summary>
         /// UniqueId based on System.Guid
@@ -85,7 +85,7 @@ namespace ProceduralVoxelMesh
         /// <summary>
         /// Name of voxel mesh
         /// </summary>
-        public abstract string Name { get;  }
+        public abstract string Name { get; }
 
         /// <summary>
         /// Width of the voxel mesh
@@ -101,11 +101,16 @@ namespace ProceduralVoxelMesh
         /// Depth of the voxel mesh
         /// </summary>
         public abstract int Depth { get; }
-    
+
         public abstract List<T> Voxels { get; }
-        
-        public abstract VoxelMeshData<T> VoxelData { get; } 
-        
+
+        public abstract VoxelMeshData<T> VoxelData { get; }
+
+        /// <summary>
+        /// Observers of this mesh who want to know when the mesh has finished updating
+        /// </summary>
+        protected List<IVoxelMeshObserver> Observers;
+
         /// <summary>
         /// Get voxel data from a single point
         /// </summary>
@@ -136,7 +141,7 @@ namespace ProceduralVoxelMesh
         /// </summary>
         /// <param name="voxelData">Voxel data this mesh will contain</param>
         public abstract void SetVoxelData(VoxelMeshData<T> voxelData);
-        
+
         /// <summary>
         /// Trigger update on mesh in editor
         /// </summary> 
@@ -157,14 +162,19 @@ namespace ProceduralVoxelMesh
         protected Mesh Mesh;
         protected MeshCollider MeshCollider;
         protected MeshRenderer MeshRenderer;
-        
+
+        public void Awake()
+        {
+            Observers = new List<IVoxelMeshObserver>();
+        }
+
         public virtual void Start()
         {
             MeshFilter = GetComponent<MeshFilter>();
-            if(Mesh == null)
+            if (Mesh == null)
             {
                 // This is written this way to prevent leaking of meshes in the editor
-                if(MeshFilter.sharedMesh == null)
+                if (MeshFilter.sharedMesh == null)
                 {
                     Mesh = new Mesh();
                     MeshFilter.sharedMesh = Mesh;
@@ -182,17 +192,17 @@ namespace ProceduralVoxelMesh
         public void Update()
         {
             // If there is no task, there is nothing to update
-            if(_generatorTask == null)
+            if (_generatorTask == null)
             {
                 return;
             }
-            
+
             // If the task is not completed, there is nothing to do yet
-            if(!_generatorTask.Completed)
+            if (!_generatorTask.Completed)
             {
                 return;
             }
-            
+
             // Task is completed, recreate the mesh
             Mesh.Clear();
             Mesh.vertices = _generatorTask.Vertices.ToArray();
@@ -209,11 +219,36 @@ namespace ProceduralVoxelMesh
             Mesh.RecalculateBounds();
             MeshCollider.sharedMesh = Mesh;
             _generatorTask = null;
+
+            foreach (IVoxelMeshObserver observer in Observers)
+            {
+                observer.Notify();
+            }
         }
 
         public void OnDestroy()
         {
             _generatorTask = null;
+        }
+
+        public void RegisterObserver(IVoxelMeshObserver observer)
+        {
+            Observers.Add(observer);
+        }
+
+        public void UnregisterObserver(IVoxelMeshObserver observer)
+        {
+            Observers.Remove(observer);
+        }
+
+        public void OnBeforeSerialize()
+        {
+            Observers.Clear();
+        }
+
+        public void OnAfterDeserialize()
+        {
+            Observers = new List<IVoxelMeshObserver>();
         }
     }
 }
