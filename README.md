@@ -2,7 +2,7 @@
 Library to create procedural voxel meshes in Unity3D.  Meshes are generated in a seprate thread and copied to the GameObject when ready.
 
 Build status:<br />
-![Build status](../../..//Screenshots/blob/master/ProceduralVoxelMeshStatus.png?raw=true "Build status")
+![Build status](https://pixelsforglory.visualstudio.com/DefaultCollection/_apis/public/build/definitions/74494c7b-c3e1-44a8-be0c-0591720e30ca/2/badge "Build status")
 
 ## Building
 The solution has references set for `UnityEngine.dll` and `UnityEditor.dll`, but the paths for these assemblies are not set. To build the library, a reference path must be set to the Managed directory (Default is C:\Program Files\Unity\Editor\Data\Managed):
