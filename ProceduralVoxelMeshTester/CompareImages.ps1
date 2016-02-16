@@ -1,14 +1,16 @@
+Write-Host "Comparing screenshots"
+
 Copy-Item -Force "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMesh\bin\Release\ProceduralVoxelMesh.dll" "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\Assets\Plugins\"
 
 $testResult = Test-Path "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\Assets\Plugins\ProceduralVoxelMesh.dll"
 
 if($testResult -eq $false)
 {
-	Write-Host "Library not found. ProceduralVoxelMesh.dll file not found in the $env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\Assets\ folder"
+	Write-Error "Library not found. ProceduralVoxelMesh.dll file not found in the $env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\Assets\ folder"
 }
 else
 {
-    Start-Process -ArgumentList @("-batchmode","-projectpath $env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\", "-executeMethod Assets.Test.StartTest") -Wait -NoNewWindow "C:\Program Files\Unity\Editor\Unity.exe"
+    Start-Process -ArgumentList @("-batchmode","-projectpath $env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\", "-executeMethod Assets.Test.StartTest") -Wait -NoNewWindow "C:\agent\dependencies\Unity\latest\Unity\Editor\Unity.exe"
 
 	$testNames = "ColorVoxelMesh","TextureVoxelMesh"
 	
@@ -19,7 +21,7 @@ else
 			$testResult = Test-Path "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\$testName_$i.png"
 			if($testResult -eq $false)
 			{
-				Write-Host "Screenshot not found. $env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\$testName_$i.png file not found"
+				Write-Error "Screenshot not found. $env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\$testName_$i.png file not found"
 			}
 			else
 			{
@@ -31,7 +33,7 @@ else
 				}
 				else
 				{
-					Write-Host "Screenshot did not match. $env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\$testName_$i.png did not match the original"
+					Write-Error "Screenshot did not match. $env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\$testName_$i.png did not match the original"
 				}
 			}
 
