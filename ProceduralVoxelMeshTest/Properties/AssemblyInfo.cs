@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ProceduralVoxelMeshTest")]
-[assembly: AssemblyDescription("Test for ProceduralVoxelMesh project")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("afuzzyllama")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("ProceduralVoxelMeshTest")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("d6e5a40c-3328-4fb8-8736-c4ac3882235d")]
+[assembly: Guid("4a943344-3ed3-4bb4-b608-e9e9b4106cbb")]
 
 // Version information for an assembly consists of the following four values:
 //

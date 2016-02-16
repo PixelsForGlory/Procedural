@@ -1,6 +1,6 @@
 ﻿// Copyright 2015 afuzzyllama. All Rights Reserved.
 using System;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ProceduralVoxelMesh;
 using UnityEngine;
 // ReSharper disable NotAccessedVariable
@@ -11,10 +11,10 @@ using UnityEngine;
 
 namespace ProceduralVoxelMeshTest
 {
-    [TestFixture]
+    [TestClass]
     class TextureVoxelTest
     {
-        [SetUp]
+        [ClassInitialize]
         public void TextureVoxelTestSetup()
         {
             TextureVoxel.TextureVoxelMap.Clear();
@@ -33,73 +33,209 @@ namespace ProceduralVoxelMeshTest
             
         }
 
-        [Test]
+        [TestMethod]
         public void CreateTest()
         {
             TextureVoxel voxel;
             voxel = new TextureVoxel();
             Assert.IsTrue(voxel.Empty);
 
-            Assert.Throws<ArgumentException>(() => new TextureVoxel(-1));
-            Assert.Throws<ArgumentException>(() => new TextureVoxel(1));
-            Assert.Throws<ArgumentException>(() => new TextureVoxel(0, -1));
-            Assert.Throws<ArgumentException>(() => new TextureVoxel(0, 1));
+            try
+            {
+                new TextureVoxel(-1);
+            }
+            catch(ArgumentException)
+            {
+            }
+            catch(Exception)
+            {
+                Assert.Fail();
+            }
 
+            try
+            {
+                new TextureVoxel(1);
+            }
+            catch (ArgumentException)
+            {
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
+
+            try
+            {
+                new TextureVoxel(0, -1);
+            }
+            catch (ArgumentException)
+            {
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
+
+            try
+            {
+                new TextureVoxel(0, 1); 
+            }
+            catch (ArgumentException)
+            {
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
+            
+            // ReSharper disable once RedundantArgumentDefaultValue
             voxel = new TextureVoxel(0, 0);
             Assert.IsFalse(voxel.Empty);
             Assert.AreEqual(voxel.TextureMapIndex, 0);
             Assert.AreEqual(voxel.DetailMapIndex, 0);
         }
 
-        [Test]
+        [TestMethod]
         public void EmptyPropertyTest()
         {
             var voxel = new TextureVoxel();
             voxel.Empty = true;
             Assert.AreEqual(voxel.Empty, true);
 
-            Assert.Throws<InvalidOperationException>(() => voxel.Empty = false);
+            try
+            {
+                voxel.Empty = false;
+            }
+            catch (InvalidOperationException)
+            {
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
+
         }
         
-        [Test]
+        [TestMethod]
         public void TextureMapIndexPropertyTest()
         {
             int index;
 
             var voxel = new TextureVoxel();
-            Assert.Throws<InvalidOperationException>(() => index = voxel.TextureMapIndex);
-            Assert.Throws<InvalidOperationException>(() => voxel.TextureMapIndex = -1);
-            Assert.Throws<InvalidOperationException>(() => voxel.TextureMapIndex = 1);
+
+            try
+            {
+                // ReSharper disable once RedundantAssignment
+                index = voxel.TextureMapIndex;
+            }
+            catch (InvalidOperationException)
+            {
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
+
+            try
+            {
+                voxel.TextureMapIndex = -1;
+            }
+            catch (InvalidOperationException)
+            {
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
+
+            try
+            {
+                voxel.TextureMapIndex = 1;
+            }
+            catch (InvalidOperationException)
+            {
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
 
             voxel.TextureMapIndex = 0;
             Assert.AreEqual(voxel.TextureMapIndex, 0);
         }
 
-        [Test]
+        [TestMethod]
         public void DetailMapIndexPropertyTest()
         {
             int index;
 
             var voxel = new TextureVoxel();
-            Assert.Throws<InvalidOperationException>(() => index = voxel.DetailMapIndex);
-            Assert.Throws<InvalidOperationException>(() => voxel.DetailMapIndex = 0);
 
+            try
+            {
+                // ReSharper disable once RedundantAssignment
+                index = voxel.DetailMapIndex;
+            }
+            catch (InvalidOperationException)
+            {
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
+
+            try
+            {
+                voxel.DetailMapIndex = 0;
+            }
+            catch (InvalidOperationException)
+            {
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
+            
             voxel.TextureMapIndex = 0;
-            Assert.Throws<InvalidOperationException>(() => voxel.DetailMapIndex = -1);
-            Assert.Throws<InvalidOperationException>(() => voxel.DetailMapIndex = 1);
 
+            try
+            {
+                voxel.DetailMapIndex = -1;
+            }
+            catch (InvalidOperationException)
+            {
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
+
+            try
+            {
+                voxel.DetailMapIndex = 1;
+            }
+            catch (InvalidOperationException)
+            {
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
+            
             voxel.DetailMapIndex = 0;
             Assert.AreEqual(voxel.DetailMapIndex, 0);
         }
 
 
-        [Test]
+        [TestMethod]
         public void EqualsTest()
         {
             var voxelOne = new TextureVoxel();
+            // ReSharper disable once RedundantArgumentDefaultValue
             var voxelTwo = new TextureVoxel(0, 0);
             Assert.IsFalse(voxelOne.Equals(voxelTwo));
 
+            // ReSharper disable once RedundantArgumentDefaultValue
             voxelOne = new TextureVoxel(0, 0);
             Assert.IsTrue(voxelOne.Equals(voxelTwo));
 
@@ -111,14 +247,16 @@ namespace ProceduralVoxelMeshTest
             Assert.IsFalse(voxelOne.Equals(color));
         }
 
-        [Test]
+        [TestMethod]
         public void GetHashCodeTest()
         {
             var voxelOne = new TextureVoxel();
+            // ReSharper disable once RedundantArgumentDefaultValue
             var voxelTwo = new TextureVoxel(0, 0);
 
             Assert.IsFalse(voxelOne.GetHashCode() == voxelTwo.GetHashCode());
 
+            // ReSharper disable once RedundantArgumentDefaultValue
             voxelOne = new TextureVoxel(0, 0);
 
             Assert.IsTrue(voxelOne.GetHashCode() == voxelTwo.GetHashCode());

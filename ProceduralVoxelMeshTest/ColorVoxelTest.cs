@@ -1,19 +1,20 @@
 ﻿// Copyright 2015 afuzzyllama. All Rights Reserved.
 using System;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ProceduralVoxelMesh;
 using UnityEngine;
 // ReSharper disable NotAccessedVariable
 // ReSharper disable JoinDeclarationAndInitializer
 // ReSharper disable UseObjectOrCollectionInitializer
 // ReSharper disable SuspiciousTypeConversion.Global
+// ReSharper disable RedundantAssignment
 
 namespace ProceduralVoxelMeshTest
 {
-    [TestFixture]
+    [TestClass]
     public class ColorVoxelTest
     {
-        [Test]
+        [TestMethod]
         public void CreateTest()
         {
             ColorVoxel colorVoxel;
@@ -35,24 +36,48 @@ namespace ProceduralVoxelMeshTest
             Assert.AreEqual(colorVoxel.Emission, 0.75f);
         }
 
-        [Test]
+        [TestMethod]
         public void EmptyPropertyTest()
         {
             var colorVoxel = new ColorVoxel();
             colorVoxel.Empty = true;
             Assert.AreEqual(colorVoxel.Empty, true);
 
-            Assert.Throws<InvalidOperationException>(() => colorVoxel.Empty = false);
+            try
+            {
+                colorVoxel.Empty = false;
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
+
         }
 
-        [Test]
+        [TestMethod]
         public void ColorPropertyTest()
         {
             ColorVoxel colorVoxel;
             Color color;
 
             colorVoxel = new ColorVoxel();
-            Assert.Throws<InvalidOperationException>(() => color = colorVoxel.Color);
+
+            try
+            {
+                color = colorVoxel.Color;
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
 
             colorVoxel = new ColorVoxel(Color.black);
             color = colorVoxel.Color;
@@ -63,14 +88,38 @@ namespace ProceduralVoxelMeshTest
             Assert.AreEqual(color, Color.blue);
         }
 
-        [Test]
+        [TestMethod]
         public void MetallicPropertyTest()
         {
             float metallic;
 
             var colorVoxel = new ColorVoxel();
-            Assert.Throws<InvalidOperationException>(() => metallic = colorVoxel.Metallic);
-            Assert.Throws<InvalidOperationException>(() => colorVoxel.Metallic = 1.0f);
+
+            try
+            {
+                metallic = colorVoxel.Metallic;
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
+
+            try
+            {
+                colorVoxel.Metallic = 1.0f;
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
 
             colorVoxel = new ColorVoxel(Color.blue, 0.25f);
             metallic = colorVoxel.Metallic;
@@ -79,18 +128,67 @@ namespace ProceduralVoxelMeshTest
             colorVoxel.Metallic = 0.5f;
             Assert.AreEqual(colorVoxel.Metallic, 0.5f);
 
-            Assert.Throws<InvalidOperationException>(() => colorVoxel.Metallic = -1.0f);
-            Assert.Throws<InvalidOperationException>(() => colorVoxel.Metallic = 2.0f);
+            try
+            {
+                colorVoxel.Metallic = -1.0f;
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
+            
+            try
+            {
+                colorVoxel.Metallic = 2.0f;
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
+            
         }
 
-        [Test]
+        [TestMethod]
         public void SmoothnessPropertyTest()
         {
             float smoothness;
 
             var colorVoxel = new ColorVoxel();
-            Assert.Throws<InvalidOperationException>(() => smoothness = colorVoxel.Smoothness);
-            Assert.Throws<InvalidOperationException>(() => colorVoxel.Smoothness = 1.0f);
+
+            try
+            {
+                smoothness = colorVoxel.Smoothness;
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
+            
+
+            try
+            {
+                colorVoxel.Smoothness = 1.0f;
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
 
             colorVoxel = new ColorVoxel(Color.blue, 1.0f, 0.25f);
             smoothness = colorVoxel.Smoothness;
@@ -99,18 +197,65 @@ namespace ProceduralVoxelMeshTest
             colorVoxel.Smoothness = 0.5f;
             Assert.AreEqual(colorVoxel.Smoothness, 0.5f);
 
-            Assert.Throws<InvalidOperationException>(() => colorVoxel.Smoothness = -1.0f);
-            Assert.Throws<InvalidOperationException>(() => colorVoxel.Smoothness = 2.0f);
+            try
+            {
+                colorVoxel.Smoothness = -1.0f;
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
+
+            try
+            {
+                colorVoxel.Smoothness = 2.0f;
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
         }
 
-        [Test]
+        [TestMethod]
         public void EmissionPropertyTest()
         {
             float emission;
 
             var colorVoxel = new ColorVoxel();
-            Assert.Throws<InvalidOperationException>(() => emission = colorVoxel.Emission);
-            Assert.Throws<InvalidOperationException>(() => colorVoxel.Emission = 1.0f);
+
+            try
+            {
+                emission = colorVoxel.Emission;
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
+
+            try
+            {
+                colorVoxel.Emission = 1.0f;
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
 
             colorVoxel = new ColorVoxel(Color.blue, 1.0f, 1.0f, 0.25f);
             emission = colorVoxel.Emission;
@@ -119,11 +264,34 @@ namespace ProceduralVoxelMeshTest
             colorVoxel.Emission = 0.5f;
             Assert.AreEqual(colorVoxel.Emission, 0.5f);
 
-            Assert.Throws<InvalidOperationException>(() => colorVoxel.Emission = -1.0f);
-            Assert.Throws<InvalidOperationException>(() => colorVoxel.Emission = 2.0f);
+            try
+            {
+                colorVoxel.Emission = -1.0f;
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
+
+            try
+            {
+                colorVoxel.Emission = 2.0f;
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
         }
 
-        [Test]
+        [TestMethod]
         public void EqualsTest()
         {
             var voxelOne = new ColorVoxel();
@@ -141,7 +309,7 @@ namespace ProceduralVoxelMeshTest
             Assert.IsFalse(voxelOne.Equals(color));
         }
 
-        [Test]
+        [TestMethod]
         public void GetHashCodeTest()
         {
             var voxelOne = new ColorVoxel();
