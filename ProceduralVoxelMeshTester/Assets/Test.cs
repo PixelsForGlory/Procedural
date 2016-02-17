@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
+using UnityEditor.SceneManagement;
 #endif
 using ProceduralVoxelMesh;
 
@@ -23,6 +24,7 @@ namespace Assets
 	    public static void StartTest()
 	    {
             #if UNITY_EDITOR
+		    EditorSceneManager.OpenScene("Assets/Tester.unity");
 		    EditorApplication.ExecuteMenuItem("Edit/Play");
             #endif
 	    }
