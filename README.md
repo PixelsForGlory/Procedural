@@ -131,8 +131,7 @@ It is also possible to observe a mesh and be notified when it is complete by imp
 Since Unity3D's serialization cannot handle interfaces, it is the responsibility of the implementor to ensure that observers are re-registered when an object is serialized/deserialzied.
 
 ## Testing
-The `ProceduralVoxelMeshTest` folder contains a unit test project to be run against the code base in NUnit.
-
+The `ProceduralVoxelMeshTest` folder contains a unit test project to be run against the code base in VSTtest.
 
 The `ProceduralVoxelMeshTester` folder contains a Unity3D project that can be built with a build release of the ProceduralVoxelMesh.dll. The program should produce the same screenshots as previous runs of that program.
 
