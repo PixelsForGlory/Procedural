@@ -22,11 +22,7 @@ else
             $currentScreenshot = "{0}\ProceduralVoxelMeshTester\{1}_{2}.png" -f "$env:BUILD_SOURCESDIRECTORY", "$testName", "$i"
             $originalScreenshot = "{0}\ProceduralVoxelMeshTester\{1}_{2}_original.png" -f "$env:BUILD_SOURCESDIRECTORY", "$testName", "$i"
             $diffFile = "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\diff.png"
-
-            Write-Host $currentScreenshot 
-            Write-Host $originalScreenshot 
-            Write-Host $diffFile 
-
+            
 			$testResult = Test-Path $currentScreenshot
 			if($testResult -eq $false)
 			{
@@ -34,7 +30,7 @@ else
 			}
 			else
 			{
-				$compareResultString = Invoke-Expression("compare.exe -metric mae $currentScreenshot $originalScreenshot $diffFile  2>&1")
+				$compareResultString = Invoke-Expression("C:\agent\dependencies\ImageMagick\latest\compare.exe -metric mae $currentScreenshot $originalScreenshot $diffFile  2>&1")
 				$compareResult = ([string]$compareResultString).Substring(([string]$compareResultString).IndexOf("(") + 1, ([string]$compareResultString).IndexOf(")") - ([string]$compareResultString).IndexOf("(") - 1);
 				if ($compareResult -lt 0.1)
 				{
