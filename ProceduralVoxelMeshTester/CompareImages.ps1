@@ -1,4 +1,4 @@
-Write-Host "Comparing screenshots"
+Write-Host "Copying dlls"
 
 Copy-Item -Force "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMesh\bin\Release\ProceduralVoxelMesh.dll" "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\Assets\Plugins\"
 
@@ -10,35 +10,44 @@ if($testResult -eq $false)
 }
 else
 {
+    Write-Host "Running test in Unity3D"
     Start-Process -ArgumentList @("-batchmode","-projectpath $env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\", "-executeMethod Assets.Test.StartTest") -Wait -NoNewWindow "C:\agent\dependencies\Unity\latest\Unity\Editor\Unity.exe"
 
-	$testNames = "ColorVoxelMesh","TextureVoxelMesh"
+	$testNames = @("ColorVoxelMesh","TextureVoxelMesh")
 	
 	foreach($testName in $testNames)
 	{
 		for($i = 0; $i -lt 6; $i++)
 		{
-			$testResult = Test-Path "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\$testName_$i.png"
+            $currentScreenshot = "{0}\ProceduralVoxelMeshTester\{1}_{2}.png" -f "$env:BUILD_SOURCESDIRECTORY", "$testName", "$i"
+            $originalScreenshot = "{0}\ProceduralVoxelMeshTester\{1}_{2}_original.png" -f "$env:BUILD_SOURCESDIRECTORY", "$testName", "$i"
+            $diffFile = "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\diff.png"
+
+            Write-Host $currentScreenshot 
+            Write-Host $originalScreenshot 
+            Write-Host $diffFile 
+
+			$testResult = Test-Path $currentScreenshot
 			if($testResult -eq $false)
 			{
-				Write-Error "Screenshot not found. $env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\$testName_$i.png file not found"
+				Write-Error "Screenshot not found. $currentScreenshot file not found"
 			}
 			else
 			{
-				$compareResultString = Invoke-Expression("compare.exe -metric mae $env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\$testName_$i.png $env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\$testName_$i_original.png $env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\diff.png 2>&1")
+				$compareResultString = Invoke-Expression("compare.exe -metric mae $currentScreenshot $originalScreenshot $diffFile  2>&1")
 				$compareResult = ([string]$compareResultString).Substring(([string]$compareResultString).IndexOf("(") + 1, ([string]$compareResultString).IndexOf(")") - ([string]$compareResultString).IndexOf("(") - 1);
 				if ($compareResult -lt 0.1)
 				{
-					Write-Host "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\$testName_$i.png PASS"
+					Write-Host "$currentScreenshot PASS"
 				}
 				else
 				{
-					Write-Error "Screenshot did not match. $env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\$testName_$i.png did not match the original"
+					Write-Error "Screenshot did not match. $currentScreenshot did not match the original"
 				}
 			}
 
-			Remove-Item "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\$testName_$i.png"
-			Remove-Item "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\diff.png"
+			Remove-Item $currentScreenshot
+			Remove-Item $diffFile
 		}
 	}
 }
