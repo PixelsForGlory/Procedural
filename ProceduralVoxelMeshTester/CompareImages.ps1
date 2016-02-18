@@ -4,9 +4,11 @@ Copy-Item -Force "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMesh\bin\Release\Pr
 
 $testResult = Test-Path "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\Assets\Plugins\ProceduralVoxelMesh.dll"
 
+$exitCode = 0
 if($testResult -eq $false)
 {
 	Write-Error "Library not found. ProceduralVoxelMesh.dll file not found in the $env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\Assets\ folder"
+    $exitCode = 1
 }
 else
 {
@@ -27,6 +29,7 @@ else
 			if($testResult -eq $false)
 			{
 				Write-Error "Screenshot not found. $currentScreenshot file not found"
+                $exitCode = 1
 			}
 			else
 			{
@@ -39,6 +42,7 @@ else
 				else
 				{
 					Write-Error "Screenshot did not match. $currentScreenshot did not match the original"
+                    $exitCode = 1
 				}
 			}
 
@@ -48,4 +52,4 @@ else
 	}
 }
 
-exit 0
+exit $exitCode
