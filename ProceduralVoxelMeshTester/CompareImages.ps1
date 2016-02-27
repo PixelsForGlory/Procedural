@@ -14,7 +14,7 @@ if(Test-Path "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\Assets\Plugi
 else
 {
     Write-Host "Running test in Unity3D"
-    Start-Process -ArgumentList @("-batchmode","-projectpath $env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\", "-executeMethod Assets.Test.StartTest") -Wait -NoNewWindow "C:\agent\dependencies\Unity\latest\Unity\Editor\Unity.exe"
+    Start-Process -ArgumentList @("-batchmode","-projectpath $env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\", "-executeMethod Assets.Test.StartTest") -Wait -NoNewWindow "$env:AGENT_ROOTDIRECTORY\dependencies\Unity\latest\Unity\Editor\Unity.exe"
 
 	$testNames = @("ColorVoxelMesh","TextureVoxelMesh")
 	
@@ -34,7 +34,7 @@ else
 			}
 			else
 			{
-				$compareResultString = Invoke-Expression("C:\agent\dependencies\ImageMagick\latest\compare.exe -metric mae $currentScreenshot $originalScreenshot $diffFile  2>&1")
+				$compareResultString = Invoke-Expression("$env:AGENT_ROOTDIRECTORY\dependencies\ImageMagick\latest\ImageMagick\compare.exe -metric mae $currentScreenshot $originalScreenshot $diffFile  2>&1")
 				$compareResult = ([string]$compareResultString).Substring(([string]$compareResultString).IndexOf("(") + 1, ([string]$compareResultString).IndexOf(")") - ([string]$compareResultString).IndexOf("(") - 1);
 				if ($compareResult -lt 0.1)
 				{
