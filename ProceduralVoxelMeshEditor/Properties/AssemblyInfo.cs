@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ProceduralVoxelMesh")]
-[assembly: AssemblyDescription("Library to create procedural voxel meshes in Unity3D")]
+[assembly: AssemblyTitle("ProceduralVoxelMeshEditor")]
+[assembly: AssemblyDescription("Library to support procedural voxel meshes in Unity3D Editor")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("afuzzyllama")]
-[assembly: AssemblyProduct("ProceduralVoxelMesh")]
+[assembly: AssemblyProduct("ProceduralVoxelMeshEditor")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("4fe5e259-e4c2-49ca-892e-e3a952be5a65")]
+[assembly: Guid("a9431f41-78a2-471f-ae2a-b0089bd2c163")]
 
 // Version information for an assembly consists of the following four values:
 //

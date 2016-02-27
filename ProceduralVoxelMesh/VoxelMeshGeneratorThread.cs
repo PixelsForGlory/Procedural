@@ -1,19 +1,12 @@
 ﻿// Copyright 2015 afuzzyllama. All Rights Reserved.
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using System.Threading;
 
 namespace ProceduralVoxelMesh
 {
     /// <summary>
     /// Singleton class that handles creating the generator thread at start up.
-    /// Uses static constructor to start in the editor or the Start method in game.
     /// </summary>
-#if UNITY_EDITOR
-    [InitializeOnLoad]
-#endif
     public class VoxelMeshGeneratorThread : MonoBehaviour
     {
         private static Thread _generatorThread;
@@ -24,28 +17,21 @@ namespace ProceduralVoxelMesh
             get { return _generator; }
             private set { _generator = value; }
         } 
-
-        static VoxelMeshGeneratorThread()
-        {
-#if UNITY_EDITOR
-		    StartThread();
-            EditorApplication.update += UpdateMeshesInEditor;
-#endif
-        }
-
+        
         public void Start()
         {
-#if !UNITY_EDITOR
             StartThread();
-#endif
             transform.hideFlags = HideFlags.HideInInspector;
         }
+
         public void OnApplicationQuit()
         {
-#if !UNITY_EDITOR
-            Generator.Shutdown();
-#endif
-            // Kind of messy. The thread will shutdown after going out of scope in the editor :(
+            // If the application is running as the editor, when the user creates the game object
+            // to run the thread, we don't want it shutting down the generator.
+            if(!Application.isEditor)
+            {
+                Generator.Shutdown();
+            }            
         }
 
         /// <summary>
@@ -70,7 +56,7 @@ namespace ProceduralVoxelMesh
         /// <summary>
         /// Start voxel mesh generator
         /// </summary>
-        private static void StartThread()
+        public static void StartThread()
         {
             if (Generator == null)
             {

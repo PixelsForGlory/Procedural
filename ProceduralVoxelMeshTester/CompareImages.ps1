@@ -1,13 +1,14 @@
 Write-Host "Copying dlls"
 
 Copy-Item -Force "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMesh\bin\Release\ProceduralVoxelMesh.dll" "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\Assets\Plugins\"
+Copy-Item -Force "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshEditor\bin\Release\ProceduralVoxelMeshEditor.dll" "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\Assets\Plugins\Editor\"
 
-$testResult = Test-Path "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\Assets\Plugins\ProceduralVoxelMesh.dll"
+$testResult = 
 
 $exitCode = 0
-if($testResult -eq $false)
+if(Test-Path "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\Assets\Plugins\ProceduralVoxelMesh.dll" -eq $false || Test-Path "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\Assets\Plugins\Editor\ProceduralVoxelMeshEditor.dll")
 {
-	Write-Error "Library not found. ProceduralVoxelMesh.dll file not found in the $env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\Assets\ folder"
+	Write-Error "Libraries not found.  Check that dlls were copied into Plugins folder"
     $exitCode = 1
 }
 else

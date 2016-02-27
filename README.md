@@ -9,9 +9,7 @@ The solution has references set for `UnityEngine.dll` and `UnityEditor.dll`, but
 ![Reference Path](../../../Screenshots/blob/master/VoxelMeshReferencePath.png?raw=true "Reference Path")
 
 ## Installation
-When the build is complete, move the `ProceduralVoxelMesh.dll` to `[PROJECT DIR]\Assets\Plugins`.  Additionally, move the shader files and the material files found in the Resources directory to a Resources directory somewhere in your `[PROJECT DIR]\Assets` directory (example `[PROJECT DIR]\Assets\Resources) so it can be found by `Resources.Load()`.
-
-When working in the editor, use the `DebugUnityEditor` build configuration.  This will use editor specific code to get the mesh generator thread running when the editor opens.  Otherwise, right before building a game, copy the results of the Release build for running the stand alone game.
+From a build or downloaded released, copy the `ProceduralVoxelMesh.dll` to `[PROJECT DIR]\Assets\Plugins` and `ProceduralVoxelMeshEditor.dll` to `[PROJECT DIR]\Assets\Plugins\Editor`.  Additionally, move the shader files and the material files found in the Resources directory to a Resources directory somewhere in your `[PROJECT DIR]\Assets` directory (example `[PROJECT DIR]\Assets\Resources`) so it can be found by `Resources.Load()`.
 
 After copying in the assets, a few things to setup:
 
@@ -20,7 +18,6 @@ After copying in the assets, a few things to setup:
 ![Voxel Generator Thread](../../../Screenshots/blob/master/VoxelThreadSetup.png?raw=true)
 
 2. Make sure the "ColorVoxelMaterial" has the "AlphaMap" texture set for the "Metallic Map", "Smoothness Map", and "Emission Map".
-
 
 3. Make sure that the AlphaMap.png has the following texture import settings:
 ![AlphaMap Import Settings](../../../Screenshots/blob/master/AlphaMapImport.png?raw=true "AlphaMap Import Settings")
