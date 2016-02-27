@@ -3,8 +3,6 @@ Write-Host "Copying dlls"
 Copy-Item -Force "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMesh\bin\Release\ProceduralVoxelMesh.dll" "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\Assets\Plugins\"
 Copy-Item -Force "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshEditor\bin\Release\ProceduralVoxelMeshEditor.dll" "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\Assets\Plugins\Editor\"
 
-$testResult = 
-
 $exitCode = 0
 if(Test-Path "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\Assets\Plugins\ProceduralVoxelMesh.dll" -eq $false || Test-Path "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\Assets\Plugins\Editor\ProceduralVoxelMeshEditor.dll")
 {
