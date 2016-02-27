@@ -4,7 +4,7 @@ Copy-Item -Force "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMesh\bin\Release\Pr
 Copy-Item -Force "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshEditor\bin\Release\ProceduralVoxelMeshEditor.dll" "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\Assets\Plugins\Editor\"
 
 $exitCode = 0
-if(Test-Path "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\Assets\Plugins\ProceduralVoxelMesh.dll" -eq $false || Test-Path "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\Assets\Plugins\Editor\ProceduralVoxelMeshEditor.dll")
+if(Test-Path "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\Assets\Plugins\ProceduralVoxelMesh.dll" -eq $false -or Test-Path "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\Assets\Plugins\Editor\ProceduralVoxelMeshEditor.dll")
 {
 	Write-Error "Libraries not found.  Check that dlls were copied into Plugins folder"
     $exitCode = 1
