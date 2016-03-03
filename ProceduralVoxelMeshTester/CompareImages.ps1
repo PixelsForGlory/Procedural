@@ -1,31 +1,31 @@
 $exitCode = 0
 
-$outputfile = "$env:COMMON_TESTRESULTSDIRECTORY\CompareImages.coverage"
-$vsPath = [Microsoft.Win32.Registry]::GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\14.0\", "ShellFolder", $null);
+#$outputfile = "$env:COMMON_TESTRESULTSDIRECTORY\CompareImages.coverage"
+#$vsPath = [Microsoft.Win32.Registry]::GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\14.0\", "ShellFolder", $null);
 
-Start-Process -FilePath "$vsPath\Team Tools\Performance Tools\vsperfmon.exe" -ArgumentList "-coverage -output:$outputFile" -NoNewWindow
-Write-Host "Waiting 5s for vsperfmon to start up..."
-Start-Sleep -s 5
+#Start-Process -FilePath "$vsPath\Team Tools\Performance Tools\vsperfmon.exe" -ArgumentList "-coverage -output:$outputFile" -NoNewWindow
+#Write-Host "Waiting 5s for vsperfmon to start up..."
+#Start-Sleep -s 5
 
-$counter = 0
-while($counter -lt 6)
-{
-    $e = & "$vsPath\Team Tools\Performance Tools\vsperfcmd.exe" /status
+#$counter = 0
+#while($counter -lt 6)
+#{
+    #$e = & "$vsPath\Team Tools\Performance Tools\vsperfcmd.exe" /status
 
-    if ($LASTEXITCODE -eq 0){
-        Write-Host $e
-        break       
-    }
+    #if ($LASTEXITCODE -eq 0){
+        #Write-Host $e
+        #break       
+    #}
 
-    if ($LASTEXITCODE -eq 1 -and $counter -lt 5){
-        Write-Host "Still waiting. Give it 5s more ($counter)..."
-        Start-Sleep -s 5
-        $counter++
-        continue
-    }
+    #if ($LASTEXITCODE -eq 1 -and $counter -lt 5){
+        #Write-Host "Still waiting. Give it 5s more ($counter)..."
+        #Start-Sleep -s 5
+        #$counter++
+        #continue
+    #}
 
-    throw "vsperfmon Error: $e"                 
-}
+    #throw "vsperfmon Error: $e"                 
+#}
 
 Write-Host "Running test in Unity3D"
 Start-Process -ArgumentList @("-batchmode","-projectpath $env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\", "-executeMethod Assets.Test.StartTest") -Wait -NoNewWindow "$env:AGENT_ROOTDIRECTORY\dependencies\Unity\latest\Unity\Editor\Unity.exe"
@@ -66,6 +66,6 @@ foreach($testName in $testNames)
 	}
 }
 
-& "$vsPath\Team Tools\Performance Tools\vsperfcmd.exe" -shutdown
+#& "$vsPath\Team Tools\Performance Tools\vsperfcmd.exe" -shutdown
 
 exit $exitCode
