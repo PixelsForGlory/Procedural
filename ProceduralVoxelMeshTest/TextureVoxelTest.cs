@@ -1,5 +1,6 @@
 ﻿// Copyright 2015 afuzzyllama. All Rights Reserved.
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ProceduralVoxelMesh;
 using UnityEngine;
@@ -12,10 +13,11 @@ using UnityEngine;
 namespace ProceduralVoxelMeshTest
 {
     [TestClass]
-    class TextureVoxelTest
+    [ExcludeFromCodeCoverage]
+    public class TextureVoxelTest
     {
         [ClassInitialize]
-        public void TextureVoxelTestSetup()
+        public static void TextureVoxelTestSetup(TestContext context)
         {
             TextureVoxel.TextureVoxelMap.Clear();
             TextureVoxel.TextureVoxelMap.Add
