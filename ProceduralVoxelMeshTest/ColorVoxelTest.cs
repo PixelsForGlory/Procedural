@@ -1,6 +1,5 @@
 ﻿// Copyright 2015 afuzzyllama. All Rights Reserved.
 using System;
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ProceduralVoxelMesh;
 using UnityEngine;
@@ -13,7 +12,6 @@ using UnityEngine;
 namespace ProceduralVoxelMeshTest
 {
     [TestClass]
-    [ExcludeFromCodeCoverage]
     public class ColorVoxelTest
     {
         [TestMethod]
