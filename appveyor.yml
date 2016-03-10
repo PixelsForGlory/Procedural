@@ -38,10 +38,10 @@ clone_folder: C:\work\source
 
 # Init scripts called before cloning
 init:
-  - git clone https://github.com/afuzzyllama/AppVeyorBuildScripts.git C:\buildScripts\
+  - git clone git@github.com:afuzzyllama/AppVeyorBuildScripts.git C:\buildScripts\
   - ps: C:\buildScripts\getUnity3D.ps1
   - ps: C:\buildScripts\getImageMagick.ps1
-  - git clone -b develop https://github.com/csMACnz/coveralls.net.git C:\dependencies\coveralls.net
+  - git clone -b develop git@github.com:csMACnz/coveralls.net.git C:\dependencies\coveralls.net
   - ps: C:\buildScripts\buildCoverallsDotNet.ps1
 
 assembly_info:
