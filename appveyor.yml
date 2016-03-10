@@ -38,11 +38,18 @@ clone_folder: C:\work\source
 
 # Init scripts called before cloning
 init:
-  - git clone git@github.com:afuzzyllama/AppVeyorBuildScripts.git C:\buildScripts\
-  - ps: C:\buildScripts\getUnity3D.ps1
-  - ps: C:\buildScripts\getImageMagick.ps1
-  - git clone -b develop git@github.com:csMACnz/coveralls.net.git C:\dependencies\coveralls.net
-  - ps: C:\buildScripts\buildCoverallsDotNet.ps1
+  - ps: >-
+        Start-FileDownload https://github.com/afuzzyllama/AppVeyorBuildScripts/archive/master.zip -FileName $env:TEMP_DIR\AppVeyorBuildScripts.zip
+        7z x $env:TEMP_DIR\AppVeyorBuildScripts.zip -o$env:BUILD_SCRIPTS_DIR
+  - ps: >-
+        $env:BUILD_SCRIPTS_DIR\getUnity3D.ps1
+  - ps: >-
+        $env:BUILD_SCRIPTS_DIR\getImageMagick.ps1
+  - ps: >-
+        Start-FileDownload https://github.com/csMACnz/coveralls.net/archive/develop.zip -FileName $env:TEMP_DIR\coveralls.net.zip
+        7z x $env:TEMP_DIR\AppVeyorBuildScripts.zip -o$env:DEPENDENCIES_DIR\coveralls.net
+  - ps: >-
+        $env:BUILD_SCRIPTS_DIR\buildCoverallsDotNet.ps1
 
 assembly_info:
   patch: true
@@ -59,22 +66,27 @@ build_script:
   
 after_build:
   - ps: .\packageBuild.ps1 
-  - ps: C:\buildScripts\zipRelease.ps1 
+  - ps: >-
+        $env:BUILD_SCRIPTS_DIR\zipRelease.ps1 
   
 
 # ------------------
 # TEST CONFIGURATION
 # ------------------
 before_test:
-  - ps: C:\buildScripts\instrumentAssembly.ps1 'C:\work\source\ProceduralVoxelMesh\bin\Release\ProceduralVoxelMesh.dll'
-  - ps: C:\buildScripts\startPerfmon.ps1 'C:\work\source\ProceduralVoxelMesh\results.coverage'
+  - ps: >-
+        $env:BUILD_SCRIPTS_DIR\instrumentAssembly.ps1 '$env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMesh\bin\Release\ProceduralVoxelMesh.dll'
+  - ps: >-
+        $env:BUILD_SCRIPTS_DIR\startPerfmon.ps1 '$env:APPVEYOR_BUILD_FOLDER\results.coverage'
 
 test_script:
   - ps: .\test.ps1
   
 after_test:
-  - ps: C:\buildScripts\shutdownPerfmon.ps1
-  - ps: C:\buildScripts\convertCoverage.ps1 'C:\work\source\ProceduralVoxelMesh\results.coverage'
+  - ps: >-
+        $env:BUILD_SCRIPTS_DIR\shutdownPerfmon.ps1
+  - ps: >-
+        $env:BUILD_SCRIPTS_DIR\convertCoverage.ps1 '$env:APPVEYOR_BUILD_FOLDER\results.coverage'
 
   
 # -----------------------
@@ -100,7 +112,8 @@ deploy:
     branch: master
     appveyor_repo_tag: true 
 after_deploy:
-  - ps: C:\buildScripts\coveralls.ps1 'C:\work\source\ProceduralVoxelMesh\results.coveragexml'
+  - ps: >-
+        $env:BUILD_SCRIPTS_DIR\coveralls.ps1 '$env:APPVEYOR_BUILD_FOLDER\results.coveragexml'
 
 
 # ---------------------------   
