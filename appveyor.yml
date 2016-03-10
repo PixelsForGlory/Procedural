@@ -39,7 +39,8 @@ clone_folder: C:\work\source
 # Init scripts called before cloning
 init:
 - ps: >-
-    Start-FileDownload "https://github.com/afuzzyllama/AppVeyorBuildScripts/archive/master.zip" -FileName "$env:TEMP_DIR\AppVeyorBuildScripts.zip";
+    Write-Host $env:TEMP_DIR;
+    Start-FileDownload "https://github.com/afuzzyllama/AppVeyorBuildScripts/archive/master.zip" -FileName "$env:TEMP_DIR\AppVeyorBuildScripts.zip" -Timeout 300000;
     7z x "$env:TEMP_DIR\AppVeyorBuildScripts.zip" -o"$env:BUILD_SCRIPTS_DIR";
 - ps: >-
     $env:BUILD_SCRIPTS_DIR\getUnity3D.ps1
