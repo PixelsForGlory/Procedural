@@ -39,15 +39,15 @@ clone_folder: C:\work\source
 # Init scripts called before cloning
 init:
 - ps: >-
-    Start-FileDownload https://github.com/afuzzyllama/AppVeyorBuildScripts/archive/master.zip -FileName $env:TEMP_DIR\AppVeyorBuildScripts.zip
-    7z x $env:TEMP_DIR\AppVeyorBuildScripts.zip -o$env:BUILD_SCRIPTS_DIR
+    Start-FileDownload "https://github.com/afuzzyllama/AppVeyorBuildScripts/archive/master.zip" -FileName "$env:TEMP_DIR\AppVeyorBuildScripts.zip";
+    7z x "$env:TEMP_DIR\AppVeyorBuildScripts.zip" -o"$env:BUILD_SCRIPTS_DIR";
 - ps: >-
     $env:BUILD_SCRIPTS_DIR\getUnity3D.ps1
 - ps: >-
     $env:BUILD_SCRIPTS_DIR\getImageMagick.ps1
 - ps: >-
-    Start-FileDownload https://github.com/csMACnz/coveralls.net/archive/develop.zip -FileName $env:TEMP_DIR\coveralls.net.zip
-    7z x $env:TEMP_DIR\AppVeyorBuildScripts.zip -o$env:DEPENDENCIES_DIR\coveralls.net
+    Start-FileDownload "https://github.com/csMACnz/coveralls.net/archive/develop.zip" -FileName "$env:TEMP_DIR\coveralls.net.zip";
+    7z x "$env:TEMP_DIR\AppVeyorBuildScripts.zip" -o"$env:DEPENDENCIES_DIR\coveralls.net"
 - ps: >-
     $env:BUILD_SCRIPTS_DIR\buildCoverallsDotNet.ps1
 
