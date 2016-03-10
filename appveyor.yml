@@ -44,11 +44,11 @@ init:
 - ps: New-Item "$env:TEMP_DIR" -type directory
 - ps: wget -OutFile "$env:TEMP_DIR\AppVeyorBuildScripts.zip" "https://github.com/afuzzyllama/AppVeyorBuildScripts/archive/master.zip"
 - ps: 7z x "$env:TEMP_DIR\AppVeyorBuildScripts.zip" -o"$env:BUILD_SCRIPTS_DIR\"
-- ps: $env:BUILD_SCRIPTS_DIR\getUnity3D.ps1
-- ps: $env:BUILD_SCRIPTS_DIR\getImageMagick.ps1
+- ps: & $env:BUILD_SCRIPTS_DIR\getUnity3D.ps1
+- ps: & $env:BUILD_SCRIPTS_DIR\getImageMagick.ps1
 - ps: wget -OutFile "$env:TEMP_DIR\coveralls.net.zip" "https://github.com/csMACnz/coveralls.net/archive/develop.zip"
 - ps: 7z x "$env:TEMP_DIR\AppVeyorBuildScripts.zip" -o"$env:DEPENDENCIES_DIR\coveralls.net"
-- ps: $env:BUILD_SCRIPTS_DIR\buildCoverallsDotNet.ps1
+- ps: & $env:BUILD_SCRIPTS_DIR\buildCoverallsDotNet.ps1
 
 assembly_info:
   patch: true
@@ -61,26 +61,26 @@ assembly_info:
 # BUILD CONFIGURATION
 # -------------------
 build_script:
-- ps: .\build.ps1
+- ps: & $env:APPVEYOR_BUILD_FOLDER\build.ps1
   
 after_build:
-- ps: .\packageBuild.ps1 
-- ps: $env:BUILD_SCRIPTS_DIR\zipRelease.ps1 
+- ps: & $env:APPVEYOR_BUILD_FOLDER\packageBuild.ps1 
+- ps: & $env:BUILD_SCRIPTS_DIR\zipRelease.ps1 
   
 
 # ------------------
 # TEST CONFIGURATION
 # ------------------
 before_test:
-- ps: $env:BUILD_SCRIPTS_DIR\instrumentAssembly.ps1 '$env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMesh\bin\Release\ProceduralVoxelMesh.dll'
-- ps: $env:BUILD_SCRIPTS_DIR\startPerfmon.ps1 '$env:APPVEYOR_BUILD_FOLDER\results.coverage'
+- ps: & $env:BUILD_SCRIPTS_DIR\instrumentAssembly.ps1 '$env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMesh\bin\Release\ProceduralVoxelMesh.dll'
+- ps: & $env:BUILD_SCRIPTS_DIR\startPerfmon.ps1 '$env:APPVEYOR_BUILD_FOLDER\results.coverage'
 
 test_script:
-- ps: .\test.ps1
+- ps: & $env:APPVEYOR_BUILD_FOLDER\test.ps1
   
 after_test:
-- ps: $env:BUILD_SCRIPTS_DIR\shutdownPerfmon.ps1
-- ps: $env:BUILD_SCRIPTS_DIR\convertCoverage.ps1 '$env:APPVEYOR_BUILD_FOLDER\results.coverage'
+- ps: & $env:BUILD_SCRIPTS_DIR\shutdownPerfmon.ps1
+- ps: & $env:BUILD_SCRIPTS_DIR\convertCoverage.ps1 '$env:APPVEYOR_BUILD_FOLDER\results.coverage'
 
   
 # -----------------------
@@ -106,7 +106,7 @@ deploy:
     branch: master
     appveyor_repo_tag: true 
 after_deploy:
-- ps: $env:BUILD_SCRIPTS_DIR\coveralls.ps1 '$env:APPVEYOR_BUILD_FOLDER\results.coveragexml'
+- ps: & $env:BUILD_SCRIPTS_DIR\coveralls.ps1 '$env:APPVEYOR_BUILD_FOLDER\results.coveragexml'
 
 
 # ---------------------------   
