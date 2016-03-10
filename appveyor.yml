@@ -38,11 +38,11 @@ clone_folder: C:\work\source
 
 # Init scripts called before cloning
 init:
-  - git clone https://github.com/afuzzyllama/AppVeyorBuildScripts.git $(build_scripts_dir)
-  - ps: $(build_scripts_dir)\getUnity3D.ps1
-  - ps: $(build_scripts_dir)\getImageMagick.ps1
-  - git clone -b develop https://github.com/csMACnz/coveralls.net.git $(dependencies_dir)\coveralls.net
-  - ps: $(build_scripts_dir)\buildCoverallsDotNet.ps1
+  - git clone https://github.com/afuzzyllama/AppVeyorBuildScripts.git C:\buildScripts\
+  - ps: C:\buildScripts\getUnity3D.ps1
+  - ps: C:\buildScripts\getImageMagick.ps1
+  - git clone -b develop https://github.com/csMACnz/coveralls.net.git C:\dependencies\coveralls.net
+  - ps: C:\buildScripts\buildCoverallsDotNet.ps1
 
 assembly_info:
   patch: true
@@ -59,29 +59,29 @@ build_script:
   
 after_build:
   - ps: .\packageBuild.ps1 
-  - ps: $(build_scripts_dir)\zipRelease.ps1 
+  - ps: C:\buildScripts\zipRelease.ps1 
   
 
 # ------------------
 # TEST CONFIGURATION
 # ------------------
 before_test:
-  - ps: $(build_scripts_dir)\instrumentAssembly.ps1 '$(appveyor_build_folder)\ProceduralVoxelMesh\bin\Release\ProceduralVoxelMesh.dll'
-  - ps: $(build_scripts_dir)\startPerfmon.ps1 '$(appveyor_build_folder)\ProceduralVoxelMesh\results.coverage'
+  - ps: C:\buildScripts\instrumentAssembly.ps1 'C:\work\source\ProceduralVoxelMesh\bin\Release\ProceduralVoxelMesh.dll'
+  - ps: C:\buildScripts\startPerfmon.ps1 'C:\work\source\ProceduralVoxelMesh\results.coverage'
 
 test_script:
   - ps: .\test.ps1
   
 after_test:
-  - ps: $(build_scripts_dir)\shutdownPerfmon.ps1
-  - ps: $(build_scripts_dir)\convertCoverage.ps1 '$(appveyor_build_folder)\ProceduralVoxelMesh\results.coverage'
+  - ps: C:\buildScripts\shutdownPerfmon.ps1
+  - ps: C:\buildScripts\convertCoverage.ps1 'C:\work\source\ProceduralVoxelMesh\results.coverage'
 
   
 # -----------------------
 # ARTIFACTS CONFIGURATION
 # -----------------------
 artifacts:
-  - path: $(staging_dir)\*.zip
+  - path: C:\work\staging\*.zip
   
 
 # ------------------------
@@ -100,7 +100,7 @@ deploy:
     branch: master
     appveyor_repo_tag: true 
 after_deploy:
-  - ps: $(build_scripts_dir)\coveralls.ps1 '$(appveyor_build_folder)\ProceduralVoxelMesh\results.coveragexml'
+  - ps: C:\buildScripts\coveralls.ps1 'C:\work\source\ProceduralVoxelMesh\results.coveragexml'
 
 
 # ---------------------------   
