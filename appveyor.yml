@@ -38,10 +38,10 @@ clone_folder: C:\work\source
 
 # Init scripts called before cloning
 init:
-- ps: New-Item "$env:BUILD_SCRIPTS_DIR" -type directory
-- ps: New-Item "$env:DEPENDENCIES_DIR" -type directory
-- ps: New-Item "$env:STAGING_DIR" -type directory
-- ps: New-Item "$env:TEMP_DIR" -type directory
+- ps: New-Item "$env:BUILD_SCRIPTS_DIR" -type directory | Out-Null
+- ps: New-Item "$env:DEPENDENCIES_DIR" -type directory | Out-Null
+- ps: New-Item "$env:STAGING_DIR" -type directory | Out-Null
+- ps: New-Item "$env:TEMP_DIR" -type directory | Out-Null
 - ps: wget -OutFile "$env:TEMP_DIR\AppVeyorBuildScripts.zip" "https://github.com/afuzzyllama/AppVeyorBuildScripts/archive/master.zip"
 - ps: 7z x "$env:TEMP_DIR\AppVeyorBuildScripts.zip" -o"$env:TEMP_DIR"
 - ps: Move-Item "$env:TEMP_DIR\AppVeyorBuildScripts-master\*" "$env:BUILD_SCRIPTS_DIR\"
