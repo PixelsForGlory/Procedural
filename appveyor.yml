@@ -38,16 +38,16 @@ clone_folder: C:\work\source
 
 # Init scripts called before cloning
 init:
-- ps: New-Item $env:BUILD_SCRIPTS_DIR -type directory
-- ps: New-Item $env:DEPENDENCIES_DIR -type directory
-- ps: New-Item $env:STAGING_DIR -type directory
-- ps: New-Item $env:TEMP_DIR -type directory
-- ps: wget -OutFile $env:TEMP_DIR\AppVeyorBuildScripts.zip https://github.com/afuzzyllama/AppVeyorBuildScripts/archive/master.zip
-- ps: 7z x $env:TEMP_DIR\AppVeyorBuildScripts.zip -o$env:BUILD_SCRIPTS_DIR
+- ps: New-Item "$env:BUILD_SCRIPTS_DIR" -type directory
+- ps: New-Item "$env:DEPENDENCIES_DIR" -type directory
+- ps: New-Item "$env:STAGING_DIR" -type directory
+- ps: New-Item "$env:TEMP_DIR" -type directory
+- ps: wget -OutFile "$env:TEMP_DIR\AppVeyorBuildScripts.zip" "https://github.com/afuzzyllama/AppVeyorBuildScripts/archive/master.zip"
+- ps: 7z x "$env:TEMP_DIR\AppVeyorBuildScripts.zip" -o "$env:BUILD_SCRIPTS_DIR\"
 - ps: $env:BUILD_SCRIPTS_DIR\getUnity3D.ps1
 - ps: $env:BUILD_SCRIPTS_DIR\getImageMagick.ps1
-- ps: wget -OutFile $env:TEMP_DIR\coveralls.net.zip https://github.com/csMACnz/coveralls.net/archive/develop.zip;
-- ps: 7z x $env:TEMP_DIR\AppVeyorBuildScripts.zip -o$env:DEPENDENCIES_DIR\coveralls.net
+- ps: wget -OutFile "$env:TEMP_DIR\coveralls.net.zip" "https://github.com/csMACnz/coveralls.net/archive/develop.zip"
+- ps: 7z x "$env:TEMP_DIR\AppVeyorBuildScripts.zip" -o "$env:DEPENDENCIES_DIR\coveralls.net"
 - ps: $env:BUILD_SCRIPTS_DIR\buildCoverallsDotNet.ps1
 
 assembly_info:
