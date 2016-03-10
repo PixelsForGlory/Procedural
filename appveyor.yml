@@ -40,7 +40,6 @@ clone_folder: C:\work\source
 init:
 - ps: New-Item $env:BUILD_SCRIPTS_DIR -type directory
 - ps: New-Item $env:DEPENDENCIES_DIR -type directory
-- ps: New-Item $env:WORK_DIR -type directory
 - ps: New-Item $env:STAGING_DIR -type directory
 - ps: New-Item $env:TEMP_DIR -type directory
 - ps: wget -OutFile $env:TEMP_DIR\AppVeyorBuildScripts.zip https://github.com/afuzzyllama/AppVeyorBuildScripts/archive/master.zip
