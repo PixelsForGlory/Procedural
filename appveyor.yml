@@ -73,9 +73,6 @@ after_build:
 # ------------------
 # TEST CONFIGURATION
 # ------------------
-# Turn off automatic test discovery.  Will run tests with custom script.
-test: off
-
 before_test:
 - ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\instrumentAssembly.ps1`" '$env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMesh\bin\Release\ProceduralVoxelMesh.dll'"
 #- ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\startPerfmon.ps1`" '$env:APPVEYOR_BUILD_FOLDER\results.coverage'"
