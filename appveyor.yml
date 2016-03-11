@@ -21,7 +21,7 @@ build:
 # -------------------------
 
 # VM template
-os: Visual Studio 2015
+os: Visual Studio 2015 RC
 
 # Environment variables
 environment:
