@@ -1,4 +1,15 @@
-Copy-Item $env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMesh\bin\Release\ProceduralVoxelMesh.dll -Destination $env:STAGING_DIR\ReleaseContents\Plugins\ -Force 
-Copy-Item $env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMeshEditor\bin\Release\ProceduralVoxelMeshEditor.dll -Destination $env:STAGING_DIR\ReleaseContents\Plugins\Editor\ -Recurse -Force 
-Copy-Item $env:APPVEYOR_BUILD_FOLDER\Resources -Destination $env:STAGING_DIR\ReleaseContents\Resources\ -Recurse -Force 
-Copy-Item $env:APPVEYOR_BUILD_FOLDER\LICENSE -Destination $env:STAGING_DIR\ReleaseContents\ -Force 
+$destinationFolder = $env:STAGING_DIR\ReleaseContents\Plugins\
+if (!(Test-Path -path $destinationFolder)) {New-Item $destinationFolder -Type Directory}
+Copy-Item $env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMesh\bin\Release\ProceduralVoxelMesh.dll -Destination $destinationFolder -Force 
+
+$destinationFolder = $env:STAGING_DIR\ReleaseContents\Plugins\Editor\
+if (!(Test-Path -path $destinationFolder)) {New-Item $destinationFolder -Type Directory}
+Copy-Item $env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMeshEditor\bin\Release\ProceduralVoxelMeshEditor.dll -Destination $destinationFolder -Recurse -Force 
+
+$destinationFolder = $env:STAGING_DIR\ReleaseContents\Resources\
+if (!(Test-Path -path $destinationFolder)) {New-Item $destinationFolder -Type Directory}
+Copy-Item $env:APPVEYOR_BUILD_FOLDER\Resources -Destination $destinationFolder -Recurse -Force 
+
+$destinationFolder = $env:STAGING_DIR\ReleaseContents\
+if (!(Test-Path -path $destinationFolder)) {New-Item $destinationFolder -Type Directory}
+Copy-Item $env:APPVEYOR_BUILD_FOLDER\LICENSE -Destination $destinationFolder -Force 
