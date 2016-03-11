@@ -1,1 +1,1 @@
-msbuild $env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMesh.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /p:Configuration=Release /p:Platform="Any CPU"
+msbuild $env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMesh.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /p:Configuration=Release /p:Platform="Any CPU" /p:ReferencePath="$env:DEPENDENCIES_DIR\Unity\Editor\Data\Managed"
