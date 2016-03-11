@@ -15,7 +15,7 @@ foreach($testName in $testNames)
 		if($testResult -eq $false)
 		{
 			Add-AppveyorTest "Compare image" -Outcome Failed -FileName "ProceduralVoxelMesh/ProceduralVoxelMeshTester/CompareImages.ps1" -ErrorMessage "Screenshot not found. $currentScreenshot file not found" 
-            		exit 1	
+            		$host.SetShouldExit(1)
 		}
 		else
 		{
@@ -24,7 +24,7 @@ foreach($testName in $testNames)
 			if ($compareResult -gt 0.1)
 			{
 				Add-AppveyorTest "Compare image" -Outcome Failed -FileName "ProceduralVoxelMesh/ProceduralVoxelMeshTester/CompareImages.ps1" -ErrorMessage "Screenshot did not match. $currentScreenshot did not match the original"
-                		exit 1
+                		$host.SetShouldExit(1)
 			}
 		}
 
