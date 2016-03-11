@@ -73,12 +73,12 @@ after_build:
 # ------------------
 # TEST CONFIGURATION
 # ------------------
-#before_test:
-#- ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\instrumentAssembly.ps1`" '$env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMesh\bin\Release\ProceduralVoxelMesh.dll'"
+before_test:
+- ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\instrumentAssembly.ps1`" '$env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMesh\bin\Release\ProceduralVoxelMesh.dll'"
 #- ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\startPerfmon.ps1`" '$env:APPVEYOR_BUILD_FOLDER\results.coverage'"
 
 #test_script:
-#- ps: Invoke-Expression "& `"$env:APPVEYOR_BUILD_FOLDER\test.ps1`""
+- ps: Invoke-Expression "& `"$env:APPVEYOR_BUILD_FOLDER\test.ps1`""
   
 #after_test:
 #- ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\shutdownPerfmon.ps1`""
