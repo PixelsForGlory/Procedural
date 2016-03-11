@@ -14,8 +14,8 @@ foreach($testName in $testNames)
 		$testResult = Test-Path $currentScreenshot
 		if($testResult -eq $false)
 		{
-			Add-AppveyorMessage -Category Error "Compare image test: Screenshot not found. $currentScreenshot file not found"
-            exit 1
+			Add-AppveyorTest "Compare image" -Outcome Failed -FileName "ProceduralVoxelMesh/ProceduralVoxelMeshTester/CompareImages.ps1" -ErrorMessage "Screenshot not found. $currentScreenshot file not found" 
+            		exit 1	
 		}
 		else
 		{
@@ -23,8 +23,8 @@ foreach($testName in $testNames)
 			$compareResult = ([string]$compareResultString).Substring(([string]$compareResultString).IndexOf("(") + 1, ([string]$compareResultString).IndexOf(")") - ([string]$compareResultString).IndexOf("(") - 1);
 			if ($compareResult -gt 0.1)
 			{
-				Add-AppveyorMessage -Category Error "Compare image test: Screenshot did not match. $currentScreenshot did not match the original"
-                exit 1
+				Add-AppveyorTest "Compare image" -Outcome Failed -FileName "ProceduralVoxelMesh/ProceduralVoxelMeshTester/CompareImages.ps1" -ErrorMessage "Screenshot did not match. $currentScreenshot did not match the original"
+                		exit 1
 			}
 		}
 
@@ -33,4 +33,5 @@ foreach($testName in $testNames)
 	}
 }
 
-Add-AppveyorMessage -Category Information -Message "Compare image test passed"
+Add-AppveyorTest "Compare image" -Outcome Passed -FileName "ProceduralVoxelMesh/ProceduralVoxelMeshTester/CompareImages.ps1"
+
