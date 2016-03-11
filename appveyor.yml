@@ -73,42 +73,43 @@ after_build:
 # ------------------
 # TEST CONFIGURATION
 # ------------------
-before_test:
-- ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\instrumentAssembly.ps1`" '$env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMesh\bin\Release\ProceduralVoxelMesh.dll'"
-- ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\startPerfmon.ps1`" '$env:APPVEYOR_BUILD_FOLDER\results.coverage'"
+#before_test:
+#- ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\instrumentAssembly.ps1`" '$env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMesh\bin\Release\ProceduralVoxelMesh.dll'"
+#- ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\startPerfmon.ps1`" '$env:APPVEYOR_BUILD_FOLDER\results.coverage'"
 
-test_script:
-- ps: Invoke-Expression "& `"$env:APPVEYOR_BUILD_FOLDER\test.ps1`""
+#test_script:
+#- ps: Invoke-Expression "& `"$env:APPVEYOR_BUILD_FOLDER\test.ps1`""
   
-after_test:
-- ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\shutdownPerfmon.ps1`""
-- ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\convertCoverage.ps1`" '$env:APPVEYOR_BUILD_FOLDER\results.coverage'"
+#after_test:
+#- ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\shutdownPerfmon.ps1`""
+#- ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\convertCoverage.ps1`" '$env:APPVEYOR_BUILD_FOLDER\results.coverage'"
 
   
 # -----------------------
 # ARTIFACTS CONFIGURATION
 # -----------------------
-artifacts:
-  - path: C:\work\staging\*.zip
+#artifacts:
+# - path: C:\work\staging\*.zip
   
 
 # ------------------------
 # DEPLOYMENT CONFIGURATION
 # ------------------------
-deploy:
-  provider: GitHub
-  auth_token:
-    secure: 6rKcqEAzPD0o7RiGVFFaUVXts2nGs3w9SOMTayT3hFQVpc2rCX1rh5Lsg4SqkkrP
-  release: ProceduralVoxelMesh-v$(appveyor_build_version)
-  description: "Successful CI build of library.  Please consult the [ReadMe](https://github.com/PixelsForGlory/ProceduralVoxelMesh/blob/master/README.md) for implementing this release into your project."
-  artifact: /.*\.zip/
-  draft: false
-  prerelease: false
-  on:
-    branch: master
-    appveyor_repo_tag: true 
-after_deploy:
-- ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\coveralls.ps1`" '$env:APPVEYOR_BUILD_FOLDER\results.coveragexml'"
+#deploy:
+#  provider: GitHub
+#  auth_token:
+#    secure: 6rKcqEAzPD0o7RiGVFFaUVXts2nGs3w9SOMTayT3hFQVpc2rCX1rh5Lsg4SqkkrP
+#  release: ProceduralVoxelMesh-v$(appveyor_build_version)
+#  description: "Successful CI build of library.  Please consult the [ReadMe](https://github.com/PixelsForGlory/ProceduralVoxelMesh/blob/master/README.md) for implementing this release into your project."
+#  artifact: /.*\.zip/
+#  draft: false
+#  prerelease: false
+#  on:
+#    branch: master
+#    appveyor_repo_tag: true 
+
+#after_deploy:
+#- ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\coveralls.ps1`" '$env:APPVEYOR_BUILD_FOLDER\results.coveragexml'"
 
 
 # ---------------------------   
