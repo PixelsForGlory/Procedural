@@ -90,8 +90,7 @@ after_test:
 # -----------------------
 artifacts:
  - path: C:\work\staging\*.zip
- - path: ~\AppData\Local\Unity\Editor\Editor.log
-  
+
 
 # ------------------------
 # DEPLOYMENT CONFIGURATION
