@@ -33,7 +33,7 @@ environment:
   coveralls_repo_token: 
     secure: e3qJzl4/8uKyjdcNKB3HrfAQe46Oq6f2V6HnmNXZZG4oHU8YkVhy4958jmNQDOqJ
   unity3d_serial:
-    secure: TyHzH1bZPr40DhczVCemw75nnHhbt0KyMWHqpWegTe8=
+    secure: xXlOMjRbuZAq97Zqk1HJo30LQGRocfWTn81RCWai04Q=
   unity3d_username:
     secure: fXfTDLXbZ27Sn15CCYZAj4IvDePNN1pGbBclD7EtIzk=
   unity3d_password:
