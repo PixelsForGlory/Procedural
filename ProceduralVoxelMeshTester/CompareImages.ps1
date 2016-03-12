@@ -1,16 +1,16 @@
 Write-Host "Running test in Unity3D"
 
 # Activate
-Start-Process -ArgumentList @("-quit", "-batchmode", "-serial $env:UNITY3D_SERIAL", "-username '$env:UNITY3D_USERNAME'", "-password '$env:UNITY3D_PASSWORD'") -Wait -NoNewWindow "$env:DEPENDENCIES_DIR\Unity\Editor\Unity.exe"
+Start-Process -ArgumentList @("-quit", "-batchmode", "-serial $env:UNITY3D_SERIAL", "-username `"$env:UNITY3D_USERNAME`"", "-password `"$env:UNITY3D_PASSWORD`"") -Wait -NoNewWindow "$env:DEPENDENCIES_DIR\Unity\Editor\Unity.exe"
+Push-AppveyorArtifact ~\AppData\Local\Unity\Editor\Editor.log -FileName "EditorActivate.log"
 
 # Execute
 Start-Process -ArgumentList @("-batchmode","-projectpath $env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMeshTester\", "-executeMethod Assets.Test.StartTest") -Wait -NoNewWindow "$env:DEPENDENCIES_DIR\Unity\Editor\Unity.exe"
-# Push the artifact after Unity3D quits
-Push-AppveyorArtifact ~\AppData\Local\Unity\Editor\Editor.log
+Push-AppveyorArtifact ~\AppData\Local\Unity\Editor\Editor.log -FileName "EditorTest.log"
 
 # Return
 Start-Process -ArgumentList @("-quit", "-batchmode", "-returnlicense") -Wait -NoNewWindow "$env:DEPENDENCIES_DIR\Unity\Editor\Unity.exe"
-
+Push-AppveyorArtifact ~\AppData\Local\Unity\Editor\Editor.log -FileName "EditorDeactivate.log"
 
 $testNames = @("ColorVoxelMesh","TextureVoxelMesh")
 	
