@@ -1,6 +1,9 @@
 Write-Host "Running test in Unity3D"
 Start-Process -ArgumentList @("-batchmode","-projectpath $env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMeshTester\", "-executeMethod Assets.Test.StartTest") -Wait -NoNewWindow "$env:DEPENDENCIES_DIR\Unity\Editor\Unity.exe"
 
+# Push the artifact after Unity3D quits
+Push-AppveyorArtifact ~\AppData\Local\Unity\Editor\Editor.log
+
 $testNames = @("ColorVoxelMesh","TextureVoxelMesh")
 	
 foreach($testName in $testNames)
