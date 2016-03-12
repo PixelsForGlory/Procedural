@@ -1,7 +1,7 @@
 Write-Host "Running test in Unity3D"
 
 # Activate
-Start-Process -ArgumentList @("-quit", "-batchmode", "-serial $env:UNITY3D_SERIAL", "-username `"$env:UNITY3D_USERNAME`"", "-password `"$env:UNITY3D_PASSWORD`"") -Wait -NoNewWindow "$env:DEPENDENCIES_DIR\Unity\Editor\Unity.exe"
+Start-Process -ArgumentList @("-quit", "-batchmode", "-serial $env:UNITY3D_SERIAL", "-username $env:UNITY3D_USERNAME", "-password $env:UNITY3D_PASSWORD") -Wait -NoNewWindow "$env:DEPENDENCIES_DIR\Unity\Editor\Unity.exe"
 Push-AppveyorArtifact ~\AppData\Local\Unity\Editor\Editor.log -FileName "EditorActivate.log"
 
 # Execute
