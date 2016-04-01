@@ -1,16 +1,7 @@
+$exitCode = 0
+
 Write-Host "Running test in Unity3D"
-
-# Activate
-Start-Process -ArgumentList @("-quit", "-batchmode", "-serial $env:UNITY3D_SERIAL", "-username $env:UNITY3D_USERNAME", "-password $env:UNITY3D_PASSWORD") -Wait -NoNewWindow "$env:DEPENDENCIES_DIR\Unity\Editor\Unity.exe"
-Push-AppveyorArtifact ~\AppData\Local\Unity\Editor\Editor.log -FileName "EditorActivate.log"
-
-# Execute
-Start-Process -ArgumentList @("-batchmode","-projectpath $env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMeshTester\", "-executeMethod Assets.Test.StartTest") -Wait -NoNewWindow "$env:DEPENDENCIES_DIR\Unity\Editor\Unity.exe"
-Push-AppveyorArtifact ~\AppData\Local\Unity\Editor\Editor.log -FileName "EditorTest.log"
-
-# Return
-Start-Process -ArgumentList @("-quit", "-batchmode", "-returnlicense") -Wait -NoNewWindow "$env:DEPENDENCIES_DIR\Unity\Editor\Unity.exe"
-Push-AppveyorArtifact ~\AppData\Local\Unity\Editor\Editor.log -FileName "EditorDeactivate.log"
+Start-Process -ArgumentList @("-batchmode","-projectpath $env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\", "-executeMethod Assets.Test.StartTest") -Wait -NoNewWindow "$env:AGENT_ROOTDIRECTORY\dependencies\Unity\latest\Unity\Editor\Unity.exe"
 
 $testNames = @("ColorVoxelMesh","TextureVoxelMesh")
 	
@@ -18,24 +9,28 @@ foreach($testName in $testNames)
 {
 	for($i = 0; $i -lt 6; $i++)
 	{
-        $currentScreenshot = "{0}\ProceduralVoxelMeshTester\{1}_{2}.png" -f "$env:APPVEYOR_BUILD_FOLDER", "$testName", "$i"
-        $originalScreenshot = "{0}\ProceduralVoxelMeshTester\{1}_{2}_original.png" -f "$env:APPVEYOR_BUILD_FOLDER", "$testName", "$i"
-        $diffFile = "$env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMeshTester\diff.png"
+        $currentScreenshot = "{0}\ProceduralVoxelMeshTester\{1}_{2}.png" -f "$env:BUILD_SOURCESDIRECTORY", "$testName", "$i"
+        $originalScreenshot = "{0}\ProceduralVoxelMeshTester\{1}_{2}_original.png" -f "$env:BUILD_SOURCESDIRECTORY", "$testName", "$i"
+        $diffFile = "$env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\diff.png"
             
 		$testResult = Test-Path $currentScreenshot
 		if($testResult -eq $false)
 		{
-			Add-AppveyorTest "Compare image" -Outcome Failed -FileName "ProceduralVoxelMesh/ProceduralVoxelMeshTester/CompareImages.ps1" -ErrorMessage "Screenshot not found. $currentScreenshot file not found" 
-            		$host.SetShouldExit(1)
+			Write-Error "Screenshot not found. $currentScreenshot file not found"
+            $exitCode = 1
 		}
 		else
 		{
-			$compareResultString = Invoke-Expression("$env:DEPENDENCIES_DIR\ImageMagick\compare.exe -metric mae $currentScreenshot $originalScreenshot $diffFile  2>&1")
+			$compareResultString = Invoke-Expression("$env:AGENT_ROOTDIRECTORY\dependencies\ImageMagick\latest\ImageMagick\compare.exe -metric mae $currentScreenshot $originalScreenshot $diffFile  2>&1")
 			$compareResult = ([string]$compareResultString).Substring(([string]$compareResultString).IndexOf("(") + 1, ([string]$compareResultString).IndexOf(")") - ([string]$compareResultString).IndexOf("(") - 1);
-			if ($compareResult -gt 0.1)
+			if ($compareResult -lt 0.1)
 			{
-				Add-AppveyorTest "Compare image" -Outcome Failed -FileName "ProceduralVoxelMesh/ProceduralVoxelMeshTester/CompareImages.ps1" -ErrorMessage "Screenshot did not match. $currentScreenshot did not match the original"
-                		$host.SetShouldExit(1)
+				Write-Host "$currentScreenshot PASS"
+			}
+			else
+			{
+				Write-Error "Screenshot did not match. $currentScreenshot did not match the original"
+                $exitCode = 1
 			}
 		}
 
@@ -44,5 +39,4 @@ foreach($testName in $testNames)
 	}
 }
 
-Add-AppveyorTest "Compare image" -Outcome Passed -FileName "ProceduralVoxelMesh/ProceduralVoxelMeshTester/CompareImages.ps1"
-
+exit $exitCode
