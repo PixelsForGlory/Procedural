@@ -1,7 +1,7 @@
 $exitCode = 0
 
 Write-Host "Running test in Unity3D"
-Start-Process -ArgumentList @("-batchmode","-projectpath $env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\", "-executeMethod Assets.Test.StartTest") -Wait -NoNewWindow "$env:AGENT_ROOTDIRECTORY\dependencies\Unity\latest\Unity\Editor\Unity.exe"
+Start-Process -ArgumentList @("-batchmode","-projectpath $env:BUILD_SOURCESDIRECTORY\ProceduralVoxelMeshTester\", "-executeMethod Assets.Test.StartTest") -Wait -NoNewWindow "$env:DEPENDENCIESDIR\Unity\latest\Unity\Editor\Unity.exe"
 
 $testNames = @("ColorVoxelMesh","TextureVoxelMesh")
 	
