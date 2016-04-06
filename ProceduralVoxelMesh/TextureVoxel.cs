@@ -164,22 +164,22 @@ namespace ProceduralVoxelMesh
         {
             if(textureMapIndex < 0)
             {
-                throw new ArgumentException("Cannot create a textured voxel without positive texture map index", nameof(textureMapIndex));
+                throw new ArgumentException("Cannot create a textured voxel without positive texture map index", "textureMapIndex");
             }
 
             if(textureMapIndex >= TextureVoxelMap.Count)
             {
-                throw new ArgumentException("Texture voxel index cannot be greater than number of elements in texture map", nameof(textureMapIndex));
+                throw new ArgumentException("Texture voxel index cannot be greater than number of elements in texture map", "textureMapIndex");
             }
 
             if(detailMapIndex < 0)
             {
-                throw new ArgumentException("Cannot create a textured voxel with a non-positive detail map index", nameof(detailMapIndex));
+                throw new ArgumentException("Cannot create a textured voxel with a non-positive detail map index", "detailMapIndex");
             }
 
             if(detailMapIndex >= TextureVoxelMap.Count)
             {
-                throw new ArgumentException("Detail voxel index cannot be greater than number of elements in texture map", nameof(detailMapIndex));
+                throw new ArgumentException("Detail voxel index cannot be greater than number of elements in texture map", "detailMapIndex");
             }
 
             _hasTexture = true;

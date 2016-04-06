@@ -217,7 +217,7 @@ namespace ProceduralVoxelMesh
         {
             if(faceType == FaceType.None)
             {
-                throw new ArgumentException("Cannot add a voxel to a none face type", nameof(faceType));
+                throw new ArgumentException("Cannot add a voxel to a none face type", "faceType");
             }
 
             // Colors
