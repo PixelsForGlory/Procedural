@@ -22,11 +22,6 @@ namespace ProceduralVoxelMesh
             {
                 return _voxelData.UniqueId;
             }
-            
-            set
-            {
-                _voxelData.UniqueId = value;
-            }
         }
             
         public override string Name
@@ -34,11 +29,6 @@ namespace ProceduralVoxelMesh
             get
             {
                 return _voxelData.Name;       
-            }
-            
-            set
-            {
-                _voxelData.Name = value;
             }
         }
          
@@ -48,23 +38,14 @@ namespace ProceduralVoxelMesh
             {
                 return _voxelData.Width;
             }
-            
-            set
-            {
-                _voxelData.Width = value;
-            }
         }
+        
         public override int Height
         {
             get
             {
                 return _voxelData.Height;
             }   
-            
-            set
-            {
-                _voxelData.Height = value;
-            }
         }
         
         public override int Depth
@@ -73,11 +54,6 @@ namespace ProceduralVoxelMesh
             {
                 return _voxelData.Depth;
             }   
-            
-            set
-            {
-                _voxelData.Depth = value;
-            }
         }
         
         public override List<ColorVoxel> Voxels
@@ -86,11 +62,6 @@ namespace ProceduralVoxelMesh
             {
                 return _voxelData.Voxels;    
             }   
-            
-            set
-            {
-                _voxelData.Voxels = value;
-            }
         }
             
         public override VoxelMeshData<ColorVoxel> VoxelData
@@ -98,11 +69,6 @@ namespace ProceduralVoxelMesh
             get
             {
                 return _voxelData;       
-            }
-            
-            set
-            {
-                _voxelData = value;
             }
         }
         
@@ -135,11 +101,6 @@ namespace ProceduralVoxelMesh
             {
                 return _voxelData.UniqueId;
             }
-            
-            set
-            {
-                _voxelData.UniqueId = value;
-            }
         }
             
         public override string Name
@@ -147,11 +108,6 @@ namespace ProceduralVoxelMesh
             get
             {
                 return _voxelData.Name;       
-            }
-            
-            set
-            {
-                _voxelData.Name = value;
             }
         }
          
@@ -161,11 +117,6 @@ namespace ProceduralVoxelMesh
             {
                 return _voxelData.Width;
             }
-            
-            set
-            {
-                _voxelData.Width = value;
-            }
         }
         public override int Height
         {
@@ -173,11 +124,6 @@ namespace ProceduralVoxelMesh
             {
                 return _voxelData.Height;
             }   
-            
-            set
-            {
-                _voxelData.Height = value;
-            }
         }
         
         public override int Depth
@@ -186,11 +132,6 @@ namespace ProceduralVoxelMesh
             {
                 return _voxelData.Depth;
             }   
-            
-            set
-            {
-                _voxelData.Depth = value;
-            }
         }
         
         public override List<TextureVoxel> Voxels
@@ -199,11 +140,6 @@ namespace ProceduralVoxelMesh
             {
                 return _voxelData.Voxels;    
             }   
-            
-            set
-            {
-                _voxelData.Voxels = value;
-            }
         }
             
         public override VoxelMeshData<TextureVoxel> VoxelData
@@ -211,11 +147,6 @@ namespace ProceduralVoxelMesh
             get
             {
                 return _voxelData;       
-            }
-            
-            set
-            {
-                _voxelData = value;
             }
         }
 
