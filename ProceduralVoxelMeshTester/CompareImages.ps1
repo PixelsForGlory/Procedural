@@ -1,5 +1,3 @@
-$env:BUILD_SOURCESDIRECTORY = "C:\Users\afuzzyllama\Development\Unity3D\ProceduralVoxelMesh\"
-
 $exitCode = 0
 
 Write-Host "Running test in Unity3D"
