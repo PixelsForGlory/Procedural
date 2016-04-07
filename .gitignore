@@ -6,8 +6,10 @@ obj/
 Thumbs.db
 
 ProceduralVoxelMeshTester/*.csproj
-ProceduralVoxelMeshTester/Build/
 ProceduralVoxelMeshTester/Library/
 ProceduralVoxelMeshTester/Assets/Plugins/
 ProceduralVoxelMeshTester/*.sln
 ProceduralVoxelMeshTester/ProjectSettings/
+ProceduralVoxelMeshTester/Assets/Resources/*.*
+
+ProceduralVoxelMeshTester/Build/Tester_Data/Managed/ProceduralVoxelMesh.dll

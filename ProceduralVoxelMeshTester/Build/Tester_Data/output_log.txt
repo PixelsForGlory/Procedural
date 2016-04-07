@@ -1,0 +1,124 @@
+Initialize engine version: 5.3.4f1 (fdbb5133b820)
+Forcing GfxDevice: Null
+NullGfxDevice:
+    Version:  NULL 1.0 [1.0]
+    Renderer: Null Device
+    Vendor:   Unity Technologies
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\afuzzyllama\Development\Unity3D\ProceduralVoxelMesh\ProceduralVoxelMeshTester\Bin\Tester_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\afuzzyllama\Development\Unity3D\ProceduralVoxelMesh\ProceduralVoxelMeshTester\Bin\Tester_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\afuzzyllama\Development\Unity3D\ProceduralVoxelMesh\ProceduralVoxelMeshTester\Bin\Tester_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\afuzzyllama\Development\Unity3D\ProceduralVoxelMesh\ProceduralVoxelMeshTester\Bin\Tester_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\afuzzyllama\Development\Unity3D\ProceduralVoxelMesh\ProceduralVoxelMeshTester\Bin\Tester_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\afuzzyllama\Development\Unity3D\ProceduralVoxelMesh\ProceduralVoxelMeshTester\Bin\Tester_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\afuzzyllama\Development\Unity3D\ProceduralVoxelMesh\ProceduralVoxelMeshTester\Bin\Tester_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\afuzzyllama\Development\Unity3D\ProceduralVoxelMesh\ProceduralVoxelMeshTester\Bin\Tester_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\afuzzyllama\Development\Unity3D\ProceduralVoxelMesh\ProceduralVoxelMeshTester\Bin\Tester_Data\Managed\ProceduralVoxelMesh.dll (this message is harmless)
+Loading C:\Users\afuzzyllama\Development\Unity3D\ProceduralVoxelMesh\ProceduralVoxelMeshTester\Bin\Tester_Data\Managed\ProceduralVoxelMesh.dll into Unity Child Domain
+Platform assembly: C:\Users\afuzzyllama\Development\Unity3D\ProceduralVoxelMesh\ProceduralVoxelMeshTester\Bin\Tester_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\afuzzyllama\Development\Unity3D\ProceduralVoxelMesh\ProceduralVoxelMeshTester\Bin\Tester_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\afuzzyllama\Development\Unity3D\ProceduralVoxelMesh\ProceduralVoxelMeshTester\Bin\Tester_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\afuzzyllama\Development\Unity3D\ProceduralVoxelMesh\ProceduralVoxelMeshTester\Bin\Tester_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+- Completed reload, in  0.036 seconds
+Platform assembly: C:\Users\afuzzyllama\Development\Unity3D\ProceduralVoxelMesh\ProceduralVoxelMeshTester\Bin\Tester_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\afuzzyllama\Development\Unity3D\ProceduralVoxelMesh\ProceduralVoxelMeshTester\Bin\Tester_Data\Managed\System.dll (this message is harmless)
+UnloadTime: 0.358400 ms
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: cbc -> priority: 1 
+  Thread -> id: 1e24 -> priority: 1 
+Take screenshot: ColorVoxelMesh_0.png
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+ReadPixels was called to read pixels from system frame buffer, while not inside drawing frame.
+ 
+(Filename:  Line: 1441)
+
+Take screenshot: ColorVoxelMesh_1.png
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+ReadPixels was called to read pixels from system frame buffer, while not inside drawing frame.
+ 
+(Filename:  Line: 1441)
+
+Take screenshot: ColorVoxelMesh_2.png
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+ReadPixels was called to read pixels from system frame buffer, while not inside drawing frame.
+ 
+(Filename:  Line: 1441)
+
+Take screenshot: ColorVoxelMesh_3.png
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+ReadPixels was called to read pixels from system frame buffer, while not inside drawing frame.
+ 
+(Filename:  Line: 1441)
+
+Take screenshot: ColorVoxelMesh_4.png
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+ReadPixels was called to read pixels from system frame buffer, while not inside drawing frame.
+ 
+(Filename:  Line: 1441)
+
+Take screenshot: ColorVoxelMesh_5.png
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+ReadPixels was called to read pixels from system frame buffer, while not inside drawing frame.
+ 
+(Filename:  Line: 1441)
+
+Take screenshot: TextureVoxelMesh_0.png
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+ReadPixels was called to read pixels from system frame buffer, while not inside drawing frame.
+ 
+(Filename:  Line: 1441)
+
+Take screenshot: TextureVoxelMesh_1.png
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+ReadPixels was called to read pixels from system frame buffer, while not inside drawing frame.
+ 
+(Filename:  Line: 1441)
+
+Take screenshot: TextureVoxelMesh_2.png
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+ReadPixels was called to read pixels from system frame buffer, while not inside drawing frame.
+ 
+(Filename:  Line: 1441)
+
+Take screenshot: TextureVoxelMesh_3.png
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+ReadPixels was called to read pixels from system frame buffer, while not inside drawing frame.
+ 
+(Filename:  Line: 1441)
+
+Take screenshot: TextureVoxelMesh_4.png
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+ReadPixels was called to read pixels from system frame buffer, while not inside drawing frame.
+ 
+(Filename:  Line: 1441)
+
+Take screenshot: TextureVoxelMesh_5.png
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+ReadPixels was called to read pixels from system frame buffer, while not inside drawing frame.
+ 
+(Filename:  Line: 1441)
+
