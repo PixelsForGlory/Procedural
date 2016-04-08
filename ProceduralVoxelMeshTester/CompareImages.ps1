@@ -1,7 +1,7 @@
 Write-Host "Running test in Unity3D Test Program"
 
 # Execute
-Start-Process -ArgumentList @("-batchmode") -Wait -NoNewWindow "$env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMeshTester\Build\Tester.exe"
+Start-Process -ArgumentList @("-batchmode", "-force-d3d9-ref") -Wait -NoNewWindow "$env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMeshTester\Build\Tester.exe"
 Push-AppveyorArtifact $env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMeshTester\Build\Tester_Data\output_log.txt -FileName "RenderTest.log"
 
 $testNames = @("ColorVoxelMesh","TextureVoxelMesh")
