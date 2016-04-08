@@ -2,7 +2,6 @@ Write-Host "Running test in Unity3D Test Program"
 
 # Execute
 Start-Process -ArgumentList @("-batchmode"), -Wait -NoNewWindow "$env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMeshTester\Build\Tester.exe"
-Push-AppveyorArtifact ~\AppData\Local\Unity\Editor\Editor.log -FileName "EditorTest.log"
 
 $testNames = @("ColorVoxelMesh","TextureVoxelMesh")
 	
