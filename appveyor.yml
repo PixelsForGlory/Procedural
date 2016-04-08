@@ -53,8 +53,8 @@ init:
 - ps: Move-Item "$env:TEMP_DIR\AppVeyorBuildScripts-master\*" "$env:BUILD_SCRIPTS_DIR\"
 - ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\getUnity3D.ps1`""
 - ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\getImageMagick.ps1`""
-- ps: wget -OutFile "$env:TEMP_DIR\coveralls.net.0.7.0-beta0001.nupkg" "https://github.com/csMACnz/coveralls.net/releases/download/0.7.0-beta.1/coveralls.net.0.7.0-beta0001.nupkg"
-- ps: 7z x "$env:TEMP_DIR\coveralls.net.0.7.0-beta0001.nupkg" -o"$env:TEMP_DIR"
+- ps: wget -OutFile "$env:TEMP_DIR\coveralls.net.0.7.0-beta0001.zip" "https://github.com/csMACnz/coveralls.net/releases/download/0.7.0-beta.1/coveralls.net.0.7.0-beta0001.nupkg"
+- ps: 7z x "$env:TEMP_DIR\coveralls.net.0.7.0-beta0001.zip" -o"$env:TEMP_DIR\coveralls.net.0.7.0-beta0001\"
 - ps: Move-Item "$env:TEMP_DIR\coveralls.net.0.7.0-beta0001\*" "$env:DEPENDENCIES_DIR\coveralls.net\" -Force
 
 assembly_info:
