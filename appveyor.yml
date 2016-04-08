@@ -83,11 +83,10 @@ before_test:
 - ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\startPerfmon.ps1`" '$env:APPVEYOR_BUILD_FOLDER\results.coverage'"
 
 test_script:
-- ps: Invoke-Expression "& `"$env:APPVEYOR_BUILD_FOLDER\test.ps1`"
+- ps: Invoke-Expression "& `"$env:APPVEYOR_BUILD_FOLDER\test.ps1`""
   
 after_test:
-- ps: Invoke-Expression "& `"`"
-- ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\shutdownPerfmon.ps1`"
+- ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\shutdownPerfmon.ps1`""
 - ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\convertCoverage.ps1`" '$env:APPVEYOR_BUILD_FOLDER\results.coverage'"
 
   
