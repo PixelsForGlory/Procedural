@@ -80,6 +80,8 @@ after_build:
 # ------------------
 before_test:
 - ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\instrumentAssembly.ps1`" '$env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMesh\bin\Release\ProceduralVoxelMesh.dll'"
+- ps: Copy-Item -Force "$env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMesh\bin\Release\ProceduralVoxelMesh.*" "$env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMeshTester\Build\Tester_Data\Managed\"
+- ps: Copy-Item -Force "$env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMesh\bin\Release\ProceduralVoxelMesh.*" "$env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMeshTest\bin\Release\"
 - ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\startPerfmon.ps1`" '$env:APPVEYOR_BUILD_FOLDER\results.coverage'"
 
 test_script:
