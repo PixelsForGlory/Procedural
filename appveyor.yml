@@ -60,7 +60,7 @@ build_script:
 after_build:
 - ps: Invoke-Expression "& `"$env:APPVEYOR_BUILD_FOLDER\packageBuild.ps1`""
 - ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\zipRelease.ps1`""
-- ps: Invoke-Expression "Push-AppveyorArtifact ([string]::Format(`"{0}\{1}.{2}.zip`", $env:STAGING_DIR, $env:APPVEYOR_PROJECT_NAME, $env:APPVEYOR_BUILD_VERSION))"
+- ps: Push-AppveyorArtifact ([string]::Format("{0}\{1}.{2}.zip", $env:STAGING_DIR, $env:APPVEYOR_PROJECT_NAME, $env:APPVEYOR_BUILD_VERSION))
 
 # ------------------
 # TEST CONFIGURATION
