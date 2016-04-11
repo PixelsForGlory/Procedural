@@ -15,7 +15,6 @@ skip_tags: true
 build:
   verbosity: minimal
 
-  
 # -------------------------
 # ENVIRONMENT CONFIGURATION
 # -------------------------
@@ -30,7 +29,7 @@ environment:
   work_dir: C:\work
   staging_dir: C:\work\staging
   temp_dir: C:\temp
-  
+
 # Clone directory
 clone_folder: C:\work\source
 
@@ -51,25 +50,24 @@ assembly_info:
   assembly_version: '{version}'
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}-$(appveyor_repo_commit)'
- 
+
 # -------------------
 # BUILD CONFIGURATION
 # -------------------
 build_script:
 - ps: Invoke-Expression "& `"$env:APPVEYOR_BUILD_FOLDER\build.ps1`""
-  
+
 after_build:
 - ps: Invoke-Expression "& `"$env:APPVEYOR_BUILD_FOLDER\packageBuild.ps1`""
 - ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\zipRelease.ps1`""
 - ps: Invoke-Expression "Push-AppveyorArtifact ([string]::Format(`"{0}\{1}.{2}.zip`", $env:STAGING_DIR, $env:APPVEYOR_PROJECT_NAME, $env:APPVEYOR_BUILD_VERSION))"
-  
 
 # ------------------
 # TEST CONFIGURATION
 # ------------------
 test_script:
 - ps: Invoke-Expression "& `"$env:APPVEYOR_BUILD_FOLDER\test.ps1`""
-	
+
 # ------------------------
 # DEPLOYMENT CONFIGURATION
 # ------------------------
