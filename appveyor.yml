@@ -30,14 +30,6 @@ environment:
   work_dir: C:\work
   staging_dir: C:\work\staging
   temp_dir: C:\temp
-  coveralls_repo_token: 
-    secure: e3qJzl4/8uKyjdcNKB3HrfAQe46Oq6f2V6HnmNXZZG4oHU8YkVhy4958jmNQDOqJ
-  unity3d_serial:
-    secure: xXlOMjRbuZAq97Zqk1HJo30LQGRocfWTn81RCWai04Q=
-  unity3d_username:
-    secure: fXfTDLXbZ27Sn15CCYZAj4IvDePNN1pGbBclD7EtIzk=
-  unity3d_password:
-    secure: 5/CtMazFKH0m9D22H1LdXA==
   
 # Clone directory
 clone_folder: C:\work\source
@@ -52,10 +44,6 @@ init:
 - ps: 7z x "$env:TEMP_DIR\AppVeyorBuildScripts.zip" -o"$env:TEMP_DIR"
 - ps: Move-Item "$env:TEMP_DIR\AppVeyorBuildScripts-master\*" "$env:BUILD_SCRIPTS_DIR\"
 - ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\getUnity3D.ps1`""
-- ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\getImageMagick.ps1`""
-- ps: wget -OutFile "$env:TEMP_DIR\coveralls.net.0.7.0-beta0001.zip" "https://github.com/csMACnz/coveralls.net/releases/download/0.7.0-beta.1/coveralls.net.0.7.0-beta0001.nupkg"
-- ps: 7z x "$env:TEMP_DIR\coveralls.net.0.7.0-beta0001.zip" -o"$env:TEMP_DIR\coveralls.net.0.7.0-beta0001\"
-- ps: Move-Item "$env:TEMP_DIR\coveralls.net.0.7.0-beta0001\*" "$env:DEPENDENCIES_DIR\coveralls.net\" -Force
 
 assembly_info:
   patch: true
@@ -79,25 +67,15 @@ after_build:
 # TEST CONFIGURATION
 # ------------------
 before_test:
-- ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\instrumentAssembly.ps1`" '$env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMesh\bin\Release\ProceduralVoxelMesh.dll'"
-- ps: Copy-Item -Force "$env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMesh\bin\Release\ProceduralVoxelMesh.*" "$env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMeshTester\Build\Tester_Data\Managed\"
-- ps: Copy-Item -Force "$env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMesh\bin\Release\ProceduralVoxelMesh.*" "$env:APPVEYOR_BUILD_FOLDER\ProceduralVoxelMeshTest\bin\Release\"
-- ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\startPerfmon.ps1`" '$env:APPVEYOR_BUILD_FOLDER\results.coverage'"
 
 test_script:
 - ps: Invoke-Expression "& `"$env:APPVEYOR_BUILD_FOLDER\test.ps1`""
-  
-after_test:
-- ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\shutdownPerfmon.ps1`""
-- ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\convertCoverage.ps1`" '$env:APPVEYOR_BUILD_FOLDER\results.coverage'"
-
   
 # -----------------------
 # ARTIFACTS CONFIGURATION
 # -----------------------
 artifacts:
  - path: C:\work\staging\*.zip
-
 
 # ------------------------
 # DEPLOYMENT CONFIGURATION
@@ -114,10 +92,6 @@ artifacts:
 #  on:
 #    branch: master
 #    appveyor_repo_tag: true 
-
-#after_deploy:
-#- ps: Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\coveralls.ps1`" '$env:APPVEYOR_BUILD_FOLDER\results.coveragexml'"
-
 
 # ---------------------------   
 # NOTIFICATIONS CONFIGURATION

@@ -16,62 +16,14 @@ namespace ProceduralVoxelMesh
         [SerializeField]
         private ColorVoxelMeshData _voxelData;
 
-        public override string UniqueId
-        {
-            get
-            {
-                return _voxelData.UniqueId;
-            }
-        }
-            
-        public override string Name
-        {
-            get
-            {
-                return _voxelData.Name;       
-            }
-        }
-         
-        public override int Width
-        {
-            get
-            {
-                return _voxelData.Width;
-            }
-        }
-        
-        public override int Height
-        {
-            get
-            {
-                return _voxelData.Height;
-            }   
-        }
-        
-        public override int Depth
-        {
-            get
-            {
-                return _voxelData.Depth;
-            }   
-        }
-        
-        public override List<ColorVoxel> Voxels
-        {
-            get
-            {
-                return _voxelData.Voxels;    
-            }   
-        }
-            
-        public override VoxelMeshData<ColorVoxel> VoxelData
-        {
-            get
-            {
-                return _voxelData;       
-            }
-        }
-        
+        public override string UniqueId => _voxelData.UniqueId;
+        public override string Name => _voxelData.Name;
+        public override int Width => _voxelData.Width;
+        public override int Height => _voxelData.Height;
+        public override int Depth => _voxelData.Depth;
+        public override List<ColorVoxel> Voxels => _voxelData.Voxels;
+        public override VoxelMeshData<ColorVoxel> VoxelData => _voxelData;
+
         public override void SetVoxelData(VoxelMeshData<ColorVoxel> voxelData)
         {
             _voxelData = new ColorVoxelMeshData(voxelData.UniqueId, voxelData.Name, voxelData.Width, voxelData.Height, voxelData.Depth, voxelData.Scale, voxelData.Voxels);
@@ -94,61 +46,14 @@ namespace ProceduralVoxelMesh
     {
         [SerializeField]
         private TextureVoxelMeshData _voxelData;
-        
-        public override string UniqueId
-        {
-            get
-            {
-                return _voxelData.UniqueId;
-            }
-        }
-            
-        public override string Name
-        {
-            get
-            {
-                return _voxelData.Name;       
-            }
-        }
-         
-        public override int Width
-        {
-            get
-            {
-                return _voxelData.Width;
-            }
-        }
-        public override int Height
-        {
-            get
-            {
-                return _voxelData.Height;
-            }   
-        }
-        
-        public override int Depth
-        {
-            get
-            {
-                return _voxelData.Depth;
-            }   
-        }
-        
-        public override List<TextureVoxel> Voxels
-        {
-            get
-            {
-                return _voxelData.Voxels;    
-            }   
-        }
-            
-        public override VoxelMeshData<TextureVoxel> VoxelData
-        {
-            get
-            {
-                return _voxelData;       
-            }
-        }
+
+        public override string UniqueId => _voxelData.UniqueId;
+        public override string Name => _voxelData.Name;
+        public override int Width => _voxelData.Width;
+        public override int Height => _voxelData.Height;
+        public override int Depth => _voxelData.Depth;
+        public override List<TextureVoxel> Voxels => _voxelData.Voxels;
+        public override VoxelMeshData<TextureVoxel> VoxelData => _voxelData;
 
         public override void SetVoxelData(VoxelMeshData<TextureVoxel> voxelData)
         {
