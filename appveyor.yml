@@ -71,18 +71,18 @@ test_script:
 # ------------------------
 # DEPLOYMENT CONFIGURATION
 # ------------------------
-#deploy:
-#  provider: GitHub
-#  auth_token:
-#    secure: 6rKcqEAzPD0o7RiGVFFaUVXts2nGs3w9SOMTayT3hFQVpc2rCX1rh5Lsg4SqkkrP
-#  release: ProceduralVoxelMesh-v$(appveyor_build_version)
-#  description: "Successful CI build of library.  Please consult the [ReadMe](https://github.com/PixelsForGlory/ProceduralVoxelMesh/blob/master/README.md) for implementing this release into your project."
-#  artifact: /.*\.zip/
-#  draft: false
-#  prerelease: false
-#  on:
-#    branch: master
-#    appveyor_repo_tag: true 
+deploy:
+  provider: GitHub
+  auth_token:
+    secure: 6rKcqEAzPD0o7RiGVFFaUVXts2nGs3w9SOMTayT3hFQVpc2rCX1rh5Lsg4SqkkrP
+  release: ProceduralVoxelMesh-v$(appveyor_build_version)
+  description: "Successful CI build of library.  Please consult the [ReadMe](https://github.com/PixelsForGlory/ProceduralVoxelMesh/blob/master/README.md) for implementing this release into your project."
+  artifact: /.*\.zip/
+  draft: false
+  prerelease: false
+  on:
+    branch: master
+    appveyor_repo_tag: true 
 
 # ---------------------------   
 # NOTIFICATIONS CONFIGURATION
