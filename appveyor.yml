@@ -75,6 +75,7 @@ deploy:
   provider: GitHub
   auth_token:
     secure: 6rKcqEAzPD0o7RiGVFFaUVXts2nGs3w9SOMTayT3hFQVpc2rCX1rh5Lsg4SqkkrP
+  tag: ProceduralVoxelMesh-v$(appveyor_build_version)
   release: ProceduralVoxelMesh-v$(appveyor_build_version)
   description: "Successful CI build of library.  Please consult the [ReadMe](https://github.com/PixelsForGlory/ProceduralVoxelMesh/blob/master/README.md) for implementing this release into your project."
   artifact: /.*\.zip/
