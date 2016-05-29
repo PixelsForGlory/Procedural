@@ -1,8 +1,8 @@
-﻿// Copyright 2015 afuzzyllama. All Rights Reserved.
+﻿// Copyright 2015-2016 afuzzyllama. All Rights Reserved.
 using UnityEngine;
 using System.Threading;
 
-namespace ProceduralVoxelMesh
+namespace PixelsForGlory.ProceduralVoxelMesh
 {
     /// <summary>
     /// Singleton class that handles creating the generator thread at start up.

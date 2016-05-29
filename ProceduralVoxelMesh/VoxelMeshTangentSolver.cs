@@ -4,7 +4,7 @@
 // Reference: http://www.terathon.com/code/tangent.html
 using UnityEngine;
 
-namespace ProceduralVoxelMesh
+namespace PixelsForGlory.ProceduralVoxelMesh
 {
     public abstract partial class VoxelMesh<T>
     {

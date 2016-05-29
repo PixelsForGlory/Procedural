@@ -1,7 +1,7 @@
-﻿// Copyright 2015 afuzzyllama. All Rights Reserved.
+﻿// Copyright 2015-2016 afuzzyllama. All Rights Reserved.
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ProceduralVoxelMesh;
+using PixelsForGlory.ProceduralVoxelMesh;
 using UnityEngine;
 // ReSharper disable NotAccessedVariable
 // ReSharper disable JoinDeclarationAndInitializer

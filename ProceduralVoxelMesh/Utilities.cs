@@ -1,8 +1,8 @@
-﻿// Copyright 2015 afuzzyllama. All Rights Reserved.
+﻿// Copyright 2015-2016 afuzzyllama. All Rights Reserved.
 using System;
 using UnityEngine;
 
-namespace ProceduralVoxelMesh
+namespace PixelsForGlory.ProceduralVoxelMesh
 {
     public static class Utilities
     {

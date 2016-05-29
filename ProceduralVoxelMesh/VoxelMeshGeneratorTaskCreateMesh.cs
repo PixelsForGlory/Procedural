@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ProceduralVoxelMesh
+namespace PixelsForGlory.ProceduralVoxelMesh
 {
     /// <summary>
     /// Faces of a cube

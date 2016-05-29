@@ -1,8 +1,8 @@
-﻿// Copyright 2015 afuzzyllama. All Rights Reserved.
+﻿// Copyright 2015-2016 afuzzyllama. All Rights Reserved.
 using System.Collections.Generic;
 using System.Threading;
 
-namespace ProceduralVoxelMesh
+namespace PixelsForGlory.ProceduralVoxelMesh
 {
     /// <summary>
     /// Voxel mesh generator that generator thread uses
