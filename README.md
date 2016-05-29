@@ -33,7 +33,7 @@ Creating a color voxel mesh at runtime is simple.  The following example will cr
 
 ```
 using UnityEngine;
-using ProceduralVoxelMesh;
+using PixelsForGlory.ProceduralVoxelMesh;
 
 public class ExampleCube : MonoBehaviour 
 {
