@@ -13,8 +13,10 @@
     <tags>Unity3D Procedural Mesh</tags>
   </metadata>
   <files>
-    <file src="GradientGenerator\bin\Release\ProceduralVoxelMesh.dll" target="lib\net35-Unity Full v3.5" />
-    <file src="GradientGenerator\bin\Release\ProceduralVoxelMesh.pdb" target="lib\net35-Unity Full v3.5" />
+    <file src="ProceduralVoxelMesh\bin\Release\ProceduralVoxelMesh.dll" target="content\Assets\Plugins\PixelsForGlory\ProceduralVoxelMesh" />
+    <file src="ProceduralVoxelMesh\bin\Release\ProceduralVoxelMesh.pdb" target="content\Assets\Plugins\PixelsForGlory\ProceduralVoxelMesh" />
+    <file src="ProceduralVoxelMeshEditor\bin\Release\ProceduralVoxelMeshEditor.dll" target="content\Assets\Plugins\Editor\PixelsForGlory\ProceduralVoxelMesh" />
+    <file src="ProceduralVoxelMeshEditor\bin\Release\ProceduralVoxelMeshEditor.pdb" target="content\Assets\Plugins\Editor\PixelsForGlory\ProceduralVoxelMesh" />
     <file src="Resources\AlphaMap.png" target="content\Assets\Resources\PixelsForGlory\ProceduralVoxelMesh" />
     <file src="Resources\ColorVoxelMaterial.mat" target="content\Assets\Resources\PixelsForGlory\ProceduralVoxelMesh" />
     <file src="Resources\ColorVoxelSurfaceShader.shader" target="content\Assets\Resources\PixelsForGlory\ProceduralVoxelMesh" />
