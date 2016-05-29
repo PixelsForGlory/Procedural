@@ -7,7 +7,7 @@
     <ProjectGuid>{4FE5E259-E4C2-49CA-892E-E3A952BE5A65}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ProceduralVoxelMesh</RootNamespace>
+    <RootNamespace>PixelsForGlory</RootNamespace>
     <AssemblyName>ProceduralVoxelMesh</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

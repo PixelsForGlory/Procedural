@@ -7,7 +7,7 @@
     <ProjectGuid>{A9431F41-78A2-471F-AE2A-B0089BD2C163}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ProceduralVoxelMeshEditor</RootNamespace>
+    <RootNamespace>PixelsForGlory</RootNamespace>
     <AssemblyName>ProceduralVoxelMeshEditor</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

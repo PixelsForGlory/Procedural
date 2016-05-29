@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿// Copyright 2015-2016 afuzzyllama. All Rights Reserved.
+using UnityEngine;
 using UnityEditor;
 
-namespace ProceduralVoxelMeshEditor
+namespace PixelsForGlory.ProceduralVoxelMeshEditor
 {
     /// <summary>
     /// Class to start the generator thread by default on Editor startup.
