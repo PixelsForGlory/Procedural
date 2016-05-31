@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Net;
 using UnityEngine;
 
 namespace PixelsForGlory.ProceduralVoxelMesh
@@ -13,6 +12,9 @@ namespace PixelsForGlory.ProceduralVoxelMesh
     [Serializable]
     public class ColorVoxelMesh : VoxelMesh<ColorVoxel>
     {
+        [SerializeField]
+        public static string MaterialResourcePath = string.Empty;
+
         [SerializeField]
         private ColorVoxelMeshData _voxelData;
 
@@ -34,7 +36,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         public override void Start()
         {
             base.Start();
-            MeshRenderer.sharedMaterial = Resources.Load<Material>("ColorVoxelMaterial");
+            MeshRenderer.sharedMaterial = Resources.Load<Material>(MaterialResourcePath + "ColorVoxelMaterial");
         }
     }
 
@@ -44,6 +46,9 @@ namespace PixelsForGlory.ProceduralVoxelMesh
     [Serializable]
     public class TextureVoxelMesh : VoxelMesh<TextureVoxel>
     {
+        [SerializeField]
+        public static string MaterialResourcePath = string.Empty;
+
         [SerializeField]
         private TextureVoxelMeshData _voxelData;
 
@@ -65,7 +70,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         public override void Start()
         {
             base.Start();
-            MeshRenderer.sharedMaterial = Resources.Load<Material>("TextureVoxelMaterial");
+            MeshRenderer.sharedMaterial = Resources.Load<Material>(MaterialResourcePath + "TextureVoxelMaterial");
         }
     }
 

@@ -29,6 +29,14 @@ After copying in the assets, a few things to setup:
 ## Usage
 There are two types of voxel meshes that can be created.  A color voxel mesh and a texture voxel mesh.
 
+If the material is not setup in the root directory of the Resource folder, then the resource folder must be set in each `VeshMesh` type.  For example, if installing using the NuGet package, make sure the following is set:
+
+```
+ColorVoxelMesh.MaterialResourcePath = @"PixelsForGlory\ProceduralVoxelMesh\";
+TextureVoxelMesh.MaterialResourcePath = @"PixelsForGlory\ProceduralVoxelMesh\";
+```
+
+
 Creating a color voxel mesh at runtime is simple.  The following example will create a randomly colored cube on a GameObject with a ColorVoxelMesh component:
 
 ```
@@ -54,8 +62,8 @@ public class ExampleCube : MonoBehaviour
       }
     }
 
-	var voxelData = new ColorVoxelMeshData("Test", width, height, depth, 1f, voxels);
-	voxelMesh.SetVoxelData(voxelData);
+    var voxelData = new ColorVoxelMeshData("Test", width, height, depth, 1f, voxels);
+    voxelMesh.SetVoxelData(voxelData);
   }
 }
 ```
@@ -65,61 +73,61 @@ When working with a texture map, like the test map provided in this repository, 
 ```
 public class ExampleTextureCube : MonoBehaviour
 {
-	void Start()
-	{
-		TextureVoxel.TextureVoxelMap.Clear();
-		TextureVoxel.TextureVoxelMap.Add(
-			new TextureVoxelSetup()
-			{
-				XNegativeTextureIndex = 1,
-				XPositiveTextureIndex = 1,
-				YNegativeTextureIndex = 3,
-				YPositiveTextureIndex = 2,
-				ZNegativeTextureIndex = 1,
-				ZPositiveTextureIndex = 1
-			});
+    void Start()
+    {
+        TextureVoxel.TextureVoxelMap.Clear();
+        TextureVoxel.TextureVoxelMap.Add(
+            new TextureVoxelSetup()
+            {
+                XNegativeTextureIndex = 1,
+                XPositiveTextureIndex = 1,
+                YNegativeTextureIndex = 3,
+                YPositiveTextureIndex = 2,
+                ZNegativeTextureIndex = 1,
+                ZPositiveTextureIndex = 1
+            });
 
-		TextureVoxel.TextureVoxelMap.Add(
-			new TextureVoxelSetup()
-			{
-				XNegativeTextureIndex = 4,
-				XPositiveTextureIndex = 4,
-				YNegativeTextureIndex = 4,
-				YPositiveTextureIndex = 4,
-				ZNegativeTextureIndex = 4,
-				ZPositiveTextureIndex = 4
-			});
-	
-	
-		TextureVoxelMesh voxelMesh = GetComponent<TextureVoxelMesh>();
-	
-		int width = 2;
-		int height = 2;
-		int depth = 2;
+        TextureVoxel.TextureVoxelMap.Add(
+            new TextureVoxelSetup()
+            {
+                XNegativeTextureIndex = 4,
+                XPositiveTextureIndex = 4,
+                YNegativeTextureIndex = 4,
+                YPositiveTextureIndex = 4,
+                ZNegativeTextureIndex = 4,
+                ZPositiveTextureIndex = 4
+            });
+    
+    
+        TextureVoxelMesh voxelMesh = GetComponent<TextureVoxelMesh>();
+    
+        int width = 2;
+        int height = 2;
+        int depth = 2;
 
-		TextureVoxel[,,] voxels = new TextureVoxel[width, height, depth];
-		for(int w = 0; w < width; ++w)
-		{
-			for(int h = 0; h < height; ++h)
-			{
-				for(int d = 0; d < depth; ++d)
-				{
-					if(w == d && h == d)
-					{
-						voxels[w, h, d] = new TextureVoxel(0, 1);
-					}
-					else
-					{
-						voxels[w, h, d] = new TextureVoxel(0);
-					}
+        TextureVoxel[,,] voxels = new TextureVoxel[width, height, depth];
+        for(int w = 0; w < width; ++w)
+        {
+            for(int h = 0; h < height; ++h)
+            {
+                for(int d = 0; d < depth; ++d)
+                {
+                    if(w == d && h == d)
+                    {
+                        voxels[w, h, d] = new TextureVoxel(0, 1);
+                    }
+                    else
+                    {
+                        voxels[w, h, d] = new TextureVoxel(0);
+                    }
 
-				}
-			}
-		}
-		
-		var voxelData = new TextureVoxelMeshData("Test", width, height, depth, 1f, voxels);
-		voxelMesh.SetVoxelData(voxelData);
-	}
+                }
+            }
+        }
+        
+        var voxelData = new TextureVoxelMeshData("Test", width, height, depth, 1f, voxels);
+        voxelMesh.SetVoxelData(voxelData);
+    }
 }
 ```
 
