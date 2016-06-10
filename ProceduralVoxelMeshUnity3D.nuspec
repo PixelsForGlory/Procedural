@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <metadata>
-    <id>PixelsForGlory.ProceduralVoxelMesh</id>
+    <id>PixelsForGlory.Unity3D.ProceduralVoxelMesh</id>
     <version>0.0.0</version>
     <authors>afuzzyllama</authors>
     <owners>afuzzyllama</owners>
