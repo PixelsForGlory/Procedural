@@ -11,6 +11,8 @@ The solution has references set for `UnityEngine.dll` and `UnityEditor.dll`, but
 ## Installation
 From a build or downloaded released, copy the `ProceduralVoxelMesh.dll` to `[PROJECT DIR]\Assets\Plugins` and `ProceduralVoxelMeshEditor.dll` to `[PROJECT DIR]\Assets\Plugins\Editor`.  Additionally, move the shader files and the material files found in the Resources directory to a Resources directory somewhere in your `[PROJECT DIR]\Assets` directory (example `[PROJECT DIR]\Assets\Resources`) so it can be found by `Resources.Load()`.
 
+If using the Pixels for Glory NuGet repository at http://pixelsforglory.azurewebsites.net/nuget, install the `PixelsForGlory.Unity3D.ProceduralVoxelMesh` package into a Unity3D project.
+
 After copying in the assets, a few things to setup:
 
 1. The thread to generate meshes will be started automatically in the editor, but to have it startup automatically in a standalone game, make sure there is a GameObject with the thread script attached to it.  There is logic to make sure that only one instance of the thread is setup.
