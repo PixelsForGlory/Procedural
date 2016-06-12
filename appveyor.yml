@@ -46,6 +46,7 @@ init:
     try 
     {
       Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\getUnity3D.ps1`""
+    }
     catch
     {
       $host.SetShouldExit($true)
@@ -66,6 +67,7 @@ build_script:
     try 
     {
       Invoke-Expression "& `"$env:APPVEYOR_BUILD_FOLDER\build.ps1`""
+    }
     catch
     {
       $host.SetShouldExit($true)
@@ -76,6 +78,7 @@ after_build:
     try 
     {
       Invoke-Expression "& `"$env:APPVEYOR_BUILD_FOLDER\packageBuild.ps1`""
+    }
     catch
     {
       $host.SetShouldExit($true)
@@ -85,6 +88,7 @@ after_build:
     try 
     {
       Invoke-Expression "& `"$env:BUILD_SCRIPTS_DIR\packNuget.ps1`" $env:APPVEYOR_BUILD_FOLDER\$($env:APPVEYOR_PROJECT_NAME)Unity3D.nuspec"
+    }
     catch
     {
       $host.SetShouldExit($true)
@@ -100,6 +104,7 @@ test_script:
     try 
     {
       Invoke-Expression "& `"$env:APPVEYOR_BUILD_FOLDER\test.ps1`""
+    }
     catch
     {
       $host.SetShouldExit($true)
