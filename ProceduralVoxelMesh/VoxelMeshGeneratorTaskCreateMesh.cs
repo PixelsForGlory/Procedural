@@ -41,7 +41,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
                 UV3 = new List<Vector2>();
                 Triangles = new List<int>();
 
-                Vector3 offset = new Vector3(_width / 2.0f, _height / 2.0f, _depth / 2.0f);
+                Vector3 offset = new Vector3((_width * _levelOfDetailDivisor) / 2.0f, (_height * _levelOfDetailDivisor) / 2.0f, (_depth * _levelOfDetailDivisor) / 2.0f);
 
                 // GreedyMesh (volume, dims)
                 // Sweep over 3-axes
@@ -261,10 +261,10 @@ namespace PixelsForGlory.ProceduralVoxelMesh
                                     int baseVerticesNum = Vertices.Count;
                                     
                                     // Vertices
-                                    Vertices.Add(new Vector3(x[0], x[1], x[2]) - offset); // 0
-                                    Vertices.Add(new Vector3(x[0] + du[0], x[1] + du[1], x[2] + du[2]) - offset); // 1
-                                    Vertices.Add(new Vector3(x[0] + du[0] + dv[0], x[1] + du[1] + dv[1], x[2] + du[2] + dv[2]) - offset); // 2
-                                    Vertices.Add(new Vector3(x[0] + dv[0], x[1] + dv[1], x[2] + dv[2]) - offset); // 3
+                                    Vertices.Add(new Vector3(x[0], x[1], x[2]) * _levelOfDetailDivisor - offset); // 0
+                                    Vertices.Add(new Vector3(x[0] + du[0], x[1] + du[1], x[2] + du[2]) * _levelOfDetailDivisor - offset); // 1
+                                    Vertices.Add(new Vector3(x[0] + du[0] + dv[0], x[1] + du[1] + dv[1], x[2] + du[2] + dv[2]) * _levelOfDetailDivisor - offset); // 2
+                                    Vertices.Add(new Vector3(x[0] + dv[0], x[1] + dv[1], x[2] + dv[2]) * _levelOfDetailDivisor - offset); // 3
 
                                     // Normals
                                     switch(faceType)

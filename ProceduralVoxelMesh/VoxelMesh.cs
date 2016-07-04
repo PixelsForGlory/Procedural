@@ -112,6 +112,25 @@ namespace PixelsForGlory.ProceduralVoxelMesh
 
         public abstract VoxelMeshData<T> VoxelData { get; }
 
+        private int _levelOfDetail;
+
+        /// <summary>
+        /// Level of detail to render.  2^(LOD)
+        /// </summary>
+        public int LevelOfDetail
+        {
+            get
+            {
+                return _levelOfDetail;
+            }
+
+            set
+            {
+                _levelOfDetail = value;
+                UpdateMesh();
+            }
+        }
+
         /// <summary>
         /// Observers of this mesh who want to know when the mesh has finished updating
         /// </summary>
@@ -153,8 +172,12 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         /// </summary> 
         public void UpdateMesh()
         {
+            if(VoxelData == null)
+            {
+                return;
+            }
             // Set voxels and queue this mesh up to be generated
-            _generatorTask = new VoxelMeshGeneratorTask<T>(Voxels, Width, Height, Depth);
+            _generatorTask = new VoxelMeshGeneratorTask<T>(Voxels, LevelOfDetail, Width, Height, Depth);
             VoxelMeshGeneratorThread.Generator.EnqueueTask(_generatorTask);
         }
 

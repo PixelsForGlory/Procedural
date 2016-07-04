@@ -54,23 +54,25 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         private readonly int _width;
         private readonly int _depth;
         private readonly int _height;
+        private readonly int _levelOfDetailDivisor;
 
-        public VoxelMeshGeneratorTask(IList<T> voxels, int width, int height, int depth)
+        public VoxelMeshGeneratorTask(IList<T> voxels, int levelOfDetail, int width, int height, int depth)
         {
-            _width = width;
-            _height = height;
-            _depth = depth;
+            _levelOfDetailDivisor = Mathf.RoundToInt(Mathf.Pow(2f, levelOfDetail));
+            _width = width / _levelOfDetailDivisor;
+            _height = height / _levelOfDetailDivisor;
+            _depth = depth / _levelOfDetailDivisor;
             Completed = false;
 
             // Make a deep copy of the passed in array to this task
-            _voxels = new T[width, height, depth];
-            for(int w = 0; w < _width; ++w)
+            _voxels = new T[_width, _height, _depth];
+            for(int w = 0; w < _width; w++)
             {
-                for(int h = 0; h < _height; ++h)
+                for(int h = 0; h < _height; h++)
                 {
-                    for(int d = 0; d < _depth; ++d)
+                    for(int d = 0; d < _depth; d++)
                     {
-                        _voxels[w, h, d] = (T)voxels[Utilities.GetIndex(w, h, d, _width, _height, _depth)].DeepCopy();
+                        _voxels[w, h, d] = (T)voxels[Utilities.GetIndex(w * _levelOfDetailDivisor, h * _levelOfDetailDivisor, d * _levelOfDetailDivisor, width, height, depth)].DeepCopy();
                     }
                 }
             }
