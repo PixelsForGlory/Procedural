@@ -22,5 +22,6 @@
     <file src="Resources\ColorVoxelSurfaceShader.shader" target="content\Assets\Resources\PixelsForGlory\ProceduralVoxelMesh" />
     <file src="Resources\TextureVoxelMaterial.mat" target="content\Assets\Resources\PixelsForGlory\ProceduralVoxelMesh" />
     <file src="Resources\TextureVoxelSurfaceShader.shader" target="content\Assets\Resources\PixelsForGlory\ProceduralVoxelMesh" />
+    <file src="NuGetTools\Uninstall.ps1" target="tools\PixelsForGlory\ProceduralVoxelMesh\" />
   </files>
 </package>
