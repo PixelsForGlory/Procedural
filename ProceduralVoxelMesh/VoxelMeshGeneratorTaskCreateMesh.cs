@@ -33,13 +33,13 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         {
             try
             {
-                Vertices = new List<Vector3>();
-                Normals = new List<Vector3>();
-                Colors = new List<Color>();
-                UV = new List<Vector2>();
-                UV2 = new List<Vector2>();
-                UV3 = new List<Vector2>();
-                Triangles = new List<int>();
+                var vertices = new List<Vector3>();
+                var normals = new List<Vector3>();
+                var colors = new List<Color>();
+                var uv = new List<Vector2>();
+                var uv2 = new List<Vector2>();
+                var uv3 = new List<Vector2>();
+                var triangles = new List<int>();
 
                 Vector3 offset = new Vector3((_width * _levelOfDetailDivisor) / 2.0f, (_height * _levelOfDetailDivisor) / 2.0f, (_depth * _levelOfDetailDivisor) / 2.0f);
 
@@ -258,66 +258,66 @@ namespace PixelsForGlory.ProceduralVoxelMesh
                                         faceType = maskNormalDirection > 0 ? FaceType.ZPositive : FaceType.ZNegative;
                                     }
 
-                                    int baseVerticesNum = Vertices.Count;
+                                    int baseVerticesNum = vertices.Count;
                                     
                                     // Vertices
-                                    Vertices.Add(new Vector3(x[0], x[1], x[2]) * _levelOfDetailDivisor - offset); // 0
-                                    Vertices.Add(new Vector3(x[0] + du[0], x[1] + du[1], x[2] + du[2]) * _levelOfDetailDivisor - offset); // 1
-                                    Vertices.Add(new Vector3(x[0] + du[0] + dv[0], x[1] + du[1] + dv[1], x[2] + du[2] + dv[2]) * _levelOfDetailDivisor - offset); // 2
-                                    Vertices.Add(new Vector3(x[0] + dv[0], x[1] + dv[1], x[2] + dv[2]) * _levelOfDetailDivisor - offset); // 3
+                                    vertices.Add(new Vector3(x[0], x[1], x[2]) * _levelOfDetailDivisor - offset); // 0
+                                    vertices.Add(new Vector3(x[0] + du[0], x[1] + du[1], x[2] + du[2]) * _levelOfDetailDivisor - offset); // 1
+                                    vertices.Add(new Vector3(x[0] + du[0] + dv[0], x[1] + du[1] + dv[1], x[2] + du[2] + dv[2]) * _levelOfDetailDivisor - offset); // 2
+                                    vertices.Add(new Vector3(x[0] + dv[0], x[1] + dv[1], x[2] + dv[2]) * _levelOfDetailDivisor - offset); // 3
 
                                     // Normals
                                     switch(faceType)
                                     {
                                         case FaceType.XPositive:
                                         case FaceType.XNegative:
-                                            Normals.Add(new Vector3(maskNormalDirection, 0.0f, 0.0f));
-                                            Normals.Add(new Vector3(maskNormalDirection, 0.0f, 0.0f));
-                                            Normals.Add(new Vector3(maskNormalDirection, 0.0f, 0.0f));
-                                            Normals.Add(new Vector3(maskNormalDirection, 0.0f, 0.0f));
+                                            normals.Add(new Vector3(maskNormalDirection, 0.0f, 0.0f));
+                                            normals.Add(new Vector3(maskNormalDirection, 0.0f, 0.0f));
+                                            normals.Add(new Vector3(maskNormalDirection, 0.0f, 0.0f));
+                                            normals.Add(new Vector3(maskNormalDirection, 0.0f, 0.0f));
                                             break;
                                         case FaceType.YPositive:
                                         case FaceType.YNegative:
-                                            Normals.Add(new Vector3(0.0f, maskNormalDirection, 0.0f));
-                                            Normals.Add(new Vector3(0.0f, maskNormalDirection, 0.0f));
-                                            Normals.Add(new Vector3(0.0f, maskNormalDirection, 0.0f));
-                                            Normals.Add(new Vector3(0.0f, maskNormalDirection, 0.0f));
+                                            normals.Add(new Vector3(0.0f, maskNormalDirection, 0.0f));
+                                            normals.Add(new Vector3(0.0f, maskNormalDirection, 0.0f));
+                                            normals.Add(new Vector3(0.0f, maskNormalDirection, 0.0f));
+                                            normals.Add(new Vector3(0.0f, maskNormalDirection, 0.0f));
                                             break;
                                         case FaceType.ZPositive:
                                         case FaceType.ZNegative:
-                                            Normals.Add(new Vector3(0.0f, 0.0f, maskNormalDirection));
-                                            Normals.Add(new Vector3(0.0f, 0.0f, maskNormalDirection));
-                                            Normals.Add(new Vector3(0.0f, 0.0f, maskNormalDirection));
-                                            Normals.Add(new Vector3(0.0f, 0.0f, maskNormalDirection));
+                                            normals.Add(new Vector3(0.0f, 0.0f, maskNormalDirection));
+                                            normals.Add(new Vector3(0.0f, 0.0f, maskNormalDirection));
+                                            normals.Add(new Vector3(0.0f, 0.0f, maskNormalDirection));
+                                            normals.Add(new Vector3(0.0f, 0.0f, maskNormalDirection));
                                             break;
                                     }
 
                                     if(maskNormalDirection == 1)
                                     {
                                         // Triangles
-                                        Triangles.Add(baseVerticesNum); // 0
-                                        Triangles.Add(baseVerticesNum + 1); // 1
-                                        Triangles.Add(baseVerticesNum + 2); // 2
+                                        triangles.Add(baseVerticesNum); // 0
+                                        triangles.Add(baseVerticesNum + 1); // 1
+                                        triangles.Add(baseVerticesNum + 2); // 2
 
-                                        Triangles.Add(baseVerticesNum); // 0
-                                        Triangles.Add(baseVerticesNum + 2); // 2
-                                        Triangles.Add(baseVerticesNum + 3); // 3
+                                        triangles.Add(baseVerticesNum); // 0
+                                        triangles.Add(baseVerticesNum + 2); // 2
+                                        triangles.Add(baseVerticesNum + 3); // 3
 
                                     }
                                     else
                                     {
                                         // Triangles
-                                        Triangles.Add(baseVerticesNum); // 0
-                                        Triangles.Add(baseVerticesNum + 2); // 2
-                                        Triangles.Add(baseVerticesNum + 1); // 1
+                                        triangles.Add(baseVerticesNum); // 0
+                                        triangles.Add(baseVerticesNum + 2); // 2
+                                        triangles.Add(baseVerticesNum + 1); // 1
 
 
-                                        Triangles.Add(baseVerticesNum); // 0
-                                        Triangles.Add(baseVerticesNum + 3); // 3
-                                        Triangles.Add(baseVerticesNum + 2); // 2
+                                        triangles.Add(baseVerticesNum); // 0
+                                        triangles.Add(baseVerticesNum + 3); // 3
+                                        triangles.Add(baseVerticesNum + 2); // 2
                                     }
 
-                                    mask[n].Voxel.AddVoxelToMesh(faceType, w, h, Colors, UV, UV2, UV3);
+                                    mask[n].Voxel.AddVoxelToMesh(faceType, w, h, colors, uv, uv2, uv3);
 
                                     // Set covered area to opposite normal direction
                                     for(int normalU = i; normalU < i + w; ++normalU)
@@ -350,6 +350,16 @@ namespace PixelsForGlory.ProceduralVoxelMesh
                         }
                     }
                 }
+
+                Vertices = vertices.ToArray();
+                Normals = normals.ToArray();
+                Colors = colors.ToArray();
+                UV = uv.ToArray();
+                UV2 = uv2.ToArray();
+                UV3 = uv3.ToArray();
+                Triangles = triangles.ToArray();
+
+                TangentSolver();
 
                 Completed = true;
             }

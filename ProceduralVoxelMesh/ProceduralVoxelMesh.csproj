@@ -64,7 +64,7 @@
     <Compile Include="VoxelMeshGeneratorTask.cs" />
     <Compile Include="VoxelMeshGeneratorTaskCreateMesh.cs" />
     <Compile Include="VoxelMeshGeneratorThread.cs" />
-    <Compile Include="VoxelMeshTangentSolver.cs" />
+    <Compile Include="VoxelMeshGeneratorTangentSolver.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

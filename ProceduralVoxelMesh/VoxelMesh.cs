@@ -81,7 +81,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
     [RequireComponent(typeof(MeshRenderer))]
     [RequireComponent(typeof(MeshCollider))]
     [ExecuteInEditMode]
-    public abstract partial class VoxelMesh<T> : MonoBehaviour, ISerializationCallbackReceiver where T : IVoxel, new()
+    public abstract class VoxelMesh<T> : MonoBehaviour, ISerializationCallbackReceiver where T : IVoxel, new()
     {
         /// <summary>
         /// UniqueId based on System.Guid
@@ -239,16 +239,14 @@ namespace PixelsForGlory.ProceduralVoxelMesh
 
             // Task is completed, recreate the mesh
             Mesh.Clear();
-            Mesh.vertices = _generatorTask.Vertices.ToArray();
-            Mesh.normals = _generatorTask.Normals.ToArray();
-            Mesh.colors = _generatorTask.Colors.ToArray();
-            Mesh.uv = _generatorTask.UV.ToArray();
-            Mesh.uv2 = _generatorTask.UV2.ToArray();
-            Mesh.uv3 = _generatorTask.UV3.ToArray();
-            Mesh.triangles = _generatorTask.Triangles.ToArray();
-
-            TangentSolver(Mesh);
-
+            Mesh.vertices = _generatorTask.Vertices;
+            Mesh.normals = _generatorTask.Normals;
+            Mesh.colors = _generatorTask.Colors;
+            Mesh.uv = _generatorTask.UV;
+            Mesh.uv2 = _generatorTask.UV2;
+            Mesh.uv3 = _generatorTask.UV3;
+            Mesh.triangles = _generatorTask.Triangles;
+            Mesh.tangents = _generatorTask.Tangents;
             Mesh.Optimize();
             Mesh.RecalculateBounds();
             MeshCollider.sharedMesh = Mesh;

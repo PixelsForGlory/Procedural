@@ -12,37 +12,39 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         /// <summary>
         /// Generated vertices
         /// </summary>
-        public List<Vector3> Vertices;
+        public Vector3[] Vertices;
 
         /// <summary>
         /// Generated normals
         /// </summary>
-        public List<Vector3> Normals;
+        public Vector3[] Normals;
 
         /// <summary>
         /// Generated colors
         /// </summary>
-        public List<Color> Colors;
+        public Color[] Colors;
 
         /// <summary>
         /// Generated metallic uvs
         /// </summary>
-        public List<Vector2> UV;
+        public Vector2[] UV;
 
         /// <summary>
         /// Generated smoohtness uvs
         /// </summary>
-        public List<Vector2> UV2;
+        public Vector2[] UV2;
 
         /// <summary>
         /// Generated emission uvs
         /// </summary>
-        public List<Vector2> UV3;
+        public Vector2[] UV3;
 
         /// <summary>
         /// Generated triangles
         /// </summary>
-        public List<int> Triangles;
+        public int[] Triangles;
+
+        public Vector4[] Tangents;
 
         /// <summary>
         /// Set to true when the task is completed
