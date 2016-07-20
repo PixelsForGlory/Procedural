@@ -52,14 +52,19 @@ public class ExampleCube : MonoBehaviour
   {
     ColorVoxelMesh voxelMesh = GetComponent<ColorVoxelMesh>();
 
-    ColorVoxel[,,] voxels = new ColorVoxel[16, 16, 16];
-    for(int w = 0; w < 16; ++w)
+    int width = 16;
+    int height = 16;
+    int depth = 16;
+    
+    
+    var voxels = new List<ColorVoxel>[width * height * depth];
+    for(int w = 0; w < width; ++w)
     {
-      for(int h = 0; h < 16; ++h)
+      for(int h = 0; h < height; ++h)
       {
-        for(int d = 0; d < 16; ++d)
+        for(int d = 0; d < depth; ++d)
         {
-          voxels[w, h, d] = new ColorVoxel(new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f)));
+          voxels[Utilities.GetIndex(w, h, d, width, height, depth)] = new ColorVoxel(new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f)));
         }
       }
     }
@@ -116,11 +121,11 @@ public class ExampleTextureCube : MonoBehaviour
                 {
                     if(w == d && h == d)
                     {
-                        voxels[w, h, d] = new TextureVoxel(0, 1);
+                        voxels[Utilities.GetIndex(w, h, d, width, height, depth)] = new TextureVoxel(0, 1);
                     }
                     else
                     {
-                        voxels[w, h, d] = new TextureVoxel(0);
+                        voxels[Utilities.GetIndex(w, h, d, width, height, depth)] = new TextureVoxel(0);
                     }
 
                 }

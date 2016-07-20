@@ -17,10 +17,6 @@ namespace PixelsForGlory.ProceduralVoxelMesh
 
         public ColorVoxelMeshData(string name, int width, int height, int depth, float scale, IList<ColorVoxel> voxels) 
             : base(name, width, height, depth, scale, voxels) { }
-
-        public ColorVoxelMeshData(string name, int width, int height, int depth, float scale, ColorVoxel[,,] voxels)
-            : base(name, width, height, depth, scale, voxels){}
-
     }
 
     [Serializable]
@@ -36,9 +32,6 @@ namespace PixelsForGlory.ProceduralVoxelMesh
 
         public TextureVoxelMeshData(string name, int width, int height, int depth, float scale, IList<TextureVoxel> voxels) 
             : base(name, width, height, depth, scale, voxels) { }
-
-        public TextureVoxelMeshData(string name, int width, int height, int depth, float scale, TextureVoxel[,,] voxels)
-            : base(name, width, height, depth, scale, voxels){ }
     }
     
     /// <summary>
@@ -116,17 +109,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
             Height = height;
             Depth = depth;
             Scale = scale;
-            Voxels = new List<T>();
-
-            for(int i = 0; i < Width * Height * Depth; i++)
-            {
-                Voxels.Add(new T());
-            }
-
-            for(int i = 0; i < voxels.Count; i++)
-            {
-                Voxels[i] = voxels[i];
-            }
+            Voxels = new List<T>(voxels);
         }
 
         protected VoxelMeshData(string name, int width, int height, int depth, float scale, IList<T> voxels)
@@ -137,44 +120,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
             Height = height;
             Depth = depth;
             Scale = scale;
-            Voxels = new List<T>();
-
-            for(int i = 0; i < Width * Height * Depth; i++)
-            {
-                Voxels.Add(new T());
-            }
-
-            for(int i = 0; i < voxels.Count; i++)
-            {
-                Voxels[i] = voxels[i];
-            }
-        }
-
-        protected VoxelMeshData(string name, int width, int height, int depth, float scale, T[,,] voxels)
-        {
-            UniqueId = Guid.NewGuid().ToString();
-            Name = name;
-            Width = width;
-            Height = height;
-            Depth = depth;
-            Scale = scale;
-            Voxels = new List<T>();
-
-            for(int i = 0; i < Width * Height * Depth; i++)
-            {
-                Voxels.Add(new T());
-            }
-
-            for(int w = 0; w < Width; w++)
-            {
-                for(int h = 0; h < Height; h++)
-                {
-                    for(int d = 0; d < Depth; d++)
-                    {
-                        Voxels[Utilities.GetIndex(w, h, d, Width, Height, Depth)] = voxels[w, h, d];
-                    }
-                }
-            }
+            Voxels = new List<T>(voxels);
         }
     }
 }
