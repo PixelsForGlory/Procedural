@@ -57,7 +57,7 @@ public class ExampleCube : MonoBehaviour
     int depth = 16;
     
     
-    var voxels = new List<ColorVoxel>[width * height * depth];
+    var voxels = new List<ColorVoxel>(new ColorVoxel[width * height * depth]);
     for(int w = 0; w < width; ++w)
     {
       for(int h = 0; h < height; ++h)
@@ -112,7 +112,7 @@ public class ExampleTextureCube : MonoBehaviour
         int height = 2;
         int depth = 2;
 
-        TextureVoxel[,,] voxels = new TextureVoxel[width, height, depth];
+        var voxels = new List<TextureVoxel>(new TextureVoxel[width * height * depth]);
         for(int w = 0; w < width; ++w)
         {
             for(int h = 0; h < height; ++h)
