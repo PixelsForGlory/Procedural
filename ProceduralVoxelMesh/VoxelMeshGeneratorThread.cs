@@ -1,6 +1,7 @@
 ﻿// Copyright 2015-2016 afuzzyllama. All Rights Reserved.
 using UnityEngine;
 using System.Threading;
+using ThreadPriority = System.Threading.ThreadPriority;
 
 namespace PixelsForGlory.ProceduralVoxelMesh
 {
@@ -62,7 +63,13 @@ namespace PixelsForGlory.ProceduralVoxelMesh
             {
                 Generator = new VoxelMeshGenerator();
                 // ReSharper disable once RedundantDelegateCreation
-                _generatorThread = new Thread(new ThreadStart(_generator.Run));
+                _generatorThread = new Thread(new ThreadStart(_generator.Run))
+                {
+                    Name = "VoxelMeshGeneratorThread",
+                    Priority = ThreadPriority.Lowest,
+                    IsBackground = true
+                };
+                
                 _generatorThread.Start();
             }
         }
