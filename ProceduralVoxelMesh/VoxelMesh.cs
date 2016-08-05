@@ -23,7 +23,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         public override int Width => _voxelData.Width;
         public override int Height => _voxelData.Height;
         public override int Depth => _voxelData.Depth;
-        public override List<ColorVoxel> Voxels => _voxelData.Voxels;
+        public override IList<ColorVoxel> Voxels => _voxelData.Voxels;
         public override VoxelMeshData<ColorVoxel> VoxelData => _voxelData;
 
         public override void SetVoxelData(VoxelMeshData<ColorVoxel> voxelData)
@@ -57,7 +57,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         public override int Width => _voxelData.Width;
         public override int Height => _voxelData.Height;
         public override int Depth => _voxelData.Depth;
-        public override List<TextureVoxel> Voxels => _voxelData.Voxels;
+        public override IList<TextureVoxel> Voxels => _voxelData.Voxels;
         public override VoxelMeshData<TextureVoxel> VoxelData => _voxelData;
 
         public override void SetVoxelData(VoxelMeshData<TextureVoxel> voxelData)
@@ -108,11 +108,17 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         /// </summary>
         public abstract int Depth { get; }
 
-        public abstract List<T> Voxels { get; }
+        public abstract IList<T> Voxels { get; }
 
         public abstract VoxelMeshData<T> VoxelData { get; }
 
         private int _levelOfDetail;
+
+        public bool WaitingForUpdate
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Level of detail to render.  2^(LOD)
@@ -179,6 +185,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
             // Set voxels and queue this mesh up to be generated
             _generatorTask = new VoxelMeshGeneratorTask<T>(Voxels, LevelOfDetail, Width, Height, Depth);
             VoxelMeshGeneratorThread.Generator.EnqueueTask(_generatorTask);
+            WaitingForUpdate = true;
         }
 
         /// <summary>
@@ -216,6 +223,8 @@ namespace PixelsForGlory.ProceduralVoxelMesh
             MeshCollider = GetComponent<MeshCollider>();
 
             MeshRenderer = GetComponent<MeshRenderer>();
+
+            WaitingForUpdate = false;
         }
 
         public void Update()
@@ -251,6 +260,8 @@ namespace PixelsForGlory.ProceduralVoxelMesh
             Mesh.RecalculateBounds();
             MeshCollider.sharedMesh = Mesh;
             _generatorTask = null;
+
+            WaitingForUpdate = false;
 
             foreach (IVoxelMeshObserver observer in Observers)
             {
