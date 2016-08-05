@@ -12,6 +12,7 @@ ProceduralVoxelMeshTester/*.sln
 ProceduralVoxelMeshTester/ProjectSettings/
 ProceduralVoxelMeshTester/Assets/Resources/*.*
 ProceduralVoxelMeshTester/Build/
+ProceduralVoxelMeshTester/Temp/
 
 ProceduralVoxelMeshTester/Build/Tester_Data/Managed/ProceduralVoxelMesh.dll
 
