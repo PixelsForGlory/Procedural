@@ -73,7 +73,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         /// <summary>
         /// 3-dimensional voxel volume represented in 1-dimensional list.  Lists play nice with serialization and allows for persisting data.
         /// </summary>
-        public List<T> Voxels;
+        public IList<T> Voxels;
 
         protected VoxelMeshData()
         {

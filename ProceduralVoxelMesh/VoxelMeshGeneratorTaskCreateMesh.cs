@@ -41,7 +41,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
                 var uv3 = new List<Vector2>();
                 var triangles = new List<int>();
 
-                Vector3 offset = new Vector3((_width * _levelOfDetailDivisor) / 2.0f, (_height * _levelOfDetailDivisor) / 2.0f, (_depth * _levelOfDetailDivisor) / 2.0f);
+                Vector3 offset = new Vector3(_width / 2.0f, _height / 2.0f, _depth / 2.0f);
 
                 // GreedyMesh (volume, dims)
                 // Sweep over 3-axes
@@ -61,39 +61,39 @@ namespace PixelsForGlory.ProceduralVoxelMesh
                     switch(dimension)
                     {
                         case 0:
-                            dimensionMax = _width;
+                            dimensionMax = _width / _levelOfDetailDivisor;
                             break;
                         case 1:
-                            dimensionMax = _height;
+                            dimensionMax = _height / _levelOfDetailDivisor;
                             break;
                         case 2:
-                            dimensionMax = _depth;
+                            dimensionMax = _depth / _levelOfDetailDivisor;
                             break;
                     }
 
                     switch(u)
                     {
                         case 0:
-                            dimensionU = _width;
+                            dimensionU = _width / _levelOfDetailDivisor;
                             break;
                         case 1:
-                            dimensionU = _height;
+                            dimensionU = _height / _levelOfDetailDivisor;
                             break;
                         case 2:
-                            dimensionU = _depth;
+                            dimensionU = _depth / _levelOfDetailDivisor;
                             break;
                     }
 
                     switch(v)
                     {
                         case 0:
-                            dimensionV = _width;
+                            dimensionV = _width / _levelOfDetailDivisor;
                             break;
                         case 1:
-                            dimensionV = _height;
+                            dimensionV = _height / _levelOfDetailDivisor;
                             break;
                         case 2:
-                            dimensionV = _depth;
+                            dimensionV = _depth / _levelOfDetailDivisor;
                             break;
                     }
 
@@ -127,7 +127,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
                             for(x[u] = 0; x[u] < dimensionU; x[u]++)
                             {
                                 bool first;
-                                if(0 > x[dimension] || _voxels[x[0], x[1], x[2]].Empty)
+                                if(0 > x[dimension] || _voxels[Utilities.GetIndex(x[0] * _levelOfDetailDivisor, x[1] * _levelOfDetailDivisor, x[2] * _levelOfDetailDivisor, _width, _height, _depth)].Empty)
                                 {
                                     first = false;
                                 }
@@ -137,7 +137,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
                                 }
 
                                 bool second;
-                                if(x[dimension] >= dimensionMax - 1 || _voxels[x[0] + q[0], x[1] + q[1], x[2] + q[2]].Empty)
+                                if(x[dimension] >= dimensionMax - 1 || _voxels[Utilities.GetIndex((x[0] + q[0]) * _levelOfDetailDivisor, (x[1] + q[1]) * _levelOfDetailDivisor, (x[2] + q[2]) * _levelOfDetailDivisor, _width, _height, _depth)].Empty)
                                 {
                                     second = false;
                                 }
@@ -151,12 +151,12 @@ namespace PixelsForGlory.ProceduralVoxelMesh
                                     mask[maskIndex].HasFace = true;
                                     if(first)
                                     {
-                                        mask[maskIndex].Voxel = _voxels[x[0], x[1], x[2]];
+                                        mask[maskIndex].Voxel = _voxels[Utilities.GetIndex(x[0] * _levelOfDetailDivisor, x[1] * _levelOfDetailDivisor, x[2] * _levelOfDetailDivisor, _width, _height, _depth)];
                                         mask[maskIndex].FirstOrSecond = 1;
                                     }
                                     else
                                     {
-                                        mask[maskIndex].Voxel = _voxels[x[0] + q[0], x[1] + q[1], x[2] + q[2]];
+                                        mask[maskIndex].Voxel = _voxels[Utilities.GetIndex((x[0] + q[0]) * _levelOfDetailDivisor, (x[1] + q[1]) * _levelOfDetailDivisor, (x[2] + q[2]) * _levelOfDetailDivisor, _width, _height, _depth)];
                                         mask[maskIndex].FirstOrSecond = 2;
                                     }
                                 }

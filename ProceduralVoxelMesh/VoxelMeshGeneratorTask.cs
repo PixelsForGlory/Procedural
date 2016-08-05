@@ -52,7 +52,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         public bool Completed;
 
         // Data passed in to task 
-        private readonly T[,,] _voxels;
+        private readonly IList<T> _voxels;
         private readonly int _width;
         private readonly int _depth;
         private readonly int _height;
@@ -61,23 +61,11 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         public VoxelMeshGeneratorTask(IList<T> voxels, int levelOfDetail, int width, int height, int depth)
         {
             _levelOfDetailDivisor = Mathf.RoundToInt(Mathf.Pow(2f, levelOfDetail));
-            _width = width / _levelOfDetailDivisor;
-            _height = height / _levelOfDetailDivisor;
-            _depth = depth / _levelOfDetailDivisor;
+            _width = width;
+            _height = height;
+            _depth = depth;
             Completed = false;
-
-            // Make a deep copy of the passed in array to this task
-            _voxels = new T[_width, _height, _depth];
-            for(int w = 0; w < _width; w++)
-            {
-                for(int h = 0; h < _height; h++)
-                {
-                    for(int d = 0; d < _depth; d++)
-                    {
-                        _voxels[w, h, d] = (T)voxels[Utilities.GetIndex(w * _levelOfDetailDivisor, h * _levelOfDetailDivisor, d * _levelOfDetailDivisor, width, height, depth)].DeepCopy();
-                    }
-                }
-            }
+            _voxels = new List<T>(voxels);
         }
 
         /// <summary>
