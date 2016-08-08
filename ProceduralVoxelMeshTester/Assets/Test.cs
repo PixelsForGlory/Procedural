@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 #endif
-using ProceduralVoxelMesh;
+using PixelsForGlory.ProceduralVoxelMesh;
 
 namespace Assets
 {
@@ -158,14 +158,14 @@ namespace Assets
             int height = 16;
             int depth = 16;
 
-            ColorVoxel[,,] voxels = new ColorVoxel[width, height, depth];
+			IList<ColorVoxel> voxels = new List<ColorVoxel>(new ColorVoxel[width * height * depth]);
             for(int w = 0; w < width; ++w)
             {
                 for(int h = 0; h < height; ++h)
                 {
                     for(int d = 0; d < depth; ++d)
                     {
-                        voxels[w, h, d] = new ColorVoxel(new Color(w / 16.0f, h / 16.0f, d / 16.0f));
+						voxels[Utilities.GetIndex(w, h, d, width, height, depth)] = new ColorVoxel(new Color(w / 16.0f, h / 16.0f, d / 16.0f));
                     }
                 }
             }
@@ -184,7 +184,7 @@ namespace Assets
             int height = 2;
             int depth = 2;
 
-            TextureVoxel[,,] voxels = new TextureVoxel[width, height, depth];
+			IList<TextureVoxel> voxels = new List<TextureVoxel>(new TextureVoxel[width * height * depth]);
             for(int w = 0; w < width; ++w)
             {
                 for(int h = 0; h < height; ++h)
@@ -193,11 +193,11 @@ namespace Assets
                     {
                         if(w == d && h == d)
                         {
-                            voxels[w, h, d] = new TextureVoxel(0, 1);
+							voxels[Utilities.GetIndex(w, h, d, width, height, depth)] = new TextureVoxel(0, 1);
                         }
                         else
                         {
-                            voxels[w, h, d] = new TextureVoxel(0);
+							voxels[Utilities.GetIndex(w, h, d, width, height, depth)] = new TextureVoxel(0);
                         }
 
                     }

@@ -29,17 +29,19 @@ After copying in the assets, a few things to setup:
 ![Texture Import Settings](../../../Screenshots/blob/master/TextureVoxelSetup.png?raw=true "Texture Import Settings")
 
 ## Usage
-There are two types of voxel meshes that can be created.  A color voxel mesh and a texture voxel mesh.
 
-If the material is not setup in the root directory of the Resource folder, then the resource folder must be set in each `VeshMesh` type.  For example, if installing using the NuGet package, make sure the following is set:
+### Resource setup
+
+If the material is not setup in the root directory of the Resource folder, then the resource folder must be set in each `VoxelMesh` type.  For example, if installing using the NuGet package, make sure the following is set:
 
 ```
 ColorVoxelMesh.MaterialResourcePath = @"PixelsForGlory\ProceduralVoxelMesh\";
 TextureVoxelMesh.MaterialResourcePath = @"PixelsForGlory\ProceduralVoxelMesh\";
 ```
 
+### Color Voxel Mesh
 
-Creating a color voxel mesh at runtime is simple.  The following example will create a randomly colored cube on a GameObject with a ColorVoxelMesh component:
+The following example will create a randomly colored cube on a `GameObject` with a `ColorVoxelMesh` component:
 
 ```
 using UnityEngine;
@@ -75,7 +77,9 @@ public class ExampleCube : MonoBehaviour
 }
 ```
 
-When working with a texture map, like the test map provided in this repository, you have to setup a mapping configuration first in the static `TextureVoxelMap` list and then setup as follows:
+### Texture Voxel Mesh
+
+The following example will create a randomly colored cube on a `GameObject` with a `TextureVoxelMesh` component:
 
 ```
 public class ExampleTextureCube : MonoBehaviour
@@ -137,6 +141,14 @@ public class ExampleTextureCube : MonoBehaviour
     }
 }
 ```
+
+Notes on the setup:
+
+ - The texture map, like the test map provided in this repository, is setup through a mapping configuration in the static `TextureVoxelMap` list
+ - Index 0 of the texture map should be empty. For example, the test texture map has 32x32 squares to map.  The first 32x32 is completely zeroed out (`float4(0, 0, 0, 0)`) 
+ - The texture map needs to save the alpha channel to work properly.
+
+### Additional settings
 
 Level of detail can be set on the voxel mesh.  It will reduce the amount of voxels in the mesh by 2^LOD.
 

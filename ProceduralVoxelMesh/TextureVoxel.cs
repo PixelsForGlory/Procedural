@@ -159,8 +159,29 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         /// Single textured voxel
         /// </summary>
         /// <param name="textureMapIndex">Main texture map index</param>
+        public TextureVoxel(int textureMapIndex)
+        {
+            if (textureMapIndex < 0)
+            {
+                throw new ArgumentException("Cannot create a textured voxel without positive texture map index", nameof(textureMapIndex));
+            }
+
+            if (textureMapIndex >= TextureVoxelMap.Count)
+            {
+                throw new ArgumentException("Texture voxel index cannot be greater than number of elements in texture map", nameof(textureMapIndex));
+            }
+
+            _hasTexture = true;
+            _textureMapIndex = textureMapIndex;
+            _detailMapIndex = -1;
+        }
+
+        /// <summary>
+        /// Single textured voxel
+        /// </summary>
+        /// <param name="textureMapIndex">Main texture map index</param>
         /// <param name="detailMapIndex">Detail map index</param>
-        public TextureVoxel(int textureMapIndex, int detailMapIndex = 0)
+        public TextureVoxel(int textureMapIndex, int detailMapIndex)
         {
             if(textureMapIndex < 0)
             {

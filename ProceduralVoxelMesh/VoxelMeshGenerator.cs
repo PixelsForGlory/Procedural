@@ -1,6 +1,8 @@
 ﻿// Copyright 2015-2016 afuzzyllama. All Rights Reserved.
+using System;
 using System.Collections.Generic;
 using System.Threading;
+using UnityEngine;
 
 namespace PixelsForGlory.ProceduralVoxelMesh
 {
@@ -44,23 +46,34 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         {
             // Run this generator thread until a null task is provided.  
             // This null task represents that the thread should be exited gracefully.
-            while(true)
+            while (true)
             {
-                IVoxelMeshGeneratorTask work;
-                lock (_locker)
+                try
                 {
-                    while(_queue.Count == 0)
+                    IVoxelMeshGeneratorTask work;
+                    lock (_locker)
                     {
-                        Monitor.Wait(_locker);
+                        while (_queue.Count == 0)
+                        {
+                            Monitor.Wait(_locker);
+                        }
+                        work = _queue.Dequeue();
                     }
-                    work = _queue.Dequeue();
-                }
 
-                if(work == null)
-                {
-                    return;
+                    if (work == null)
+                    {
+                        return;
+                    }
+                    work.CreateMesh();
                 }
-                work.CreateMesh();
+                catch (Exception e)
+                {
+                    if(e.Message != "Thread was being aborted")
+                    {
+                        Debug.Log(e.Message);
+                        Debug.Log(e.StackTrace);
+                    }
+                }
             }
         }
     }
