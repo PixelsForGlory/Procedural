@@ -3,6 +3,7 @@ bin/
 obj/
 *.csproj.user
 *.sln.DotSettings.user
+*.userprefs
 Thumbs.db
 
 ProceduralVoxelMeshTester/*.csproj
