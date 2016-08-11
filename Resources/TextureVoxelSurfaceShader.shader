@@ -44,7 +44,7 @@
             uint textureIndex = uint(floor(IN.uv3_TextureDetailIndex.x * 256.0 +0.5));
             uint detailIndex = uint(floor(IN.uv3_TextureDetailIndex.y * 256.0 + 0.5));
             
-            int tileCountUDirection = _TextureSize / _TileSize;
+            uint tileCountUDirection = uint(_TextureSize) / uint(_TileSize);
             float2 textureIndexUV = float2(float(textureIndex % tileCountUDirection), float((tileCountUDirection - 1) - textureIndex / tileCountUDirection)) * tileSize;
             float2 detailIndexUV = float2(float(detailIndex % tileCountUDirection), float((tileCountUDirection - 1) - detailIndex / tileCountUDirection)) * tileSize;
             
