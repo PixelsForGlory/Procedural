@@ -52,6 +52,17 @@
             
             // Just interested in the decimal part
             float2 currentUVBound = float2(float(scaledUV.x - (int)scaledUV.x), float(scaledUV.y - (int)scaledUV.y));
+            
+            float texelSize = 1.0 / (float)_TextureSize;
+            if(currentUVBound.x < texelSize / 2.0)
+            {
+                currentUVBound.x = texelSize / 2.0;
+            }
+
+            if(currentUVBound.y < texelSize / 2.0)
+            {
+                currentUVBound.y = texelSize / 2.0;
+            }
 
             float2 textureUV = currentUVBound * tileSize + textureIndexUV;
             
