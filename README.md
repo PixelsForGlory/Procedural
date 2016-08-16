@@ -36,7 +36,9 @@ If the material is not setup in the root directory of the Resource folder, then 
 
 ```
 ColorVoxelMesh.MaterialResourcePath = @"PixelsForGlory\ProceduralVoxelMesh\";
+ColorVoxelTransparentMesh.MaterialResourcePath = @"PixelsForGlory\ProceduralVoxelMesh\";
 TextureVoxelMesh.MaterialResourcePath = @"PixelsForGlory\ProceduralVoxelMesh\";
+TextureVoxelTransparentMesh.MaterialResourcePath = @"PixelsForGlory\ProceduralVoxelMesh\";
 ```
 
 ### Color Voxel Mesh
@@ -149,6 +151,8 @@ Notes on the setup:
  - The texture map needs to save the alpha channel to work properly.
 
 ### Additional settings
+
+There are two mesh classes for each type.  One that uses a transparent surface shader and one that uses an opaque surface shader.  Make sure to load the right class and to set the alpha channel of the color voxel's color or texture voxel's alpha level.
 
 Level of detail can be set on the voxel mesh.  It will reduce the amount of voxels in the mesh by 2^LOD.
 

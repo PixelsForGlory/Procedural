@@ -41,6 +41,40 @@ namespace PixelsForGlory.ProceduralVoxelMesh
     }
 
     /// <summary>
+    /// Color voxel mesh transparent implementation.  Plays nice with Unity3D.
+    /// </summary>
+    [Serializable]
+    public class ColorVoxelTransparentMesh : VoxelMesh<ColorVoxel>
+    {
+        [SerializeField]
+        public static string MaterialResourcePath = string.Empty;
+
+        [SerializeField]
+        private ColorVoxelMeshData _voxelData;
+
+        public override string UniqueId => _voxelData.UniqueId;
+        public override string Name => _voxelData.Name;
+        public override int Width => _voxelData.Width;
+        public override int Height => _voxelData.Height;
+        public override int Depth => _voxelData.Depth;
+        public override IList<ColorVoxel> Voxels => _voxelData.Voxels;
+        public override VoxelMeshData<ColorVoxel> VoxelData => _voxelData;
+
+        public override void SetVoxelData(VoxelMeshData<ColorVoxel> voxelData)
+        {
+            _voxelData = new ColorVoxelMeshData(voxelData.UniqueId, voxelData.Name, voxelData.Width, voxelData.Height, voxelData.Depth, voxelData.Scale, voxelData.Voxels);
+            name = voxelData.Name;
+            UpdateMesh();
+        }
+
+        public override void Start()
+        {
+            base.Start();
+            MeshRenderer.sharedMaterial = Resources.Load<Material>(MaterialResourcePath + "ColorVoxelTransparentMaterial");
+        }
+    }
+
+    /// <summary>
     /// Texture voxel mesh implementation.  Plays nice with Unity3D.
     /// </summary>
     [Serializable]
@@ -71,6 +105,40 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         {
             base.Start();
             MeshRenderer.sharedMaterial = Resources.Load<Material>(MaterialResourcePath + "TextureVoxelMaterial");
+        }
+    }
+
+    /// <summary>
+    /// Texture voxel mesh implementation.  Plays nice with Unity3D.
+    /// </summary>
+    [Serializable]
+    public class TextureVoxelTransparentMesh : VoxelMesh<TextureVoxel>
+    {
+        [SerializeField]
+        public static string MaterialResourcePath = string.Empty;
+
+        [SerializeField]
+        private TextureVoxelMeshData _voxelData;
+
+        public override string UniqueId => _voxelData.UniqueId;
+        public override string Name => _voxelData.Name;
+        public override int Width => _voxelData.Width;
+        public override int Height => _voxelData.Height;
+        public override int Depth => _voxelData.Depth;
+        public override IList<TextureVoxel> Voxels => _voxelData.Voxels;
+        public override VoxelMeshData<TextureVoxel> VoxelData => _voxelData;
+
+        public override void SetVoxelData(VoxelMeshData<TextureVoxel> voxelData)
+        {
+            _voxelData = new TextureVoxelMeshData(voxelData.UniqueId, voxelData.Name, voxelData.Width, voxelData.Height, voxelData.Depth, voxelData.Scale, voxelData.Voxels);
+            name = voxelData.Name;
+            UpdateMesh();
+        }
+
+        public override void Start()
+        {
+            base.Start();
+            MeshRenderer.sharedMaterial = Resources.Load<Material>(MaterialResourcePath + "TextureVoxelTransparentMaterial");
         }
     }
 

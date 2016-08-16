@@ -226,6 +226,43 @@ namespace ProceduralVoxelMeshTest
             Assert.AreEqual(voxel.DetailMapIndex, 0);
         }
 
+        [TestMethod]
+        public void AlphaLevelPropertyTest()
+        {
+            float level;
+
+            var voxel = new TextureVoxel();
+
+            try
+            {
+                // ReSharper disable once RedundantAssignment
+                level = voxel.AlphaLevel;
+            }
+            catch(InvalidOperationException)
+            {
+            }
+            catch(Exception)
+            {
+                Assert.Fail();
+            }
+
+            try
+            {
+                voxel.AlphaLevel = 0f;
+            }
+            catch(InvalidOperationException)
+            {
+            }
+            catch(Exception)
+            {
+                Assert.Fail();
+            }
+
+            voxel.TextureMapIndex = 0;
+
+            voxel.AlphaLevel = 0.5f;
+            Assert.AreEqual(voxel.AlphaLevel, 0.5f);
+        }
 
         [TestMethod]
         public void EqualsTest()

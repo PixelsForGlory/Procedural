@@ -144,6 +144,32 @@ namespace PixelsForGlory.ProceduralVoxelMesh
 
         }
 
+        [SerializeField]
+        private float _alphaLevel;
+
+        public float AlphaLevel
+        {
+            get
+            {
+                if(Empty)
+                {
+                    throw new InvalidOperationException("Cannot get the alpha level of an empty voxel");
+                }
+                return _alphaLevel;
+            }
+
+            set
+            {
+                if(value < 0f || value > 1f)
+                {
+                    throw new InvalidOperationException("Alpha value must be between [0f, 1f]");
+                }
+
+                _alphaLevel = value;
+            }
+        }
+
+
         /// <summary>
         /// Copy textured voxel to new instance
         /// </summary>
@@ -153,13 +179,15 @@ namespace PixelsForGlory.ProceduralVoxelMesh
             _hasTexture = textureVoxel._hasTexture;
             _textureMapIndex = textureVoxel._textureMapIndex;
             _detailMapIndex = textureVoxel._detailMapIndex;
+            _alphaLevel = textureVoxel._alphaLevel;
         }
 
         /// <summary>
         /// Single textured voxel
         /// </summary>
         /// <param name="textureMapIndex">Main texture map index</param>
-        public TextureVoxel(int textureMapIndex)
+        /// <param name="alphaLevel">Optional alphaLevel of the voxel</param>
+        public TextureVoxel(int textureMapIndex, float alphaLevel = 1f)
         {
             if (textureMapIndex < 0)
             {
@@ -174,6 +202,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
             _hasTexture = true;
             _textureMapIndex = textureMapIndex;
             _detailMapIndex = -1;
+            _alphaLevel = alphaLevel;
         }
 
         /// <summary>
@@ -181,7 +210,8 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         /// </summary>
         /// <param name="textureMapIndex">Main texture map index</param>
         /// <param name="detailMapIndex">Detail map index</param>
-        public TextureVoxel(int textureMapIndex, int detailMapIndex)
+        /// <param name="alphaLevel">Optional alphaLevel of the voxel</param>
+        public TextureVoxel(int textureMapIndex, int detailMapIndex, float alphaLevel = 1f)
         {
             if(textureMapIndex < 0)
             {
@@ -206,15 +236,16 @@ namespace PixelsForGlory.ProceduralVoxelMesh
             _hasTexture = true;
             _textureMapIndex = textureMapIndex;
             _detailMapIndex = detailMapIndex;
+            _alphaLevel = alphaLevel;
         }
 
         public void AddVoxelToMesh(FaceType faceType, int width, int height, List<Color> colors, List<Vector2> uv, List<Vector2> uv2, List<Vector2> uv3)
         {
             // Colors
-            colors.Add(Color.white);  // 0
-            colors.Add(Color.white);  // 1
-            colors.Add(Color.white);  // 2
-            colors.Add(Color.white);  // 3
+            colors.Add(new Color(0f, 0f, 0f, _alphaLevel));  // 0
+            colors.Add(new Color(0f, 0f, 0f, _alphaLevel));  // 1
+            colors.Add(new Color(0f, 0f, 0f, _alphaLevel));  // 2
+            colors.Add(new Color(0f, 0f, 0f, _alphaLevel));  // 3
 
             // TEXCOORD0/UV1
             // Map 0 -> 1 UV
@@ -347,10 +378,11 @@ namespace PixelsForGlory.ProceduralVoxelMesh
 
             var texVoxel = (TextureVoxel)obj;
 
-            return 
+            return
                 _hasTexture == texVoxel._hasTexture
-                && _textureMapIndex == texVoxel._textureMapIndex 
-                && _detailMapIndex == texVoxel._detailMapIndex;
+                && _textureMapIndex == texVoxel._textureMapIndex
+                && _detailMapIndex == texVoxel._detailMapIndex
+                && Mathf.Abs(_alphaLevel - texVoxel._alphaLevel) < 0.00000001f;
         }
 
         public override int GetHashCode()
@@ -363,6 +395,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
                 hash = hash * 31 + _hasTexture.GetHashCode();
                 hash = hash * 31 + _textureMapIndex.GetHashCode();
                 hash = hash * 31 + _detailMapIndex.GetHashCode();
+                hash = hash * 31 + _alphaLevel.GetHashCode();
                 // ReSharper restore NonReadonlyMemberInGetHashCode
 
                 return hash;
