@@ -41,7 +41,11 @@ namespace PixelsForGlory.ProceduralVoxelMesh
                 var uv3 = new List<Vector2>();
                 var triangles = new List<int>();
 
-                Vector3 offset = new Vector3(_width / 2.0f, _height / 2.0f, _depth / 2.0f);
+                Vector3 offset = 
+                    new Vector3(
+                        _width  * _voxelScaleFactor.x, 
+                        _height * _voxelScaleFactor.y, 
+                        _depth  * _voxelScaleFactor.z) * _levelOfDetailDivisor / 2.0f;
 
                 // GreedyMesh (volume, dims)
                 // Sweep over 3-axes
@@ -170,7 +174,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
                         }
 
                         //Increment x[dimension]
-                        ++x[dimension];
+                        x[dimension]++;
 
                         //Generate mesh for mask using lexicographic ordering
                         int n = 0;
@@ -239,12 +243,8 @@ namespace PixelsForGlory.ProceduralVoxelMesh
                                     // Get mask direction
                                     int maskNormalDirection = normalDirections[i, j];
 
-                                    // 1 -> X
-                                    // 2 -> Y
-                                    // 3 -> Z
                                     // +/- represents normal direction
                                     FaceType faceType =  FaceType.None;
-
                                     if(u == 1 && v == 2) // X
                                     {
                                         faceType = maskNormalDirection > 0 ? FaceType.XPositive : FaceType.XNegative;
@@ -261,10 +261,10 @@ namespace PixelsForGlory.ProceduralVoxelMesh
                                     int baseVerticesNum = vertices.Count;
                                     
                                     // Vertices
-                                    vertices.Add(new Vector3(x[0], x[1], x[2]) * _levelOfDetailDivisor - offset); // 0
-                                    vertices.Add(new Vector3(x[0] + du[0], x[1] + du[1], x[2] + du[2]) * _levelOfDetailDivisor - offset); // 1
-                                    vertices.Add(new Vector3(x[0] + du[0] + dv[0], x[1] + du[1] + dv[1], x[2] + du[2] + dv[2]) * _levelOfDetailDivisor - offset); // 2
-                                    vertices.Add(new Vector3(x[0] + dv[0], x[1] + dv[1], x[2] + dv[2]) * _levelOfDetailDivisor - offset); // 3
+                                    vertices.Add(new Vector3((x[0]                ) * _voxelScaleFactor.x, (x[1]                ) * _voxelScaleFactor.y, (x[2]                ) * _voxelScaleFactor.z) * _levelOfDetailDivisor - offset); // 0
+                                    vertices.Add(new Vector3((x[0] + du[0]        ) * _voxelScaleFactor.x, (x[1] + du[1]        ) * _voxelScaleFactor.y, (x[2] + du[2]        ) * _voxelScaleFactor.z) * _levelOfDetailDivisor - offset); // 1
+                                    vertices.Add(new Vector3((x[0] + du[0] + dv[0]) * _voxelScaleFactor.x, (x[1] + du[1] + dv[1]) * _voxelScaleFactor.y, (x[2] + du[2] + dv[2]) * _voxelScaleFactor.z) * _levelOfDetailDivisor - offset); // 2
+                                    vertices.Add(new Vector3((x[0] + dv[0]        ) * _voxelScaleFactor.x, (x[1] + dv[1]        ) * _voxelScaleFactor.y, (x[2] + dv[2]        ) * _voxelScaleFactor.z) * _levelOfDetailDivisor - offset); // 3
 
                                     // Normals
                                     switch(faceType)

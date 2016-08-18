@@ -28,7 +28,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
 
         public override void SetVoxelData(VoxelMeshData<ColorVoxel> voxelData)
         {
-            _voxelData = new ColorVoxelMeshData(voxelData.UniqueId, voxelData.Name, voxelData.Width, voxelData.Height, voxelData.Depth, voxelData.Scale, voxelData.Voxels);
+            _voxelData = new ColorVoxelMeshData(voxelData.UniqueId, voxelData.Name, voxelData.Width, voxelData.Height, voxelData.Depth, voxelData.Voxels);
             name = voxelData.Name;
             UpdateMesh();
         }
@@ -62,7 +62,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
 
         public override void SetVoxelData(VoxelMeshData<ColorVoxel> voxelData)
         {
-            _voxelData = new ColorVoxelMeshData(voxelData.UniqueId, voxelData.Name, voxelData.Width, voxelData.Height, voxelData.Depth, voxelData.Scale, voxelData.Voxels);
+            _voxelData = new ColorVoxelMeshData(voxelData.UniqueId, voxelData.Name, voxelData.Width, voxelData.Height, voxelData.Depth, voxelData.Voxels);
             name = voxelData.Name;
             UpdateMesh();
         }
@@ -96,7 +96,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
 
         public override void SetVoxelData(VoxelMeshData<TextureVoxel> voxelData)
         {
-            _voxelData = new TextureVoxelMeshData(voxelData.UniqueId, voxelData.Name, voxelData.Width, voxelData.Height, voxelData.Depth, voxelData.Scale, voxelData.Voxels);
+            _voxelData = new TextureVoxelMeshData(voxelData.UniqueId, voxelData.Name, voxelData.Width, voxelData.Height, voxelData.Depth, voxelData.Voxels);
             name = voxelData.Name;
             UpdateMesh();
         }
@@ -130,7 +130,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
 
         public override void SetVoxelData(VoxelMeshData<TextureVoxel> voxelData)
         {
-            _voxelData = new TextureVoxelMeshData(voxelData.UniqueId, voxelData.Name, voxelData.Width, voxelData.Height, voxelData.Depth, voxelData.Scale, voxelData.Voxels);
+            _voxelData = new TextureVoxelMeshData(voxelData.UniqueId, voxelData.Name, voxelData.Width, voxelData.Height, voxelData.Depth, voxelData.Voxels);
             name = voxelData.Name;
             UpdateMesh();
         }

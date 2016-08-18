@@ -1,6 +1,7 @@
 ﻿// Copyright 2015-2016 afuzzyllama. All Rights Reserved.
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace PixelsForGlory.ProceduralVoxelMesh
 {
@@ -9,14 +10,14 @@ namespace PixelsForGlory.ProceduralVoxelMesh
     {
         public ColorVoxelMeshData() {}
 
-        public ColorVoxelMeshData(string name, int width, int height, int depth, float scale)
-            : base(name, width, height, depth, scale) { }
+        public ColorVoxelMeshData(string name, int width, int height, int depth)
+            : base(name, width, height, depth) { }
 
-        public ColorVoxelMeshData(string uniqueId, string name, int width, int height, int depth, float scale, IList<ColorVoxel> voxels) 
-            : base(uniqueId, name, width, height, depth, scale, voxels) { }
+        public ColorVoxelMeshData(string uniqueId, string name, int width, int height, int depth, IList<ColorVoxel> voxels) 
+            : base(uniqueId, name, width, height, depth, voxels) { }
 
-        public ColorVoxelMeshData(string name, int width, int height, int depth, float scale, IList<ColorVoxel> voxels) 
-            : base(name, width, height, depth, scale, voxels) { }
+        public ColorVoxelMeshData(string name, int width, int height, int depth, IList<ColorVoxel> voxels) 
+            : base(name, width, height, depth, voxels) { }
     }
 
     [Serializable]
@@ -24,14 +25,14 @@ namespace PixelsForGlory.ProceduralVoxelMesh
     {
         public TextureVoxelMeshData() { }
 
-        public TextureVoxelMeshData(string name, int width, int height, int depth, float scale)
-            : base(name, width, height, depth, scale) { }
+        public TextureVoxelMeshData(string name, int width, int height, int depth)
+            : base(name, width, height, depth) { }
 
-        public TextureVoxelMeshData(string uniqueId, string name, int width, int height, int depth, float scale, IList<TextureVoxel> voxels) 
-            : base(uniqueId, name, width, height, depth, scale, voxels) { }
+        public TextureVoxelMeshData(string uniqueId, string name, int width, int height, int depth, IList<TextureVoxel> voxels) 
+            : base(uniqueId, name, width, height, depth, voxels) { }
 
-        public TextureVoxelMeshData(string name, int width, int height, int depth, float scale, IList<TextureVoxel> voxels) 
-            : base(name, width, height, depth, scale, voxels) { }
+        public TextureVoxelMeshData(string name, int width, int height, int depth, IList<TextureVoxel> voxels) 
+            : base(name, width, height, depth, voxels) { }
     }
     
     /// <summary>
@@ -66,11 +67,6 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         public int Depth;
 
         /// <summary>
-        /// Scale of the voxel data.  By default a voxel is one unit in Unity3D.  Setting this to greater or less than 1 will cause the voxel not to be unit size.
-        /// </summary>
-        public float Scale;
-
-        /// <summary>
         /// 3-dimensional voxel volume represented in 1-dimensional list.  Lists play nice with serialization and allows for persisting data.
         /// </summary>
         public IList<T> Voxels;
@@ -85,14 +81,13 @@ namespace PixelsForGlory.ProceduralVoxelMesh
             Voxels = new List<T>();
         }
 
-        protected VoxelMeshData(string name, int width, int height, int depth, float scale)
+        protected VoxelMeshData(string name, int width, int height, int depth)
         {
             UniqueId = Guid.NewGuid().ToString();
             Name = name;
             Width = width;
             Height = height;
             Depth = depth;
-            Scale = scale;
             Voxels = new List<T>();
 
             for(int i = 0; i < Width * Height * Depth; i++)
@@ -101,25 +96,23 @@ namespace PixelsForGlory.ProceduralVoxelMesh
             }
         }
 
-        protected VoxelMeshData(string uniqueId, string name, int width, int height, int depth, float scale, IList<T> voxels)
+        protected VoxelMeshData(string uniqueId, string name, int width, int height, int depth, IList<T> voxels)
         {
             UniqueId = uniqueId;
             Name = name;
             Width = width;
             Height = height;
             Depth = depth;
-            Scale = scale;
             Voxels = new List<T>(voxels);
         }
 
-        protected VoxelMeshData(string name, int width, int height, int depth, float scale, IList<T> voxels)
+        protected VoxelMeshData(string name, int width, int height, int depth, IList<T> voxels)
         {
             UniqueId = Guid.NewGuid().ToString();
             Name = name;
             Width = width;
             Height = height;
             Depth = depth;
-            Scale = scale;
             Voxels = new List<T>(voxels);
         }
     }

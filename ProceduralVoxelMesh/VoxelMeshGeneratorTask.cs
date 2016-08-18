@@ -57,6 +57,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         private readonly int _depth;
         private readonly int _height;
         private readonly int _levelOfDetailDivisor;
+        private readonly Vector3 _voxelScaleFactor;
 
         public VoxelMeshGeneratorTask(IList<T> voxels, int levelOfDetail, int width, int height, int depth)
         {
@@ -66,6 +67,10 @@ namespace PixelsForGlory.ProceduralVoxelMesh
             _depth = depth;
             Completed = false;
             _voxels = new List<T>(voxels);
+
+            // Since we want the voxel mesh to be the scale as represented in Unity
+            // this scale factor will make sure the mesh comes out the right size
+            _voxelScaleFactor = new Vector3( 1f / _width, 1f / _height, 1f / _depth);
         }
 
         /// <summary>

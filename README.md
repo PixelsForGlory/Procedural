@@ -41,6 +41,10 @@ TextureVoxelMesh.MaterialResourcePath = @"PixelsForGlory\ProceduralVoxelMesh\";
 TextureVoxelTransparentMesh.MaterialResourcePath = @"PixelsForGlory\ProceduralVoxelMesh\";
 ```
 
+### Mesh Size
+
+The mesh will always produce a 1 x 1 x 1 scale version of the mesh.  It can be scaled up and down as needed with the Unity3D scale.
+
 ### Color Voxel Mesh
 
 The following example will create a randomly colored cube on a `GameObject` with a `ColorVoxelMesh` component:
@@ -73,7 +77,7 @@ public class ExampleCube : MonoBehaviour
       }
     }
 
-    var voxelData = new ColorVoxelMeshData("Test", width, height, depth, 1f, voxels);
+    var voxelData = new ColorVoxelMeshData("Test", width, height, depth, voxels);
     voxelMesh.SetVoxelData(voxelData);
   }
 }
@@ -138,7 +142,7 @@ public class ExampleTextureCube : MonoBehaviour
             }
         }
         
-        var voxelData = new TextureVoxelMeshData("Test", width, height, depth, 1f, voxels);
+        var voxelData = new TextureVoxelMeshData("Test", width, height, depth, voxels);
         voxelMesh.SetVoxelData(voxelData);
     }
 }
