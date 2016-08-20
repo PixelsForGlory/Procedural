@@ -40,6 +40,14 @@ namespace PixelsForGlory.ProceduralVoxelMesh
             }
         }
 
+        [SerializeField]
+        private FaceType _facesToRender;
+        public FaceType FacesToRender
+        {
+            get { return _facesToRender; }
+            set { _facesToRender = value; }
+        }
+
         /// <summary>
         /// R part of color, broken up for serialization purposes
         /// </summary>
@@ -185,7 +193,8 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         /// Copy color voxel to new instance
         /// </summary>
         /// <param name="colorVoxel"></param>
-        private ColorVoxel(ColorVoxel colorVoxel)
+        /// <param name="facesToRender">Optional faces to render</param>
+        private ColorVoxel(ColorVoxel colorVoxel, FaceType facesToRender = FaceType.XNegative | FaceType.XPositive | FaceType.YNegative | FaceType.YPositive | FaceType.ZNegative | FaceType.ZPositive)
         {
             _hasColor = colorVoxel._hasColor;
             _colorR = colorVoxel._colorR;
@@ -195,6 +204,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
             _metallic = colorVoxel._metallic;
             _smoothness = colorVoxel._smoothness;
             _emission = colorVoxel._emission;
+            _facesToRender = facesToRender;
         }
 
         /// <summary>
@@ -202,22 +212,24 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         /// </summary>
         /// <param name="color">If the voxel is not empty, the color of this voxel</param>
         /// <param name="metallic">Metallic value for this voxel</param>
-        /// /// <param name="smoothness">Smoothness value for this voxel</param>
-        /// /// <param name="emission">Emission value for this voxel</param>
-        public ColorVoxel(Color color, float metallic = 0.0f, float smoothness = 0.0f, float emission = 0.0f) : this()
+        /// <param name="smoothness">Smoothness value for this voxel</param>
+        /// <param name="emission">Emission value for this voxel</param>
+        /// <param name="facesToRender">Optional faces to render</param>    
+        public ColorVoxel(Color color, float metallic = 0.0f, float smoothness = 0.0f, float emission = 0.0f, FaceType facesToRender = FaceType.XNegative | FaceType.XPositive | FaceType.YNegative | FaceType.YPositive | FaceType.ZNegative | FaceType.ZPositive) : this()
         {
             _hasColor = true;
             Color = color;
             Metallic = metallic;
             Smoothness = smoothness;
             Emission = emission;
+            _facesToRender = facesToRender;
         }
 
-        public void AddVoxelToMesh(FaceType faceType, int width, int height, List<Color> colors, List<Vector2> uv, List<Vector2> uv2, List<Vector2> uv3)
+        public bool AddVoxelToMesh(FaceType faceType, int width, int height, List<Color> colors, List<Vector2> uv, List<Vector2> uv2, List<Vector2> uv3)
         {
-            if(faceType == FaceType.None)
+            if((faceType & _facesToRender) != faceType || faceType == FaceType.None)
             {
-                throw new ArgumentException("Cannot add a voxel to a none face type", nameof(faceType));
+                return false;
             }
 
             // Colors
@@ -344,6 +356,8 @@ namespace PixelsForGlory.ProceduralVoxelMesh
                     uv3.Add(new Vector2(maxTexel.x, maxTexel.y)); // 3
                     break;
             }
+
+            return true;
         }
 
         public object DeepCopy()

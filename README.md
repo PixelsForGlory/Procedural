@@ -156,7 +156,11 @@ Notes on the setup:
 
 ### Additional settings
 
-If you want the mesh to use a material that uses the alpha channel, call `mesh.UseAlphaChannel(true)`
+#### Alpha Channel
+If you want the mesh to use the material that uses the alpha channel, call `mesh.UseAlphaChannel(true)`
+
+#### Faces to render
+In the `ColorVoxel` and `TextureVoxel` constructors there is a bit flag variable `facesToRender`.  Set this to face types that should render.  For example `FaceType.YPositive | FaceType.YNegative` will cause the mesh to only render the positive and negative y faces of the voxel.  This is useful for rendering transparent meshes next to each other.
 
 Level of detail can be set on the voxel mesh.  It will reduce the amount of voxels in the mesh by 2^LOD.
 

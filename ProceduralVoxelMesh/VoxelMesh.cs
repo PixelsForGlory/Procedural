@@ -36,12 +36,16 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         public override void Start()
         {
             base.Start();
-            MeshRenderer.sharedMaterial = Resources.Load<Material>(MaterialResourcePath + "ColorVoxelMaterial");
+            MeshRenderer.sharedMaterial = AlphaChannelEnabled ? Resources.Load<Material>(MaterialResourcePath + "ColorVoxelTransparentMaterial") : Resources.Load<Material>(MaterialResourcePath + "ColorVoxelMaterial");
         }
 
         public override void UseAlphaChannel(bool useAlphaChannel)
         {
-            MeshRenderer.sharedMaterial = useAlphaChannel ? Resources.Load<Material>(MaterialResourcePath + "ColorVoxelTransparentMaterial") : Resources.Load<Material>(MaterialResourcePath + "ColorVoxelMaterial");
+            AlphaChannelEnabled = useAlphaChannel;
+            if(HasStarted)
+            {
+                MeshRenderer.sharedMaterial = AlphaChannelEnabled ? Resources.Load<Material>(MaterialResourcePath + "ColorVoxelTransparentMaterial") : Resources.Load<Material>(MaterialResourcePath + "ColorVoxelMaterial");
+            }
         }
     }
 
@@ -75,12 +79,16 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         public override void Start()
         {
             base.Start();
-            MeshRenderer.sharedMaterial = Resources.Load<Material>(MaterialResourcePath + "TextureVoxelMaterial");
+            MeshRenderer.sharedMaterial = AlphaChannelEnabled ? Resources.Load<Material>(MaterialResourcePath + "TextureVoxelTransparentMaterial") : Resources.Load<Material>(MaterialResourcePath + "TextureVoxelMaterial");
         }
 
         public override void UseAlphaChannel(bool useAlphaChannel)
         {
-            MeshRenderer.sharedMaterial = useAlphaChannel ? Resources.Load<Material>(MaterialResourcePath + "TextureVoxelTransparentMaterial") : Resources.Load<Material>(MaterialResourcePath + "TextureVoxelMaterial");
+            AlphaChannelEnabled = useAlphaChannel;
+            if(HasStarted)
+            { 
+                MeshRenderer.sharedMaterial = AlphaChannelEnabled ? Resources.Load<Material>(MaterialResourcePath + "TextureVoxelTransparentMaterial") : Resources.Load<Material>(MaterialResourcePath + "TextureVoxelMaterial");
+            }
         }
     }
 
@@ -122,7 +130,10 @@ namespace PixelsForGlory.ProceduralVoxelMesh
 
         public abstract VoxelMeshData<T> VoxelData { get; }
 
+        protected bool AlphaChannelEnabled;
         public abstract void UseAlphaChannel(bool useAlphaChannel);
+
+        protected bool HasStarted;
 
         private int _levelOfDetail;
 
@@ -233,10 +244,9 @@ namespace PixelsForGlory.ProceduralVoxelMesh
                 }
             }
             MeshCollider = GetComponent<MeshCollider>();
-
             MeshRenderer = GetComponent<MeshRenderer>();
-
             WaitingForUpdate = false;
+            HasStarted = true;
         }
 
         public void Update()

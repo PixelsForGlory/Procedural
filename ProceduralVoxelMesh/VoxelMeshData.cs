@@ -1,7 +1,6 @@
 ﻿// Copyright 2015-2016 afuzzyllama. All Rights Reserved.
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace PixelsForGlory.ProceduralVoxelMesh
 {

@@ -69,7 +69,15 @@ namespace PixelsForGlory.ProceduralVoxelMesh
                 _detailMapIndex = -1;
             }
         }
-        
+
+        [SerializeField]
+        private FaceType _facesToRender;
+        public FaceType FacesToRender
+        {
+            get { return _facesToRender;}
+            set { _facesToRender = value; }
+        }
+
         [SerializeField]
         private int _textureMapIndex;
 
@@ -174,12 +182,14 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         /// Copy textured voxel to new instance
         /// </summary>
         /// <param name="textureVoxel"></param>
-        private TextureVoxel(TextureVoxel textureVoxel)
+        /// <param name="facesToRender">Optional faces to render</param>
+        private TextureVoxel(TextureVoxel textureVoxel, FaceType facesToRender = FaceType.XNegative | FaceType.XPositive | FaceType.YNegative | FaceType.YPositive | FaceType.ZNegative | FaceType.ZPositive)
         {
             _hasTexture = textureVoxel._hasTexture;
             _textureMapIndex = textureVoxel._textureMapIndex;
             _detailMapIndex = textureVoxel._detailMapIndex;
             _alphaLevel = textureVoxel._alphaLevel;
+            _facesToRender = facesToRender;
         }
 
         /// <summary>
@@ -187,7 +197,8 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         /// </summary>
         /// <param name="textureMapIndex">Main texture map index</param>
         /// <param name="alphaLevel">Optional alphaLevel of the voxel</param>
-        public TextureVoxel(int textureMapIndex, float alphaLevel = 1f)
+        /// <param name="facesToRender">Optional faces to render</param>
+        public TextureVoxel(int textureMapIndex, float alphaLevel = 1f, FaceType facesToRender = FaceType.XNegative | FaceType.XPositive | FaceType.YNegative | FaceType.YPositive | FaceType.ZNegative | FaceType.ZPositive)
         {
             if (textureMapIndex < 0)
             {
@@ -203,6 +214,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
             _textureMapIndex = textureMapIndex;
             _detailMapIndex = -1;
             _alphaLevel = alphaLevel;
+            _facesToRender = facesToRender;
         }
 
         /// <summary>
@@ -211,7 +223,8 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         /// <param name="textureMapIndex">Main texture map index</param>
         /// <param name="detailMapIndex">Detail map index</param>
         /// <param name="alphaLevel">Optional alphaLevel of the voxel</param>
-        public TextureVoxel(int textureMapIndex, int detailMapIndex, float alphaLevel = 1f)
+        /// <param name="facesToRender">Optional faces to render</param>
+        public TextureVoxel(int textureMapIndex, int detailMapIndex, float alphaLevel = 1f, FaceType facesToRender = FaceType.XNegative | FaceType.XPositive | FaceType.YNegative | FaceType.YPositive | FaceType.ZNegative | FaceType.ZPositive)
         {
             if(textureMapIndex < 0)
             {
@@ -237,10 +250,16 @@ namespace PixelsForGlory.ProceduralVoxelMesh
             _textureMapIndex = textureMapIndex;
             _detailMapIndex = detailMapIndex;
             _alphaLevel = alphaLevel;
+            _facesToRender = facesToRender;
         }
 
-        public void AddVoxelToMesh(FaceType faceType, int width, int height, List<Color> colors, List<Vector2> uv, List<Vector2> uv2, List<Vector2> uv3)
+        public bool AddVoxelToMesh(FaceType faceType, int width, int height, List<Color> colors, List<Vector2> uv, List<Vector2> uv2, List<Vector2> uv3)
         {
+            if((faceType & _facesToRender) != faceType || faceType == FaceType.None)
+            {
+                return false;
+            }
+
             // Colors
             colors.Add(new Color(0f, 0f, 0f, _alphaLevel));  // 0
             colors.Add(new Color(0f, 0f, 0f, _alphaLevel));  // 1
@@ -354,7 +373,9 @@ namespace PixelsForGlory.ProceduralVoxelMesh
             uv3.Add(value); // 0
             uv3.Add(value); // 1
             uv3.Add(value); // 2
-            uv3.Add(value); // 3   
+            uv3.Add(value); // 3
+
+            return true;
         }
 
         public object DeepCopy()
