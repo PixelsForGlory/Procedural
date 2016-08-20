@@ -156,7 +156,7 @@ Notes on the setup:
 
 ### Additional settings
 
-There are two mesh classes for each type.  One that uses a transparent surface shader and one that uses an opaque surface shader.  Make sure to load the right class and to set the alpha channel of the color voxel's color or texture voxel's alpha level.
+If you want the mesh to use a material that uses the alpha channel, call `mesh.UseAlphaChannel(true)`
 
 Level of detail can be set on the voxel mesh.  It will reduce the amount of voxels in the mesh by 2^LOD.
 
