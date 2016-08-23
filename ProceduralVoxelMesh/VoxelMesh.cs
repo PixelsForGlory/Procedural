@@ -99,7 +99,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
     [RequireComponent(typeof(MeshRenderer))]
     [RequireComponent(typeof(MeshCollider))]
     [ExecuteInEditMode]
-    public abstract class VoxelMesh<T> : MonoBehaviour, ISerializationCallbackReceiver where T : IVoxel, new()
+    public abstract class VoxelMesh<T> : MonoBehaviour where T : IVoxel, new()
     {
         /// <summary>
         /// UniqueId based on System.Guid
@@ -161,11 +161,6 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         }
 
         /// <summary>
-        /// Observers of this mesh who want to know when the mesh has finished updating
-        /// </summary>
-        protected List<IVoxelMeshObserver> Observers;
-
-        /// <summary>
         /// Get voxel data from a single point
         /// </summary>
         /// <param name="w">width</param>
@@ -221,11 +216,6 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         protected Mesh Mesh;
         protected MeshCollider MeshCollider;
         protected MeshRenderer MeshRenderer;
-
-        public void Awake()
-        {
-            Observers = new List<IVoxelMeshObserver>();
-        }
 
         public virtual void Start()
         {
@@ -284,36 +274,11 @@ namespace PixelsForGlory.ProceduralVoxelMesh
             _generatorTask = null;
 
             WaitingForUpdate = false;
-
-            foreach (IVoxelMeshObserver observer in Observers)
-            {
-                observer.Notify();
-            }
         }
 
         public void OnDestroy()
         {
             _generatorTask = null;
-        }
-
-        public void RegisterObserver(IVoxelMeshObserver observer)
-        {
-            Observers.Add(observer);
-        }
-
-        public void UnregisterObserver(IVoxelMeshObserver observer)
-        {
-            Observers.Remove(observer);
-        }
-
-        public void OnBeforeSerialize()
-        {
-            Observers.Clear();
-        }
-
-        public void OnAfterDeserialize()
-        {
-            Observers = new List<IVoxelMeshObserver>();
         }
     }
 }

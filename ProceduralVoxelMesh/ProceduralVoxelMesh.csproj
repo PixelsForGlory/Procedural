@@ -51,6 +51,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BillboardCrossMesh.cs" />
+    <Compile Include="BillboardCrossMeshData.cs" />
     <Compile Include="IVoxelMeshGeneratorTask.cs" />
     <Compile Include="IVoxelMeshObserver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

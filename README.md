@@ -164,10 +164,6 @@ In the `ColorVoxel` and `TextureVoxel` constructors there is a bit flag variable
 
 Level of detail can be set on the voxel mesh.  It will reduce the amount of voxels in the mesh by 2^LOD.
 
-It is also possible to observe a mesh and be notified when it is complete by implementing the `IVoxelMeshObserver` interface and registering it as an observer on a mesh with `RegisterObserver()`.
-
-Since Unity3D's serialization cannot handle interfaces, it is the responsibility of the implementor to ensure that observers are re-registered when an object is serialized/deserialzied.
-
 ## Testing
 The `ProceduralVoxelMeshTest` folder contains a unit test project to be run against the code base in VSTtest.
 
