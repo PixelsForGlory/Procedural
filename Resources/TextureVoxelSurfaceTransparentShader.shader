@@ -1,4 +1,5 @@
-﻿Shader "Procedural Voxel Mesh/Texture Voxel Transparent Surface Shader" {
+﻿// Copyright 2015-2016 afuzzyllama. All Rights Reserved.
+Shader "Procedural Voxel Mesh/Texture Voxel Transparent Surface Shader" {
     Properties 
     {
         _TextureMap("Texture Map (RGBA)", 2D) = "white" {}

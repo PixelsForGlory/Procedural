@@ -7,34 +7,34 @@ using UnityEngine;
 
 namespace PixelsForGlory.ProceduralVoxelMesh
 {
-    public partial class VoxelMeshGeneratorTask<T>
+    public partial class Utilities
     {
         /// <summary>
         /// Solves the targents for a mesh.
         /// </summary>
-        private void TangentSolver()
+        public static Vector4[] TangentSolver(int[] triangles, Vector3[] vertices, Vector3[] normals, Vector2[] uv)
         {
-            int triangleCount = Triangles.Length / 3;
-            int vertexCount = Vertices.Length;
+            int triangleCount = triangles.Length / 3;
+            int vertexCount = vertices.Length;
 
             Vector3[] tan1 = new Vector3[vertexCount];
             Vector3[] tan2 = new Vector3[vertexCount];
 
-            Tangents = new Vector4[vertexCount];
+            var tangents = new Vector4[vertexCount];
 
             for(int a = 0; a < triangleCount; a += 3)
             {
-                int i1 = Triangles[a + 0];
-                int i2 = Triangles[a + 1];
-                int i3 = Triangles[a + 2];
+                int i1 = triangles[a + 0];
+                int i2 = triangles[a + 1];
+                int i3 = triangles[a + 2];
 
-                Vector3 v1 = Vertices[i1];
-                Vector3 v2 = Vertices[i2];
-                Vector3 v3 = Vertices[i3];
+                Vector3 v1 = vertices[i1];
+                Vector3 v2 = vertices[i2];
+                Vector3 v3 = vertices[i3];
 
-                Vector2 w1 = UV[i1];
-                Vector2 w2 = UV[i2];
-                Vector2 w3 = UV[i3];
+                Vector2 w1 = uv[i1];
+                Vector2 w2 = uv[i2];
+                Vector2 w3 = uv[i3];
 
                 float x1 = v2.x - v1.x;
                 float x2 = v3.x - v1.x;
@@ -65,16 +65,17 @@ namespace PixelsForGlory.ProceduralVoxelMesh
 
             for(int a = 0; a < vertexCount; ++a)
             {
-                Vector3 n = Normals[a];
+                Vector3 n = normals[a];
                 Vector3 t = tan1[a];
 
                 Vector3 tmp = (t - n * Vector3.Dot(n, t)).normalized;
-                Tangents[a] = new Vector4(tmp.x, tmp.y, tmp.z)
+                tangents[a] = new Vector4(tmp.x, tmp.y, tmp.z)
                 {
                     w = (Vector3.Dot(Vector3.Cross(n, t), tan2[a]) < 0.0f) ? -1.0f : 1.0f
                 };
-
             }
+
+            return tangents;
         }
     }
 }

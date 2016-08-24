@@ -99,7 +99,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
     [RequireComponent(typeof(MeshRenderer))]
     [RequireComponent(typeof(MeshCollider))]
     [ExecuteInEditMode]
-    public abstract class VoxelMesh<T> : MonoBehaviour where T : IVoxel, new()
+    public abstract class VoxelMesh<T> : MonoBehaviour where T : IVoxel<T>, new()
     {
         /// <summary>
         /// UniqueId based on System.Guid
@@ -194,7 +194,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         /// <summary>
         /// Trigger update on mesh in editor
         /// </summary> 
-        public void UpdateMesh()
+        protected void UpdateMesh()
         {
             if(VoxelData == null)
             {

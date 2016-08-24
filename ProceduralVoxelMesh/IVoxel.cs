@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PixelsForGlory.ProceduralVoxelMesh
 {
-    public interface IVoxel
+    public interface IVoxel<T>
     {
         /// <summary>
         /// Is the voxel empty or not
@@ -41,6 +41,6 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         /// Makes a deep copy of the voxel
         /// </summary>
         /// <returns></returns>
-        object DeepCopy();
+        T DeepCopy();
     }
 }

@@ -36,9 +36,9 @@ If the material is not setup in the root directory of the Resource folder, then 
 
 ```
 ColorVoxelMesh.MaterialResourcePath = @"PixelsForGlory\ProceduralVoxelMesh\";
-ColorVoxelTransparentMesh.MaterialResourcePath = @"PixelsForGlory\ProceduralVoxelMesh\";
 TextureVoxelMesh.MaterialResourcePath = @"PixelsForGlory\ProceduralVoxelMesh\";
-TextureVoxelTransparentMesh.MaterialResourcePath = @"PixelsForGlory\ProceduralVoxelMesh\";
+BillboardCrossMesh.MaterialResourcePath = @"PixelsForGlory\ProceduralVoxelMesh\";
+
 ```
 
 ### Mesh Size
@@ -148,13 +148,29 @@ public class ExampleTextureCube : MonoBehaviour
 }
 ```
 
-Notes on the setup:
+### Billboard cross mesh
+The following will create a textured double sided mesh cross on the y axis:
+```
+[RequireComponent(typeof(BillboardCrossMesh))]
+public class Flower : MonoBehaviour
+{
+    private BillboardCrossMesh _mesh;
+    public void Start ()
+    {
+        _mesh = GetComponent<BillboardCrossMesh>();
+        var meshData = new BillboardCrossMeshData("Flower", 1, 1);
+        _mesh.SetMeshData(meshData);
+    }
+}
+```
+
+### Notes on the setup:
 
  - The texture map, like the test map provided in this repository, is setup through a mapping configuration in the static `TextureVoxelMap` list
  - Index 0 of the texture map should be empty. For example, the test texture map has 32x32 squares to map.  The first 32x32 is completely zeroed out (`float4(0, 0, 0, 0)`) 
  - The texture map needs to save the alpha channel to work properly.
 
-### Additional settings
+### Additional settings for VoxelMeshes
 
 #### Alpha Channel
 If you want the mesh to use the material that uses the alpha channel, call `mesh.UseAlphaChannel(true)`
@@ -176,6 +192,10 @@ Color Voxel Mesh will look something like this:
 Texture Voxel Mesh will look something like this:
 
 ![Texture Cube](../../../Screenshots/blob/master/TextureCube.png?raw=true "Texture Cube")
+
+Billboard Cross Mesh will look something like this:
+
+![Billboard Cross Flower](../../../Screenshots/blob/master/BillboardCrossFlower.png?raw=true "Billboard Cross Flower")
 
 Enjoy!  
 

@@ -3,7 +3,7 @@ using System;
 
 namespace PixelsForGlory.ProceduralVoxelMesh
 {
-    public static class Utilities
+    public static partial class Utilities
     {
         /// <summary>
         /// Calculate 3-dimensional index based on passed in lengths

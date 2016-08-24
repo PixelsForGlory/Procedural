@@ -19,11 +19,8 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         /// </summary>
         public void Shutdown()
         {
-            if(_queue != null)
-            {
-                // Shutdown the thread with a null task
-                _queue.Enqueue(null);
-            }
+            // Shutdown the thread with a null task
+            _queue?.Enqueue(null);
         }
 
         /// <summary>

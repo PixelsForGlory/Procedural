@@ -43,32 +43,32 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         /// <summary>
         /// UniqueId based on System.Guid.  Creates a persistant unique identifier.
         /// </summary>
-        public string UniqueId;
+        public readonly string UniqueId;
 
         /// <summary>
         /// Name associated with voxel data
         /// </summary>
-        public string Name;
+        public readonly string Name;
 
         /// <summary>
         /// Width of voxel data
         /// </summary>
-        public int Width;
+        public readonly int Width;
 
         /// <summary>
         /// Height of voxel data
         /// </summary>
-        public int Height;
+        public readonly int Height;
 
         /// <summary>
         /// Depth of voxel data
         /// </summary>
-        public int Depth;
+        public readonly int Depth;
 
         /// <summary>
         /// 3-dimensional voxel volume represented in 1-dimensional list.  Lists play nice with serialization and allows for persisting data.
         /// </summary>
-        public IList<T> Voxels;
+        public readonly IList<T> Voxels;
 
         protected VoxelMeshData()
         {

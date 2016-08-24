@@ -44,12 +44,12 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         /// </summary>
         public int[] Triangles;
 
+        /// <summary>
+        /// Generated tangents
+        /// </summary>
         public Vector4[] Tangents;
 
-        /// <summary>
-        /// Set to true when the task is completed
-        /// </summary>
-        public bool Completed;
+        public bool Completed { get; private set; }
 
         // Data passed in to task 
         private readonly IList<T> _voxels;
@@ -76,7 +76,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         /// <summary>
         /// Information needed to determine face mask
         /// </summary>
-        private struct FaceMask<TVoxel> where TVoxel : IVoxel
+        private struct FaceMask<TVoxel> where TVoxel : IVoxel<TVoxel>
         {
             public bool HasFace;
             public int FirstOrSecond;

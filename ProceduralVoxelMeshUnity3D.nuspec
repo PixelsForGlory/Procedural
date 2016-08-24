@@ -18,6 +18,8 @@
     <file src="ProceduralVoxelMeshEditor\bin\Release\ProceduralVoxelMeshEditor.dll" target="content\Assets\Plugins\Editor\PixelsForGlory\ProceduralVoxelMesh" />
     <file src="ProceduralVoxelMeshEditor\bin\Release\ProceduralVoxelMeshEditor.pdb" target="content\Assets\Plugins\Editor\PixelsForGlory\ProceduralVoxelMesh" />
     <file src="Resources\AlphaMap.png" target="content\Assets\Resources\PixelsForGlory\ProceduralVoxelMesh" />
+    <file src="Resources\BillboardCrossTransparentCutoutMaterial.mat" target="content\Assets\Resources\PixelsForGlory\ProceduralVoxelMesh" />
+    <file src="Resources\BillboardCrossTransparentCutoutMaterial.shader" target="content\Assets\Resources\PixelsForGlory\ProceduralVoxelMesh" />
     <file src="Resources\ColorVoxelMaterial.mat" target="content\Assets\Resources\PixelsForGlory\ProceduralVoxelMesh" />
     <file src="Resources\ColorVoxelSurfaceShader.shader" target="content\Assets\Resources\PixelsForGlory\ProceduralVoxelMesh" />
     <file src="Resources\ColorVoxelTransparentMaterial.mat" target="content\Assets\Resources\PixelsForGlory\ProceduralVoxelMesh" />

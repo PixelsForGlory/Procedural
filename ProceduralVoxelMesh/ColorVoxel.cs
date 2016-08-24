@@ -9,7 +9,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
     /// Represents a single voxel.
     /// </summary>
     [Serializable]
-    public struct ColorVoxel : IVoxel
+    public struct ColorVoxel : IVoxel<ColorVoxel>
     {
         /// <summary>
         /// Serializable value of empty
@@ -194,7 +194,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         /// </summary>
         /// <param name="colorVoxel"></param>
         /// <param name="facesToRender">Optional faces to render</param>
-        private ColorVoxel(ColorVoxel colorVoxel, FaceType facesToRender = FaceType.XNegative | FaceType.XPositive | FaceType.YNegative | FaceType.YPositive | FaceType.ZNegative | FaceType.ZPositive)
+        public ColorVoxel(ColorVoxel colorVoxel, FaceType facesToRender = FaceType.XNegative | FaceType.XPositive | FaceType.YNegative | FaceType.YPositive | FaceType.ZNegative | FaceType.ZPositive)
         {
             _hasColor = colorVoxel._hasColor;
             _colorR = colorVoxel._colorR;
@@ -360,7 +360,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
             return true;
         }
 
-        public object DeepCopy()
+        public ColorVoxel DeepCopy()
         {
             return new ColorVoxel(this);
         }

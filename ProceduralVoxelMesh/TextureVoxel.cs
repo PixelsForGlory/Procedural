@@ -37,7 +37,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
     /// Represents a single voxel.
     /// </summary>
     [Serializable]
-    public struct TextureVoxel : IVoxel
+    public struct TextureVoxel : IVoxel<TextureVoxel>
     {
         /// <summary>
         /// List of texture setups that texture voxels can be set to
@@ -183,7 +183,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         /// </summary>
         /// <param name="textureVoxel"></param>
         /// <param name="facesToRender">Optional faces to render</param>
-        private TextureVoxel(TextureVoxel textureVoxel, FaceType facesToRender = FaceType.XNegative | FaceType.XPositive | FaceType.YNegative | FaceType.YPositive | FaceType.ZNegative | FaceType.ZPositive)
+        public TextureVoxel(TextureVoxel textureVoxel, FaceType facesToRender = FaceType.XNegative | FaceType.XPositive | FaceType.YNegative | FaceType.YPositive | FaceType.ZNegative | FaceType.ZPositive)
         {
             _hasTexture = textureVoxel._hasTexture;
             _textureMapIndex = textureVoxel._textureMapIndex;
@@ -378,7 +378,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
             return true;
         }
 
-        public object DeepCopy()
+        public TextureVoxel DeepCopy()
         {
             return new TextureVoxel(this);
         }
@@ -422,5 +422,6 @@ namespace PixelsForGlory.ProceduralVoxelMesh
                 return hash;
             }
         }
+
     }
 }

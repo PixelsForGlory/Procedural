@@ -24,7 +24,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
         ZNegative   = 32
     }
 
-    public partial class VoxelMeshGeneratorTask<T> : IVoxelMeshGeneratorTask where T : IVoxel
+    public partial class VoxelMeshGeneratorTask<T> : IVoxelMeshGeneratorTask where T : IVoxel<T>
     {
 
         /// <summary>
@@ -363,7 +363,7 @@ namespace PixelsForGlory.ProceduralVoxelMesh
                 UV3 = uv3.ToArray();
                 Triangles = triangles.ToArray();
 
-                TangentSolver();
+                Utilities.TangentSolver(Triangles, Vertices, Normals, UV);
 
                 Completed = true;
             }

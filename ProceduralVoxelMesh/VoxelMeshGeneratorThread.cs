@@ -52,6 +52,13 @@ namespace PixelsForGlory.ProceduralVoxelMesh
                 voxelMesh.Update();
             }
 
+            BillboardCrossMesh[] billboardCrossMeshes = FindObjectsOfType<BillboardCrossMesh>();
+            foreach(BillboardCrossMesh voxelMesh in billboardCrossMeshes)
+            {
+                voxelMesh.Update();
+            }
+
+
         }
 
         /// <summary>

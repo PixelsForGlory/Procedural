@@ -1,4 +1,5 @@
-﻿Shader "Procedural Voxel Mesh/Color Voxel Transparent Surface Shader" {
+﻿// Copyright 2015-2016 afuzzyllama. All Rights Reserved.
+Shader "Procedural Voxel Mesh/Color Voxel Transparent Surface Shader" {
     Properties 
     {
         _MetallicMap("Metallic Map (A)", 2D) = "white" {}
