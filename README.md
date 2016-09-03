@@ -1,17 +1,17 @@
-# ProceduralVoxelMesh
-Library to create procedural voxel meshes in Unity3D.  Meshes are generated in a seprate thread and copied to the GameObject when ready.
+# Procedural
+Library to create procedural meshes in Unity3D.  Meshes are generated in a seprate thread and copied to the GameObject when ready.
 
 Build status:<br />
-[![Build status](https://ci.appveyor.com/api/projects/status/2lsxqcv6dcc5vve1/branch/master?svg=true)](https://ci.appveyor.com/project/LlamaBot/proceduralvoxelmesh/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/2lsxqcv6dcc5vve1/branch/master?svg=true)](https://ci.appveyor.com/project/LlamaBot/procedural/branch/master)
 
 ## Building
 The solution has references set for `UnityEngine.dll` and `UnityEditor.dll`, but the paths for these assemblies are not set. To build the library, a reference path must be set to the Managed directory (Default is C:\Program Files\Unity\Editor\Data\Managed):
 ![Reference Path](../../../Screenshots/blob/master/VoxelMeshReferencePath.png?raw=true "Reference Path")
 
 ## Installation
-From a build or downloaded released, copy the `ProceduralVoxelMesh.dll` to `[PROJECT DIR]\Assets\Plugins` and `ProceduralVoxelMeshEditor.dll` to `[PROJECT DIR]\Assets\Plugins\Editor`.  Additionally, move the shader files and the material files found in the Resources directory to a Resources directory somewhere in your `[PROJECT DIR]\Assets` directory (example `[PROJECT DIR]\Assets\Resources`) so it can be found by `Resources.Load()`.
+From a build or downloaded released, copy the `PixelsForGlory.Procedural.dll` to `[PROJECT DIR]\Assets\Plugins` and `PixelsForGlory.Procedural.Editor.dll` to `[PROJECT DIR]\Assets\Plugins\Editor`.  Additionally, move the shader files and the material files found in the Resources directory to a Resources directory somewhere in your `[PROJECT DIR]\Assets` directory (example `[PROJECT DIR]\Assets\Resources`) so it can be found by `Resources.Load()`.
 
-If using the Pixels for Glory NuGet repository at http://pixelsforglory.azurewebsites.net/nuget, install the `PixelsForGlory.Unity3D.ProceduralVoxelMesh` package into a Unity3D project.
+If using the Pixels for Glory NuGet repository at http://pixelsforglory.azurewebsites.net/nuget, install the `PixelsForGlory.Unity3D.Procedural` package into a Unity3D project.
 
 After copying in the assets, a few things to setup:
 
@@ -51,7 +51,7 @@ The following example will create a randomly colored cube on a `GameObject` with
 
 ```
 using UnityEngine;
-using PixelsForGlory.ProceduralVoxelMesh;
+using PixelsForGlory.Procedural;
 
 public class ExampleCube : MonoBehaviour 
 {
@@ -181,9 +181,9 @@ In the `ColorVoxel` and `TextureVoxel` constructors there is a bit flag variable
 Level of detail can be set on the voxel mesh.  It will reduce the amount of voxels in the mesh by 2^LOD.
 
 ## Testing
-The `ProceduralVoxelMeshTest` folder contains a unit test project to be run against the code base in VSTtest.
+The `ProceduralTest` folder contains a unit test project to be run against the code base in VSTtest.
 
-The `ProceduralVoxelMeshTester` folder contains a Unity3D project that can be built with a build release of the ProceduralVoxelMesh.dll. The program should produce the same screenshots as previous runs of that program.
+The `ProceduralVoxelMeshTester` folder contains a Unity3D project that can be built with a build release of the PixelsForGlory.Procedural.dll. The program should produce the same screenshots as previous runs of that program.
 
 Color Voxel Mesh will look something like this:
 

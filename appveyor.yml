@@ -3,7 +3,7 @@
 # ---------------------
 
 # Version format
-version: 5.0.{build}
+version: 6.0.{build}
 
 # Branches to build
 branches:
@@ -54,7 +54,7 @@ init:
 
 assembly_info:
   patch: true
-  file: ProceduralVoxelMesh\Properties\AssemblyInfo.cs
+  file: Procedural\Properties\AssemblyInfo.cs
   assembly_version: '{version}'
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}-$(appveyor_repo_commit)'
@@ -117,9 +117,9 @@ deploy:
 - provider: GitHub
   auth_token:
     secure: 6rKcqEAzPD0o7RiGVFFaUVXts2nGs3w9SOMTayT3hFQVpc2rCX1rh5Lsg4SqkkrP
-  tag: ProceduralVoxelMesh-v$(appveyor_build_version)
-  release: ProceduralVoxelMesh-v$(appveyor_build_version)
-  description: "Successful CI build of library.  Please consult the [ReadMe](https://github.com/PixelsForGlory/ProceduralVoxelMesh/blob/master/README.md) for implementing this release into your project."
+  tag: Procedural-v$(appveyor_build_version)
+  release: Procedural-v$(appveyor_build_version)
+  description: "Successful CI build of library.  Please consult the [ReadMe](https://github.com/PixelsForGlory/Procedural/blob/master/README.md) for implementing this release into your project."
   artifact: /.*\.zip/, /.*\.nupkg/
   draft: false
   prerelease: false
