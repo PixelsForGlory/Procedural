@@ -2,7 +2,7 @@
 Library to create procedural meshes in Unity3D.  Meshes are generated in a seprate thread and copied to the GameObject when ready.
 
 Build status:<br />
-[![Build status](https://ci.appveyor.com/api/projects/status/2lsxqcv6dcc5vve1/branch/master?svg=true)](https://ci.appveyor.com/project/LlamaBot/procedural/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/2lsxqcv6dcc5vve1?svg=true)](https://ci.appveyor.com/project/LlamaBot/proceduralvoxelmesh)
 
 ## Building
 The solution has references set for `UnityEngine.dll` and `UnityEditor.dll`, but the paths for these assemblies are not set. To build the library, a reference path must be set to the Managed directory (Default is C:\Program Files\Unity\Editor\Data\Managed):
