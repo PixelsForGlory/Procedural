@@ -11,7 +11,7 @@ The solution has references set for `UnityEngine.dll` and `UnityEditor.dll`, but
 ## Installation
 From a build or downloaded released, copy the `PixelsForGlory.Procedural.dll` to `[PROJECT DIR]\Assets\Plugins` and `PixelsForGlory.Procedural.Editor.dll` to `[PROJECT DIR]\Assets\Plugins\Editor`.  Additionally, move the shader files and the material files found in the Resources directory to a Resources directory somewhere in your `[PROJECT DIR]\Assets` directory (example `[PROJECT DIR]\Assets\Resources`) so it can be found by `Resources.Load()`.
 
-If using the Pixels for Glory NuGet repository at http://pixelsforglory.azurewebsites.net/nuget, install the `PixelsForGlory.Unity3D.Procedural` package into a Unity3D project.
+If using NuGet, install the `PixelsForGlory.Unity3D.Procedural` package into a Unity3D project.
 
 After copying in the assets, a few things to setup:
 
