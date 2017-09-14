@@ -1,7 +1,9 @@
-﻿// Copyright 2015-2016 afuzzyllama. All Rights Reserved.
+﻿// Copyright (C) afuzzyllama. All rights reserved
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using PixelsForGlory.Extensions;
 
 namespace PixelsForGlory.Procedural
 {
@@ -9,28 +11,27 @@ namespace PixelsForGlory.Procedural
     /// Represents a single voxel.
     /// </summary>
     [Serializable]
-    public struct ColorVoxel : IVoxel<ColorVoxel>
+    public struct ColorVoxel : IVoxel
     {
         /// <summary>
         /// Serializable value of empty
         /// </summary>
-        [SerializeField]
-        private bool _hasColor;
+        [SerializeField] private bool _hasVoxel;
 
         /// <summary>
         /// Is the voxel empty or not
         /// </summary>
         public bool Empty
         {
-            get { return !_hasColor; }
+            get { return !_hasVoxel; }
             set
             {
-                if(value == false)
+                if (value == false)
                 {
                     throw new InvalidOperationException("Set voxel to be non-empty via Color property");
                 }
 
-                _hasColor = false;
+                _hasVoxel = false;
                 _colorR = 0.0f;
                 _colorG = 0.0f;
                 _colorB = 0.0f;
@@ -40,37 +41,25 @@ namespace PixelsForGlory.Procedural
             }
         }
 
-        [SerializeField]
-        private FaceType _facesToRender;
-        public FaceType FacesToRender
-        {
-            get { return _facesToRender; }
-            set { _facesToRender = value; }
-        }
-
         /// <summary>
         /// R part of color, broken up for serialization purposes
         /// </summary>
-        [SerializeField]
-        private float _colorR;
+        [SerializeField] private float _colorR;
 
         /// <summary>
         /// G part of color, broken up for serialization purposes
         /// </summary>
-        [SerializeField]
-        private float _colorG;
+        [SerializeField] private float _colorG;
 
         /// <summary>
         /// B part of color, broken up for serialization purposes
         /// </summary>
-        [SerializeField]
-        private float _colorB;
+        [SerializeField] private float _colorB;
 
         /// <summary>
         /// A part of color, broken up for serialization purposes
         /// </summary>
-        [SerializeField]
-        private float _colorA;
+        [SerializeField] private float _colorA;
 
         /// <summary>
         /// Color of the voxel
@@ -87,7 +76,7 @@ namespace PixelsForGlory.Procedural
             }
             set
             {
-                _hasColor = true;
+                _hasVoxel = true;
                 _colorR = value.r;
                 _colorG = value.g;
                 _colorB = value.b;
@@ -95,8 +84,7 @@ namespace PixelsForGlory.Procedural
             }
         }
 
-        [SerializeField]
-        private float _metallic;
+        [SerializeField] private float _metallic;
 
         /// <summary>
         /// Metallic value of the voxel
@@ -105,7 +93,7 @@ namespace PixelsForGlory.Procedural
         {
             get
             {
-                if(Empty)
+                if (Empty)
                 {
                     throw new InvalidOperationException("Cannot get the metallic of an empty voxel");
                 }
@@ -113,12 +101,12 @@ namespace PixelsForGlory.Procedural
             }
             set
             {
-                if(Empty)
+                if (Empty)
                 {
                     throw new InvalidOperationException("Cannot set the metallic value of an empty voxel");
                 }
 
-                if(value < 0.0f || value > 1.0f)
+                if (value < 0.0f || value > 1.0f)
                 {
                     throw new InvalidOperationException("Metallic value cannot be less than 0.0f or greater than 1.0f");
                 }
@@ -126,8 +114,7 @@ namespace PixelsForGlory.Procedural
             }
         }
 
-        [SerializeField]
-        private float _smoothness;
+        [SerializeField] private float _smoothness;
 
         /// <summary>
         /// Smoothness value of the voxel
@@ -136,7 +123,7 @@ namespace PixelsForGlory.Procedural
         {
             get
             {
-                if(Empty)
+                if (Empty)
                 {
                     throw new InvalidOperationException("Cannot get the smoothness of an empty voxel");
                 }
@@ -144,21 +131,21 @@ namespace PixelsForGlory.Procedural
             }
             set
             {
-                if(Empty)
+                if (Empty)
                 {
                     throw new InvalidOperationException("Cannot set the smoothness value of an empty voxel");
                 }
 
-                if(value < 0.0f || value > 1.0f)
+                if (value < 0.0f || value > 1.0f)
                 {
-                    throw new InvalidOperationException("Smoothness value cannot be less than 0.0f or greater than 1.0f");
+                    throw new InvalidOperationException(
+                        "Smoothness value cannot be less than 0.0f or greater than 1.0f");
                 }
                 _smoothness = value;
             }
         }
 
-        [SerializeField]
-        private float _emission;
+        [SerializeField] private float _emission;
 
         /// <summary>
         /// Emissive value of the voxel
@@ -167,7 +154,7 @@ namespace PixelsForGlory.Procedural
         {
             get
             {
-                if(Empty)
+                if (Empty)
                 {
                     throw new InvalidOperationException("Cannot get the emission of an empty voxel");
                 }
@@ -176,12 +163,12 @@ namespace PixelsForGlory.Procedural
             set
             {
 
-                if(Empty)
+                if (Empty)
                 {
                     throw new InvalidOperationException("Cannot set the emission value of an empty voxel");
                 }
 
-                if(value < 0.0f || value > 1.0f)
+                if (value < 0.0f || value > 1.0f)
                 {
                     throw new InvalidOperationException("Emission value cannot be less than 0.0f or greater than 1.0f");
                 }
@@ -193,18 +180,16 @@ namespace PixelsForGlory.Procedural
         /// Copy color voxel to new instance
         /// </summary>
         /// <param name="colorVoxel"></param>
-        /// <param name="facesToRender">Optional faces to render</param>
-        public ColorVoxel(ColorVoxel colorVoxel, FaceType facesToRender = FaceType.XNegative | FaceType.XPositive | FaceType.YNegative | FaceType.YPositive | FaceType.ZNegative | FaceType.ZPositive)
+        public ColorVoxel(ColorVoxel colorVoxel)
         {
-            _hasColor = colorVoxel._hasColor;
+            _hasVoxel = colorVoxel._hasVoxel;
             _colorR = colorVoxel._colorR;
             _colorG = colorVoxel._colorG;
             _colorB = colorVoxel._colorB;
             _colorA = colorVoxel._colorA;
-            _metallic = colorVoxel._metallic;
-            _smoothness = colorVoxel._smoothness;
-            _emission = colorVoxel._emission;
-            _facesToRender = facesToRender;
+            _metallic = colorVoxel.Metallic;
+            _smoothness = colorVoxel.Smoothness;
+            _emission = colorVoxel.Emission;
         }
 
         /// <summary>
@@ -214,29 +199,26 @@ namespace PixelsForGlory.Procedural
         /// <param name="metallic">Metallic value for this voxel</param>
         /// <param name="smoothness">Smoothness value for this voxel</param>
         /// <param name="emission">Emission value for this voxel</param>
-        /// <param name="facesToRender">Optional faces to render</param>    
-        public ColorVoxel(Color color, float metallic = 0.0f, float smoothness = 0.0f, float emission = 0.0f, FaceType facesToRender = FaceType.XNegative | FaceType.XPositive | FaceType.YNegative | FaceType.YPositive | FaceType.ZNegative | FaceType.ZPositive) : this()
+        public ColorVoxel(Color color, float metallic = 0.0f, float smoothness = 0.0f, float emission = 0.0f) : this()
         {
-            _hasColor = true;
-            Color = color;
+            _hasVoxel = true;
+            _colorR = color.r;
+            _colorG = color.g;
+            _colorB = color.b;
+            _colorA = color.a;
             Metallic = metallic;
             Smoothness = smoothness;
             Emission = emission;
-            _facesToRender = facesToRender;
         }
 
-        public bool AddVoxelToMesh(FaceType faceType, int width, int height, List<Color> colors, List<Vector2> uv, List<Vector2> uv2, List<Vector2> uv3)
+        public bool AddVoxelDataToMesh(FaceType faceType, int width, int height, List<Color> colors, List<Vector2> uv,
+            List<Vector2> uv2, List<Vector2> uv3)
         {
-            if((faceType & _facesToRender) != faceType || faceType == FaceType.None)
-            {
-                return false;
-            }
-
             // Colors
-            colors.Add(Color);  // 0
-            colors.Add(Color);  // 1
-            colors.Add(Color);  // 2
-            colors.Add(Color);  // 3
+            colors.Add(Color); // 0
+            colors.Add(Color); // 1
+            colors.Add(Color); // 2
+            colors.Add(Color); // 3
 
             const float texelSize = 1.0f / 32.0f;
             // TEXCOORD0/UV1
@@ -245,16 +227,15 @@ namespace PixelsForGlory.Procedural
             int textureX = (metallicIndex % 16) * 2;
             int textureY = (metallicIndex / 16) * 2;
 
-
             var minTexel = new Vector2(
-                textureX * texelSize    // Get to metallic location
-                + texelSize / 2.0f,     // Move half a texel length in
+                textureX * texelSize // Get to metallic location
+                + texelSize / 2.0f, // Move half a texel length in
                 textureY * texelSize
                 + texelSize / 2.0f);
 
             var maxTexel = new Vector2(minTexel.x + texelSize, minTexel.y + texelSize);
 
-            switch(faceType)
+            switch (faceType)
             {
                 case FaceType.XPositive:
                 case FaceType.XNegative:
@@ -286,14 +267,14 @@ namespace PixelsForGlory.Procedural
             textureY = (smoothnessIndex / 16) * 2;
 
             minTexel = new Vector2(
-                textureX * texelSize    // Get to metallic location
-                + texelSize / 2.0f,     // Move half a texel length in
+                textureX * texelSize // Get to metallic location
+                + texelSize / 2.0f, // Move half a texel length in
                 textureY * texelSize
                 + texelSize / 2.0f);
 
             maxTexel = new Vector2(minTexel.x + texelSize, minTexel.y + texelSize);
 
-            switch(faceType)
+            switch (faceType)
             {
                 case FaceType.XPositive:
                 case FaceType.XNegative:
@@ -325,14 +306,14 @@ namespace PixelsForGlory.Procedural
             textureY = (emissionIndex / 16) * 2;
 
             minTexel = new Vector2(
-                textureX * texelSize    // Get to metallic location
-                + texelSize / 2.0f,     // Move half a texel length in
+                textureX * texelSize // Get to metallic location
+                + texelSize / 2.0f, // Move half a texel length in
                 textureY * texelSize
                 + texelSize / 2.0f);
 
             maxTexel = new Vector2(minTexel.x + texelSize, minTexel.y + texelSize);
 
-            switch(faceType)
+            switch (faceType)
             {
                 case FaceType.XPositive:
                 case FaceType.XNegative:
@@ -360,56 +341,47 @@ namespace PixelsForGlory.Procedural
             return true;
         }
 
-        public ColorVoxel DeepCopy()
+        public bool Equals(IVoxel other)
         {
-            return new ColorVoxel(this);
+            if (ReferenceEquals(null, other)) return false;
+            var isColorVoxel = other is ColorVoxel;
+
+            return isColorVoxel && Equals((ColorVoxel)other);
+        }
+
+        public bool Equals(ColorVoxel other)
+        {
+            return
+                Empty == other.Empty &&
+                Color == other.Color &&
+                Math.Abs(Metallic - other.Metallic) < FloatExtensions.SmallNumber &&
+                Math.Abs(Smoothness - other.Smoothness) < FloatExtensions.SmallNumber &&
+                Math.Abs(Emission - other.Emission) < FloatExtensions.SmallNumber;
         }
 
         public override bool Equals(object obj)
         {
-            // If one is null, but not both
-            // ReSharper disable once UseNullPropagation
-            if(obj == null)
+            if (ReferenceEquals(null, obj)) return false;
+            var isColorVoxel = obj is ColorVoxel;
+
+            if (isColorVoxel)
             {
-                return false;
+                return Equals((ColorVoxel)obj);
             }
 
-            if(obj.GetType() != typeof(ColorVoxel))
-            {
-                return false;  
-            }
-
-            var voxelObj = (ColorVoxel)obj;
-            
-            return
-                _hasColor == voxelObj._hasColor
-                && Math.Abs(_colorR - voxelObj._colorR) < 0.00390625f // 1/256 
-                && Math.Abs(_colorG - voxelObj._colorG) < 0.00390625f // 1/256 
-                && Math.Abs(_colorB - voxelObj._colorB) < 0.00390625f // 1/256 
-                && Math.Abs(_colorA - voxelObj._colorA) < 0.00390625f // 1/256 
-                && Math.Abs(_metallic - voxelObj._metallic) < 0.00390625f // 1/256 
-                && Math.Abs(_smoothness - voxelObj._smoothness) < 0.00390625f // 1/256 
-                && Math.Abs(_emission - voxelObj._emission) < 0.00390625f; // 1/256 
+            return false;
         }
 
         public override int GetHashCode()
         {
-            unchecked // overflow is fine, this will wrap 
+            unchecked
             {
-                int hash = 23;
-
-                // ReSharper disable NonReadonlyMemberInGetHashCode
-                hash = hash * 31 + _hasColor.GetHashCode();
-                hash = hash * 31 + _colorR.GetHashCode();
-                hash = hash * 31 + _colorG.GetHashCode();
-                hash = hash * 31 + _colorB.GetHashCode();
-                hash = hash * 31 + _colorA.GetHashCode();
-                hash = hash * 31 + _metallic.GetHashCode();
-                hash = hash * 31 + _smoothness.GetHashCode();
-                hash = hash * 31 + _emission.GetHashCode();
-                // ReSharper restore NonReadonlyMemberInGetHashCode
-
-                return hash;
+                var hashCode = Empty.GetHashCode();
+                hashCode = (hashCode * 397) ^ Color.GetHashCode();
+                hashCode = (hashCode * 397) ^ Metallic.GetHashCode();
+                hashCode = (hashCode * 397) ^ Smoothness.GetHashCode();
+                hashCode = (hashCode * 397) ^ Emission.GetHashCode();
+                return hashCode;
             }
         }
     }

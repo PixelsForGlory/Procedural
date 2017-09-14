@@ -1,5 +1,5 @@
 ﻿// Copyright 2015-2016 afuzzyllama. All Rights Reserved.
-Shader "Procedural Voxel Mesh/Texture Voxel Surface Shader" {
+Shader "Pixels For Glory/Procedural/Texture Voxel Surface Shader" {
     Properties 
     {
         _TextureMap("Texture Map (RGBA)", 2D) = "white" {}

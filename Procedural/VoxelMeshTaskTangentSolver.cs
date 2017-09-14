@@ -3,14 +3,13 @@
 // Terathon Software 3D Graphics Library, 2001. 
 // Reference: http://www.terathon.com/code/tangent.html
 using UnityEngine;
-// ReSharper disable UnusedTypeParameter
 
 namespace PixelsForGlory.Procedural
 {
-    public partial class Utilities
+    public partial class VoxelMeshTask
     {
         /// <summary>
-        /// Solves the targents for a mesh.
+        /// Solves the tangents for a mesh.
         /// </summary>
         public static Vector4[] TangentSolver(int[] triangles, Vector3[] vertices, Vector3[] normals, Vector2[] uv)
         {
@@ -22,7 +21,7 @@ namespace PixelsForGlory.Procedural
 
             var tangents = new Vector4[vertexCount];
 
-            for(int a = 0; a < triangleCount; a += 3)
+            for (int a = 0; a < triangleCount; a += 3)
             {
                 int i1 = triangles[a + 0];
                 int i2 = triangles[a + 1];
@@ -63,7 +62,7 @@ namespace PixelsForGlory.Procedural
             }
 
 
-            for(int a = 0; a < vertexCount; ++a)
+            for (int a = 0; a < vertexCount; ++a)
             {
                 Vector3 n = normals[a];
                 Vector3 t = tan1[a];

@@ -1,5 +1,5 @@
 ﻿// Copyright 2015-2016 afuzzyllama. All Rights Reserved.
-Shader "Procedural Voxel Mesh/Color Voxel Surface Shader" {
+Shader "Pixels For Glory/Procedural/Color Voxel Surface Shader" {
     Properties 
     {
         _MetallicMap("Metallic Map (A)", 2D) = "white" {}

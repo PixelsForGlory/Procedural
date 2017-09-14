@@ -1,5 +1,5 @@
 ﻿// Copyright 2015-2016 afuzzyllama. All Rights Reserved.
-Shader "Procedural Voxel Mesh/Texture Voxel Transparent Surface Shader" {
+Shader "Pixels For Glory/Procedural/Texture Voxel Transparent Surface Shader" {
     Properties 
     {
         _TextureMap("Texture Map (RGBA)", 2D) = "white" {}
@@ -47,7 +47,7 @@ Shader "Procedural Voxel Mesh/Texture Voxel Transparent Surface Shader" {
             uint faceHeight = uint(floor(IN.uv2_WidthHeightIndex.y * 256.0 + 0.5));
             
             // Covert from index / 256
-            uint textureIndex = uint(floor(IN.uv3_TextureDetailIndex.x * 256.0 +0.5));
+            uint textureIndex = uint(floor(IN.uv3_TextureDetailIndex.x * 256.0 + 0.5));
             uint detailIndex = uint(floor(IN.uv3_TextureDetailIndex.y * 256.0 + 0.5));
             
             uint tileCountUDirection = uint(_TextureSize) / uint(_TileSize);

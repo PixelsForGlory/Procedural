@@ -1,4 +1,5 @@
-﻿// Copyright 2015-2016 afuzzyllama. All Rights Reserved.
+﻿// Copyright (C) afuzzyllama. All rights reserved
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,7 +38,7 @@ namespace PixelsForGlory.Procedural
     /// Represents a single voxel.
     /// </summary>
     [Serializable]
-    public struct TextureVoxel : IVoxel<TextureVoxel>
+    public struct TextureVoxel : IVoxel
     {
         /// <summary>
         /// List of texture setups that texture voxels can be set to
@@ -68,14 +69,6 @@ namespace PixelsForGlory.Procedural
                 _textureMapIndex = -1;
                 _detailMapIndex = -1;
             }
-        }
-
-        [SerializeField]
-        private FaceType _facesToRender;
-        public FaceType FacesToRender
-        {
-            get { return _facesToRender;}
-            set { _facesToRender = value; }
         }
 
         [SerializeField]
@@ -183,13 +176,12 @@ namespace PixelsForGlory.Procedural
         /// </summary>
         /// <param name="textureVoxel"></param>
         /// <param name="facesToRender">Optional faces to render</param>
-        public TextureVoxel(TextureVoxel textureVoxel, FaceType facesToRender = FaceType.XNegative | FaceType.XPositive | FaceType.YNegative | FaceType.YPositive | FaceType.ZNegative | FaceType.ZPositive)
+        public TextureVoxel(TextureVoxel textureVoxel)
         {
             _hasTexture = textureVoxel._hasTexture;
             _textureMapIndex = textureVoxel._textureMapIndex;
             _detailMapIndex = textureVoxel._detailMapIndex;
             _alphaLevel = textureVoxel._alphaLevel;
-            _facesToRender = facesToRender;
         }
 
         /// <summary>
@@ -198,7 +190,7 @@ namespace PixelsForGlory.Procedural
         /// <param name="textureMapIndex">Main texture map index</param>
         /// <param name="alphaLevel">Optional alphaLevel of the voxel</param>
         /// <param name="facesToRender">Optional faces to render</param>
-        public TextureVoxel(int textureMapIndex, float alphaLevel = 1f, FaceType facesToRender = FaceType.XNegative | FaceType.XPositive | FaceType.YNegative | FaceType.YPositive | FaceType.ZNegative | FaceType.ZPositive)
+        public TextureVoxel(int textureMapIndex, float alphaLevel = 1f)
         {
             if (textureMapIndex < 0)
             {
@@ -214,7 +206,6 @@ namespace PixelsForGlory.Procedural
             _textureMapIndex = textureMapIndex;
             _detailMapIndex = -1;
             _alphaLevel = alphaLevel;
-            _facesToRender = facesToRender;
         }
 
         /// <summary>
@@ -224,7 +215,7 @@ namespace PixelsForGlory.Procedural
         /// <param name="detailMapIndex">Detail map index</param>
         /// <param name="alphaLevel">Optional alphaLevel of the voxel</param>
         /// <param name="facesToRender">Optional faces to render</param>
-        public TextureVoxel(int textureMapIndex, int detailMapIndex, float alphaLevel = 1f, FaceType facesToRender = FaceType.XNegative | FaceType.XPositive | FaceType.YNegative | FaceType.YPositive | FaceType.ZNegative | FaceType.ZPositive)
+        public TextureVoxel(int textureMapIndex, int detailMapIndex, float alphaLevel = 1f)
         {
             if(textureMapIndex < 0)
             {
@@ -250,16 +241,10 @@ namespace PixelsForGlory.Procedural
             _textureMapIndex = textureMapIndex;
             _detailMapIndex = detailMapIndex;
             _alphaLevel = alphaLevel;
-            _facesToRender = facesToRender;
         }
 
-        public bool AddVoxelToMesh(FaceType faceType, int width, int height, List<Color> colors, List<Vector2> uv, List<Vector2> uv2, List<Vector2> uv3)
+        public bool AddVoxelDataToMesh(FaceType faceType, int width, int height, List<Color> colors, List<Vector2> uv, List<Vector2> uv2, List<Vector2> uv3)
         {
-            if((faceType & _facesToRender) != faceType || faceType == FaceType.None)
-            {
-                return false;
-            }
-
             // Colors
             colors.Add(new Color(0f, 0f, 0f, _alphaLevel));  // 0
             colors.Add(new Color(0f, 0f, 0f, _alphaLevel));  // 1
@@ -310,7 +295,7 @@ namespace PixelsForGlory.Procedural
                     uv.Add(new Vector2(min.x, max.y)); // 3
                     break;
                 default:
-                    throw new Exception("Unkown face type");
+                    throw new Exception("Unknown face type");
             }
 
             // TEXCOORD1/UV2
@@ -337,7 +322,7 @@ namespace PixelsForGlory.Procedural
                     value = new Vector2(width / 256.0f, height / 256.0f);
                     break;
                 default:
-                    throw new Exception("Unkown face type");
+                    throw new Exception("Unknown face type");
             }
             uv2.Add(value); // 0
             uv2.Add(value); // 1
@@ -367,7 +352,7 @@ namespace PixelsForGlory.Procedural
                     value = new Vector2(TextureVoxelMap[TextureMapIndex].ZNegativeTextureIndex / 256.0f, DetailMapIndex == -1 ? 0.0f : (TextureVoxelMap[DetailMapIndex].ZNegativeTextureIndex / 256.0f));
                     break;
                 default:
-                    throw new Exception("Unkown face type");
+                    throw new Exception("Unknown face type");
             }
             
             uv3.Add(value); // 0
@@ -378,9 +363,20 @@ namespace PixelsForGlory.Procedural
             return true;
         }
 
-        public TextureVoxel DeepCopy()
+        public bool Equals(IVoxel other)
         {
-            return new TextureVoxel(this);
+            if (ReferenceEquals(null, other)) return false;
+            var isTextureVoxel = other is TextureVoxel;
+
+            return isTextureVoxel && Equals((TextureVoxel)other);
+        }
+
+        public bool Equals(TextureVoxel other)
+        {
+            return Empty == other.Empty &&
+                TextureMapIndex == other.TextureMapIndex &&
+                DetailMapIndex == other.DetailMapIndex &&
+                AlphaLevel == other.AlphaLevel;
         }
 
         public override bool Equals(object obj)
@@ -411,14 +407,10 @@ namespace PixelsForGlory.Procedural
             unchecked // overflow is fine, this will wrap 
             {
                 int hash = 23;
-
-                // ReSharper disable NonReadonlyMemberInGetHashCode
                 hash = hash * 31 + _hasTexture.GetHashCode();
                 hash = hash * 31 + _textureMapIndex.GetHashCode();
                 hash = hash * 31 + _detailMapIndex.GetHashCode();
                 hash = hash * 31 + _alphaLevel.GetHashCode();
-                // ReSharper restore NonReadonlyMemberInGetHashCode
-
                 return hash;
             }
         }

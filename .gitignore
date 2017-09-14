@@ -4,6 +4,7 @@ obj/
 *.csproj.user
 *.sln.DotSettings.user
 *.userprefs
+*.meta
 Thumbs.db
 
 ProceduralVoxelMeshTester/*.csproj
