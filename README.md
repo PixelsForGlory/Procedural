@@ -3,6 +3,7 @@ Library to create procedural meshes in Unity3D.  Meshes are generated in a sepra
 
 ## Installation
 Requires [PixelsForGlory.Base](https://github.com/PixelsForGlory/Base) and [PixelsForGlory.Extensions](https://github.com/PixelsForGlory/Extensions)
+
 Requires Player to be using .NET 4.6+
 
 Add as a submodule to your Unity3D project directory:
